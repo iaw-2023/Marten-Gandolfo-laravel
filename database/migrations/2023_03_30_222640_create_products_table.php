@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('product_description');
             $table->string('product_brand');
             $table->float('product_price');
-            $table->string('product_oficial_site');
+            $table->string('product_official_site');
             $table->string('product_image');
             $table->timestamps();
 
