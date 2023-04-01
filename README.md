@@ -1,3 +1,7 @@
+## Idea a implementar
+
+La idea es implementar un conjunto de aplicaciones que permita organizar una base que contiene información sobre productos informáticos que posee un negocio físico y tiene disponibles para su venta. Los productos podrán ser buscados a través de diferentes características o calificaciones que les serán dadas al cargarlos en el servidor.
+
 ## Diagrama ER
 
 ![ER diagram](https://github.com/iaw-2023/Marten-Gandolfo-laravel/blob/entrega1/doc/ER%20Diagram.jpg?raw=true)
