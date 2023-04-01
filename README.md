@@ -1,6 +1,6 @@
 ## Diagrama ER
 
-//TODO insertar diagrama ER
+![ER diagram](https://github.com/iaw-2023/Marten-Gandolfo-laravel/blob/entrega1/doc/ER%20Diagram.jpg?raw=true)
 
 ## PHP - Laravel
 
