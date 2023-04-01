@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();                                   // order_ID
-            $table->unsignedBigInteger('customer_ID');      // FK
+            $table->unsignedBigInteger('client_ID');      // FK
             $table->date('order_date');
             $table->time('order_time');
             $table->float('price');
             $table->timestamps();
 
-            $table->foreign('customer_ID')->references('id')->on('clients')->onDelete('cascade');
+            $table->foreign('client_ID')->references('id')->on('clients')->onDelete('cascade');
         });
     }
 
