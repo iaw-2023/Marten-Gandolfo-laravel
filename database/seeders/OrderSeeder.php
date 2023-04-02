@@ -18,19 +18,25 @@ class OrderSeeder extends Seeder
                 'client_ID' => '1',
                 'order_date' => '01/03/2023',
                 'order_time' => '12:00',
-                'price' => '15999.99'
+                'price' => '51999.97'
             ],
             [
                 'client_ID' => '1',
                 'order_date' => '02/03/2023',
                 'order_time' => '13:00',
-                'price' => '16999.99'
+                'price' => '99999.99'
             ],
             [
                 'client_ID' => '2',
                 'order_date' => '03/03/2023',
                 'order_time' => '14:00',
-                'price' => '17999.99'
+                'price' => '282999.88'
+            ],
+            [
+                'client_ID' => '2',
+                'order_date' => '04/03/2023',
+                'order_time' => '15:00',
+                'price' => '159999.98'
             ]
         ]);
     }
