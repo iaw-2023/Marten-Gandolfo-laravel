@@ -1,6 +1,6 @@
 ## Idea a implementar
 
-La idea es implementar un conjunto de aplicaciones que permita organizar una base que contiene información sobre productos informáticos que posee un negocio físico y tiene disponibles para su venta. Los productos podrán ser buscados a través de diferentes características o calificaciones que les serán dadas al cargarlos en el servidor.
+La idea es implementar un conjunto de aplicaciones que permitan a una tienda de productos informáticos ofrecer sus productos a través de la web, permitiendo a los empleados de la tienda mantener actualizados los productos disponibles y visualizar los pedidos realizados por los clientes y permitiendo a los clientes consultar información de los productos a la venta, buscar productos por alguna de sus características y realizar pedidos.
 
 ## Diagrama ER
 
