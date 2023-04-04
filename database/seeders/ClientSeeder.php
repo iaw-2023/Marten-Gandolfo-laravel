@@ -15,12 +15,10 @@ class ClientSeeder extends Seeder
     {
         DB::table('clients')->insert([
             [
-                'email' => 'matias@gmail.com',
-                'address' => 'Calle1 123'
+                'email' => 'matias@gmail.com'
             ],
             [
-                'email' => 'juan@gmail.com',
-                'address' => 'Calle2 234'
+                'email' => 'juan@gmail.com'
             ]
         ]);
     }
