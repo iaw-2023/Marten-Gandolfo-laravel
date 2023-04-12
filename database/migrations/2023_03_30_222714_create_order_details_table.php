@@ -20,7 +20,6 @@ return new class extends Migration
 
             $table->foreign('order_ID')->references('id')->on('orders')->onDelete('cascade');
             $table->foreign('product_ID')->references('id')->on('products')->onDelete('cascade');
-            $table->primary(['order_ID', 'product_ID']);
         });
     }
 

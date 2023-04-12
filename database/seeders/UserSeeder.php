@@ -6,23 +6,23 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class AdminSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('admin')->insert([
+        DB::table('users')->insert([
             [
-                'username' => 'mati',
                 'name' => 'Matias',
+                'username' => 'mati',
                 'email' => 'matias@gmail.com',
                 'password' => bcrypt('1234')
             ],
             [
-                'username' => 'juan',
                 'name' => 'Juan',
+                'username' => 'juan',
                 'email' => 'juan@gmail.com',
                 'password' => bcrypt('4321')
             ]
