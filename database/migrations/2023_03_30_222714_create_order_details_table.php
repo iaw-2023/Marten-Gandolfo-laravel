@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('order_details', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('order_ID');     // FK
             $table->unsignedBigInteger('product_ID');   // FK
             $table->integer('units');
