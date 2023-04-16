@@ -23,6 +23,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::resource('products', ProductController::class);
+//Route::get('/products', [ProductController::class, 'index']);
+//Route::get('/products/create', [ProductController::class, 'create']);
+//Route::post('/products/create', [ProductController::class, 'store']);
+//Route::put('/products/create', [ProductController::class, 'store']);
+
 Route::get('/allcategories', [CategoryController::class, 'allCategories']);
 Route::get('/allclients', [ClientController::class, 'allClients']);
 Route::get('/allorders', [OrderController::class, 'allOrders']);

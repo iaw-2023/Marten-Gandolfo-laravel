@@ -20,7 +20,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::all();
+        return view('product.index')->with('products',$products);
     }
 
     /**
@@ -28,7 +29,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('product.create');
     }
 
     /**
@@ -36,7 +37,19 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $products = new Product();
+        //El get('x') se corresponde con el parametro name
+        $products->category_ID = $request->get('category_id');
+        $products->name = $request->get('name');
+        $products->description = $request->get('description');
+        $products->brand = $request->get('brand');
+        $products->price = $request->get('price');
+        $products->product_official_site = $request->get('official_site');
+        $products->product_image = $request->get('image');
+
+        $products->save();
+
+        return redirect('/products');
     }
 
     /**
@@ -52,7 +65,9 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $product = Product::find($id);
+
+        return view('product.edit')->with('product',$product);
     }
 
     /**
@@ -60,7 +75,19 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $product = Product::find($id);
+        //El get('x') se corresponde con el parametro name
+        $product->category_ID = $request->get('category_id');
+        $product->name = $request->get('name');
+        $product->description = $request->get('description');
+        $product->brand = $request->get('brand');
+        $product->price = $request->get('price');
+        $product->product_official_site = $request->get('official_site');
+        $product->product_image = $request->get('image');
+
+        $product->save();
+
+        return redirect('/products');
     }
 
     /**
@@ -68,6 +95,8 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $product = Product::find($id);
+        $product->delete();
+        return redirect('/products');
     }
 }
