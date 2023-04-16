@@ -1,0 +1,51 @@
+@extends('layouts.baseTemplate');
+
+@section('contenido')
+
+<h2>CREAR REGISTRO</h2>
+
+<form action="/products" method="POST">
+
+    @csrf
+
+    <div class="mb-3">
+        <label for="" class="form-label">Category_ID</label>
+        <input id="category_id" name="category_id" type="number" class="form-control" tabindex="1">
+    </div>
+
+    <div class="mb-3">
+        <label for="" class="form-label">Name</label>
+        <input id="name" name="name" type="text" class="form-control" tabindex="1">
+    </div>
+
+    <div class="mb-3">
+        <label for="" class="form-label">Description</label>
+        <input id="description" name="description" type="text" class="form-control" tabindex="1">
+    </div>
+
+    <div class="mb-3">
+        <label for="" class="form-label">Brand</label>
+        <input id="brand" name="brand" type="text" class="form-control" tabindex="1">
+    </div>
+
+    <div class="mb-3">
+        <label for="" class="form-label">Price</label>
+        <input id="price" name="price" type="number" class="form-control" tabindex="1">
+    </div>
+
+    <div class="mb-3">
+        <label for="" class="form-label">Product official site</label>
+        <input id="official_site" name="official_site" type="text" class="form-control" tabindex="1">
+    </div>
+
+    <div class="mb-3">
+        <label for="" class="form-label">Product image</label>
+        <input id="image" name="image" type="text" class="form-control" tabindex="1">
+    </div>
+
+    <a href="/products" class="btn btn-secondary" tabindex="5">Cancelar</a>
+    <button type="submit" class="btn btn-primary" tabindex="4">Guardar</button>
+
+</form>
+
+@endsection
