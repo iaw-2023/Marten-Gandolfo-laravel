@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/products', [ProductController::class, 'indexApi']);
+Route::get('/products/{id}', [ProductController::class, 'showApi']);
+Route::get('/products/search/{name}', [ProductController::class, 'searchApi']);
+Route::get('/products/category/{categoryId}', [ProductController::class, 'searchByCategoryApi']);
