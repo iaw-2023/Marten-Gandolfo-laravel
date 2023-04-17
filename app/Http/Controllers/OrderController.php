@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\OrderDetail;
+use App\Models\Product;
 
 class OrderController extends Controller
 {
@@ -21,7 +23,11 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $orders = Order::all();
+        $details = OrderDetail::all();
+        return view('order.index')
+            ->with('orders',$orders)
+            ->with('details',$details);
     }
 
     /**

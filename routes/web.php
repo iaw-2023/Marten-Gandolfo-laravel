@@ -24,10 +24,8 @@ Route::get('/', function () {
 });
 
 Route::resource('products', ProductController::class);
-//Route::get('/products', [ProductController::class, 'index']);
-//Route::get('/products/create', [ProductController::class, 'create']);
-//Route::post('/products/create', [ProductController::class, 'store']);
-//Route::put('/products/create', [ProductController::class, 'store']);
+Route::resource('categories', CategoryController::class);
+Route::resource('orders', OrderController::class);
 
 Route::get('/allcategories', [CategoryController::class, 'allCategories']);
 Route::get('/allclients', [ClientController::class, 'allClients']);
