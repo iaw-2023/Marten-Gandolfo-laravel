@@ -12,7 +12,7 @@
     <thead class="bg-primary text-white">
         <tr>
             <th scope="col">ID</th>
-            <th scope="col">Category_ID</th>
+            <th scope="col">Category</th>
             <th scope="col">Name</th>
             <th scope="col">Description</th>
             <th scope="col">Brand</th>
@@ -27,7 +27,7 @@
         @foreach ($products as $product)
         <tr>
             <td>{{ $product->id }}</td>
-            <td>{{ $product->category_ID }}</td>
+            <td>{{ $product->category->name }}</td>
             <td>{{ $product->name }}</td>
             <td>{{ $product->description }}</td>
             <td>{{ $product->brand }}</td>
