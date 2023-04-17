@@ -34,10 +34,11 @@
                                 {{ "Producto ID: $detail->product_ID" }}<br>
 
                                 @php $product = App\Models\Product::find($detail->product_ID); @endphp
-                                {{ "Producto: $product->name" }}<br>
                                 
+                                {{ "Producto: $product->name" }}<br>
                                 {{ "Unidades: $detail->units" }}<br>
-                                {{ "Subtototal: $product-> " }}<br>
+                                {{ "Subtotal: $detail->subtotal" }}<br><br>
+                                
                                 @php $productn++; @endphp
                             @endif
                         @endforeach
