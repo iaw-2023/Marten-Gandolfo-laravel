@@ -8,7 +8,7 @@ use App\Models\Category;
 class CategoryController extends Controller
 {
     public function allCategories(){
-        $categories = Category::all();
+        $categories = Category::withTrashed()->get();
         foreach($categories as $category){
             echo $category . "<br>";
             $products = $category->products()->get();
@@ -70,5 +70,15 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function testdestroy()
+    {
+        //TODO ELIMINAR
+        $category = Category::find('1');
+        $category->delete();
     }
 }

@@ -33,3 +33,5 @@ Route::get('/allorders', [OrderController::class, 'allOrders']);
 Route::get('/allorderdetails', [OrderDetailController::class, 'allOrderDetails']);
 Route::get('/allproducts', [ProductController::class, 'allProducts']);
 Route::get('/allusers', [UserController::class, 'allUsers']);
+
+Route::get('/testdestroy', [CategoryController::class, 'testdestroy']);

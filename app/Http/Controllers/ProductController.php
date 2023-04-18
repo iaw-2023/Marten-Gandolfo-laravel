@@ -9,7 +9,7 @@ use App\Models\Category;
 class ProductController extends Controller
 {
     public function allProducts(){
-        $products = Product::all();
+        $products = Product::withTrashed()->get();
         foreach($products as $product){
             echo $product->category()->get() . "<br>";
             echo $product . "<br>";

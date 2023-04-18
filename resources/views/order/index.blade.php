@@ -34,7 +34,7 @@
                                 {{ "--- Producto $productn ---" }}<br>
                                 {{ "Producto ID: $detail->product_ID" }}<br>
 
-                                @php $product = App\Models\Product::find($detail->product_ID); @endphp
+                                @php $product = App\Models\Product::withTrashed()->find($detail->product_ID); @endphp
                                 
                                 {{ "Producto: $product->name" }}<br>
                                 {{ "Unidades: $detail->units" }}<br>
