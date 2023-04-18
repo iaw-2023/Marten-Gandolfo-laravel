@@ -81,4 +81,9 @@ class CategoryController extends Controller
         $category = Category::find('1');
         $category->delete();
     }
+    
+    public function indexApi(){
+        $categories = Category::all();
+        return response()->json($categories);
+    }
 }
