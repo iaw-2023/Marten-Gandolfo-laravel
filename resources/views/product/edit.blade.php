@@ -12,7 +12,12 @@
 
     <div class="mb-3">
         <label for="" class="form-label">Category_ID</label>
-        <input id="category_id" name="category_id" type="number" class="form-control" tabindex="1" value="{{$product->category_ID}}">
+        <select id="category_id" name="category_id" type="number" class="form-control" tabindex="1">
+        @foreach($categories as $category)
+            <option value="{{$category->id}}" @if($category->id == $product->category_ID) selected @endif>{{$category->name}}</option>
+        @endforeach
+        </select>
+        <!--<input id="category_id" name="category_id" type="number" class="form-control" tabindex="1" value="{{$product->category_ID}}">-->
     </div>
 
     <div class="mb-3">

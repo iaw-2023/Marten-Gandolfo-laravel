@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('order_ID');     // FK
             $table->unsignedBigInteger('product_ID');   // FK
             $table->integer('units');
+            $table->float('subtotal');
             $table->timestamps();
 
             $table->foreign('order_ID')->references('id')->on('orders')->onDelete('cascade');

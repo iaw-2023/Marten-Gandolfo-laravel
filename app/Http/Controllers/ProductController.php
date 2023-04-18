@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
@@ -20,7 +21,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with('category')->get();
         return view('product.index')->with('products',$products);
     }
 
@@ -29,7 +30,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('product.create');
+        $categories = Category::all();
+        return view('product.create')->with('categories', $categories);
     }
 
     /**
@@ -66,8 +68,9 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         $product = Product::find($id);
+        $categories = Category::all();
 
-        return view('product.edit')->with('product',$product);
+        return view('product.edit')->with('product',$product)->with('categories', $categories);
     }
 
     /**
@@ -98,5 +101,42 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product->delete();
         return redirect('/products');
+    }
+
+    public function indexApi(){
+        $products = Product::select('id', 'name', 'price', 'product_image')->get();
+        return response()->json($products);
+    }
+
+    public function showApi($id){
+        $product = Product::find($id);
+        if(!$product){
+            return response()->json([
+                'message' => 'Product not found'
+            ], 404);
+        }
+        return response()->json($product);
+    }
+
+    public function searchApi($name){
+        $products = Product::where('name', 'ilike', '%' . $name . '%')->select('id', 'name', 'price', 'product_image')->get();
+        if ($products->isEmpty()) {
+            return response()->json([
+                'message' => 'No products found'
+            ], 404);
+        }
+        return response()->json($products);
+    }
+
+    public function searchByCategoryApi($categoryId){
+        $products = Product::whereHas('category', function($query) use ($categoryId){
+            $query->where('id', $categoryId);
+        })->select('id', 'name', 'price', 'product_image')->get();
+        if ($products->isEmpty()) {
+            return response()->json([
+                'message' => 'No products found'
+            ], 404);
+        }
+        return response()->json($products);
     }
 }
