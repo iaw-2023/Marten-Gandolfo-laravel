@@ -1,4 +1,4 @@
-@extends('layouts.baseTemplate');
+@extends('layouts.baseTemplate')
 
 @section('contenido')
 
