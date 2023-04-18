@@ -12,12 +12,12 @@
     <thead class="bg-primary text-white">
         <tr>
             <th scope="col">ID</th>
-            <th scope="col">Category</th>
-            <th scope="col">Name</th>
-            <th scope="col">Brand</th>
-            <th scope="col">Price</th>
-            <th scope="col">Image</th>
-            <th scope="col">Actions</th>
+            <th scope="col">Imagen</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Categoría</th>
+            <th scope="col">Marca</th>
+            <th scope="col">Acciones</th>
         </tr>
     </thead>
     
@@ -25,11 +25,11 @@
         @foreach ($products as $product)
         <tr>
             <td>{{ $product->id }}</td>
-            <td>{{ $product->category->name }}</td>
-            <td>{{ $product->name }}</td>
-            <td>{{ $product->brand }}</td>
-            <td>{{ $product->price }}</td>
             <td><img src="{{ $product->product_image }}" width="200"></td>
+            <td>{{ $product->name }}</td>
+            <td>{{ $product->category->name }}</td>
+            <td>{{ $product->brand }}</td>
+            <td>${{ $product->price }}</td>
 
             <td>
                 <form action="{{ route('products.destroy', $product->id)}}" method="POST">
