@@ -125,7 +125,7 @@ class OrderController extends Controller
                 $query->select('id', 'order_ID', 'product_ID', 'units', 'subtotal');
             },
             'orderDetails.product' => function($query){
-                $query->select('id', 'name');
+                $query->withTrashed()->select('id', 'name');
             },
             'client' => function($query){
                 $query->select('id', 'email');
