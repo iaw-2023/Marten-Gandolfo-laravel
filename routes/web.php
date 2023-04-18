@@ -38,7 +38,7 @@ Route::get('/allusers', [UserController::class, 'allUsers']);
 
 
 //Si las definimos en api.php no funcionan en vercel
-Route::prefix('api')->group(function () {
+Route::prefix('_api')->group(function () {
     Route::get('/products', [ProductController::class, 'indexApi']);
     Route::get('/products/{id}', [ProductController::class, 'showApi']);
     Route::get('/products/search/{name}', [ProductController::class, 'searchApi']);
