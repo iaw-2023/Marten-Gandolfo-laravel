@@ -1,7 +1,7 @@
 @extends('layouts.baseTemplate')
+@include('components.navbar', ['activeLink' => 'products'])
 
 @section('contenido')
-@include('components.navbar')
 
 <h2>CREAR REGISTRO</h2>
 

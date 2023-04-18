@@ -1,3 +1,6 @@
+
+@extends('layouts.baseTemplate')
+@include('components.navbar', ['activeLink' => 'home'])
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
