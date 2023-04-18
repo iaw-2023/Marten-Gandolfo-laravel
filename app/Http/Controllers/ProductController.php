@@ -102,4 +102,41 @@ class ProductController extends Controller
         $product->delete();
         return redirect('/products');
     }
+
+    public function indexApi(){
+        $products = Product::select('id', 'name', 'price', 'product_image')->get();
+        return response()->json($products);
+    }
+
+    public function showApi($id){
+        $product = Product::find($id);
+        if(!$product){
+            return response()->json([
+                'message' => 'Product not found'
+            ], 404);
+        }
+        return response()->json($product);
+    }
+
+    public function searchApi($name){
+        $products = Product::where('name', 'ilike', '%' . $name . '%')->select('id', 'name', 'price', 'product_image')->get();
+        if ($products->isEmpty()) {
+            return response()->json([
+                'message' => 'No products found'
+            ], 404);
+        }
+        return response()->json($products);
+    }
+
+    public function searchByCategoryApi($categoryId){
+        $products = Product::whereHas('category', function($query) use ($categoryId){
+            $query->where('id', $categoryId);
+        })->select('id', 'name', 'price', 'product_image')->get();
+        if ($products->isEmpty()) {
+            return response()->json([
+                'message' => 'No products found'
+            ], 404);
+        }
+        return response()->json($products);
+    }
 }

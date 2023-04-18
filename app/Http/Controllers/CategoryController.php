@@ -71,4 +71,9 @@ class CategoryController extends Controller
     {
         //
     }
+
+    public function indexApi(){
+        $categories = Category::all();
+        return response()->json($categories);
+    }
 }
