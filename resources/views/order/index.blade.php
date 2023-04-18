@@ -11,8 +11,8 @@
     <thead class="bg-primary text-white">
         <tr>
             <th scope="col">Detalle</th>
-            <th scope="col">Orden ID</th>
-            <th scope="col">Cliente ID</th>
+            <th scope="col">ID</th>
+            <th scope="col">Cliente</th>
             <th scope="col">Fecha - Hora</th>
             <th scope="col">Monto</th>
         </tr>
@@ -29,7 +29,7 @@
                     <div class="card card-body">
                         
                         @php $productn = 1; @endphp
-                        @foreach ($details as $detail)
+                        @foreach ($order->orderDetails as $detail)
                             @if($detail->order_ID == $order->id)
                                 {{ "--- Producto $productn ---" }}<br>
                                 {{ "Producto ID: $detail->product_ID" }}<br>
@@ -48,10 +48,21 @@
                 </div>
             </td>
             <td>{{ $order->id }}</td>
-            <td>{{ $order->client_ID }}</td>
+            <td>{{ $order->client->email }}</td>
             <td>{{ $order->order_date }}</td>
-            <td>{{ $order->price }}</td>
+            <td>${{ $order->price }}</td>
         </tr>
+        <!---<tr>
+            <td colspan="5" class="p-0">
+                <div class="collapse" id="collapse{{ $order->id }}">
+                    <div class="card card-body border-0 p-3">
+                        @foreach ($order->orderDetails as $detail)
+                                [{{$detail->product_ID}}] {{$detail->product->name}}    x{{$detail->units}}    ${{$detail->subtotal}}<br>
+                        @endforeach
+                    </div>
+                </div>
+            </td>
+        </tr>-->
         @endforeach
     </tbody>
 </table>

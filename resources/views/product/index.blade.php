@@ -6,7 +6,7 @@
 @endsection
 
 @section('contenido')
-<a href="products/create" class="btn btn-primary mb-3">CREAR PRODUCTO</a>
+<a href="products/create" class="btn btn-primary mb-3">Nuevo Producto</a>
 
 <table id="products" class="table table-striped table-bordered shadow-lg" style="width:100%">
     <thead class="bg-primary text-white">
@@ -27,9 +27,9 @@
             <td>{{ $product->id }}</td>
             <td><img src="{{ $product->product_image }}" width="200"></td>
             <td>{{ $product->name }}</td>
+            <td>${{ $product->price }}</td>
             <td>{{ $product->category->name }}</td>
             <td>{{ $product->brand }}</td>
-            <td>${{ $product->price }}</td>
 
             <td>
                 <form action="{{ route('products.destroy', $product->id)}}" method="POST">

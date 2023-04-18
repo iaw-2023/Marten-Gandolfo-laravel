@@ -25,11 +25,12 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::all();
+        $orders = Order::with(['client', 'orderDetails.product' => function($query){
+            $query->withTrashed();
+        }])->get();
         $details = OrderDetail::all();
         return view('order.index')
-            ->with('orders',$orders)
-            ->with('details',$details);
+            ->with('orders',$orders);
     }
 
     /**
