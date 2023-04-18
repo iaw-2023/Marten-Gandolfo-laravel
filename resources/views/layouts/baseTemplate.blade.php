@@ -10,7 +10,6 @@
     <title>CRUD</title>
   </head>
   <body>
-    <h1 class="bg-primary text-white text-center">Hello, world!</h1>
 
     <div class="container align=center">
         @yield('contenido')

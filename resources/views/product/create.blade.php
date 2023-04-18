@@ -1,6 +1,7 @@
 @extends('layouts.baseTemplate')
 
 @section('contenido')
+@include('components.navbar')
 
 <h2>CREAR REGISTRO</h2>
 

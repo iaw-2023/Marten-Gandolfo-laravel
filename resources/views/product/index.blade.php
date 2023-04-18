@@ -1,11 +1,11 @@
 @extends('layouts.baseTemplate')
+@include('components.navbar')
 
 @section('css')
 <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 @endsection
 
 @section('contenido')
-
 <a href="products/create" class="btn btn-primary mb-3">CREAR PRODUCTO</a>
 
 <table id="products" class="table table-striped table-bordered shadow-lg" style="width:100%">
