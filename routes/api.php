@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,8 @@ Route::get('/products', [ProductController::class, 'indexApi']);
 Route::get('/products/{id}', [ProductController::class, 'showApi']);
 Route::get('/products/search/{name}', [ProductController::class, 'searchApi']);
 Route::get('/products/category/{categoryId}', [ProductController::class, 'searchByCategoryApi']);
+
+Route::get('/categories', [CategoryController::class, 'indexApi']);
 
 Route::get('/orders/{id}', [OrderController::class, 'showApi']);
 Route::post('/orders', [OrderController::class, 'storeApi']);
