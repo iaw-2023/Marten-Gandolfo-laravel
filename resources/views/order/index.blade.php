@@ -10,17 +10,21 @@
 <table id="orders" class="table table-striped table-bordered shadow-lg" style="width:100%">
     <thead class="bg-primary text-white">
         <tr>
-            <th scope="col">Detalle</th>
             <th scope="col">ID</th>
             <th scope="col">Cliente</th>
             <th scope="col">Fecha - Hora</th>
             <th scope="col">Monto</th>
+            <th scope="col">Detalle</th>
         </tr>
     </thead>
     
     <tbody>
         @foreach ($orders as $order)
         <tr>
+            <td>{{ $order->id }}</td>
+            <td>{{ $order->client->email }}</td>
+            <td>{{ $order->order_date }}</td>
+            <td>${{ $order->price }}</td>
             <td>
                 <p>
                     <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $order->id }}" aria-expanded="false" aria-controls="collapse{{ $order->id }}">Ver</button>
@@ -47,10 +51,6 @@
                     </div>
                 </div>
             </td>
-            <td>{{ $order->id }}</td>
-            <td>{{ $order->client->email }}</td>
-            <td>{{ $order->order_date }}</td>
-            <td>${{ $order->price }}</td>
         </tr>
         <!---<tr>
             <td colspan="5" class="p-0">
