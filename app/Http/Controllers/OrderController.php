@@ -113,4 +113,25 @@ class OrderController extends Controller
 
         return response()->json(['message' => 'Order created successfully']);
     }
+
+    public function showApi($id){
+        //$order = Order::with('orderDetails.product', 'client')->find($id);
+        $order = Order::select('id', 'client_ID', 'order_date', 'price')->with([
+            'orderDetails' => function($query){
+                $query->select('id', 'order_ID', 'product_ID', 'units', 'subtotal');
+            },
+            'orderDetails.product' => function($query){
+                $query->select('id', 'name');
+            },
+            'client' => function($query){
+                $query->select('id', 'email');
+            }
+        ])->find($id);
+        if(!$order){
+            return response()->json([
+                'message' => 'Order not found'
+            ], 404);
+        }
+        return response()->json($order);
+    }
 }

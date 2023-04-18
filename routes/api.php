@@ -25,4 +25,5 @@ Route::get('/products/{id}', [ProductController::class, 'showApi']);
 Route::get('/products/search/{name}', [ProductController::class, 'searchApi']);
 Route::get('/products/category/{categoryId}', [ProductController::class, 'searchByCategoryApi']);
 
-Route::post('/order', [OrderController::class, 'storeApi']);
+Route::get('/orders/{id}', [OrderController::class, 'showApi']);
+Route::post('/orders', [OrderController::class, 'storeApi']);
