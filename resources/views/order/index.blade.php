@@ -29,7 +29,7 @@
                 <p>
                     <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $order->id }}" aria-expanded="false" aria-controls="collapse{{ $order->id }}">Ver</button>
                 </p>
-                <div class="collapse" id="collapse{{ $order->id }}">
+                <!-- <div class="collapse" id="collapse{{ $order->id }}">
                     <div class="card card-body">
                         
                         @foreach ($order->orderDetails as $detail)
@@ -37,12 +37,12 @@
                         @endforeach
 
                     </div>
-                </div>
+                </div> -->
             </td>
         </tr>
 
 
-        <!---<tr>
+        <tr>
             <td colspan="5" class="p-0">
                 <div class="collapse" id="collapse{{ $order->id }}">
                     <div class="card card-body border-0 p-3">
@@ -52,7 +52,7 @@
                     </div>
                 </div>
             </td>
-        </tr>-->
+        </tr>
 
         
         @endforeach
