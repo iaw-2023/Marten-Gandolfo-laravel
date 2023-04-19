@@ -11,13 +11,13 @@
 <table id="products" class="table table-striped table-bordered shadow-lg" style="width:100%">
     <thead class="bg-primary text-white">
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Imagen</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Precio</th>
-            <th scope="col">Categoría</th>
-            <th scope="col">Marca</th>
-            <th scope="col"></th>
+            <th class="text-center" scope="col">ID</th>
+            <th class="text-center" scope="col">Imagen</th>
+            <th class="text-center" scope="col">Nombre</th>
+            <th class="text-center" scope="col">Precio</th>
+            <th class="text-center" scope="col">Categoría</th>
+            <th class="text-center" scope="col">Marca</th>
+            <th class="text-center" scope="col"></th>
         </tr>
     </thead>
     

@@ -10,11 +10,11 @@
 <table id="orders" class="table table-striped table-bordered shadow-lg" style="width:100%">
     <thead class="bg-primary text-white">
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Cliente</th>
-            <th scope="col">Fecha - Hora</th>
-            <th scope="col">Monto</th>
-            <th scope="col">Detalle</th>
+            <th class="text-center" scope="col">ID</th>
+            <th class="text-center" scope="col">Cliente</th>
+            <th class="text-center" scope="col">Fecha - Hora</th>
+            <th class="text-center" scope="col">Monto</th>
+            <th class="text-center" scope="col">Detalle</th>
         </tr>
     </thead>
     
