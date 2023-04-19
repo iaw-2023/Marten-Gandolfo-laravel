@@ -21,7 +21,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        return view('category.index')->with('categories',$categories);
     }
 
     /**
@@ -29,7 +30,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('category.create');
     }
 
     /**
@@ -37,7 +38,13 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //TODO tirar error si el nombre es duplicado o esta vacio
+        $categories = new Category();
+        $categories->name = $request->get('name');
+
+        $categories->save();
+
+        return redirect('/categories');
     }
 
     /**
@@ -53,7 +60,9 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $category = Category::find($id);
+
+        return view('category.edit')->with('category',$category);
     }
 
     /**
@@ -61,7 +70,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        //TODO tirar error si el nombre es duplicado o esta vacio
+        $category = Category::find($id);
+        $category->name = $request->get('name');
+
+        $category->save();
+
+        return redirect('/categories');
     }
 
     /**
@@ -69,7 +84,10 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //TODO tirar error si existen productos disponibles bajo esa categoria
+        $category = Category::find($id);
+        $category->delete();
+        return redirect('/categories');
     }
 
     /**

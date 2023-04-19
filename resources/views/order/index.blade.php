@@ -32,26 +32,16 @@
                 <div class="collapse" id="collapse{{ $order->id }}">
                     <div class="card card-body">
                         
-                        @php $productn = 1; @endphp
                         @foreach ($order->orderDetails as $detail)
-                            @if($detail->order_ID == $order->id)
-                                {{ "--- Producto $productn ---" }}<br>
-                                {{ "Producto ID: $detail->product_ID" }}<br>
-
-                                @php $product = App\Models\Product::withTrashed()->find($detail->product_ID); @endphp
-                                
-                                {{ "Producto: $product->name" }}<br>
-                                {{ "Unidades: $detail->units" }}<br>
-                                {{ "Subtotal: $detail->subtotal" }}<br><br>
-                                
-                                @php $productn++; @endphp
-                            @endif
+                            [{{$detail->product_ID}}] {{$detail->product->name}}    x{{$detail->units}}    ${{$detail->subtotal}}<br>
                         @endforeach
 
                     </div>
                 </div>
             </td>
         </tr>
+
+
         <!---<tr>
             <td colspan="5" class="p-0">
                 <div class="collapse" id="collapse{{ $order->id }}">
@@ -63,6 +53,8 @@
                 </div>
             </td>
         </tr>-->
+
+        
         @endforeach
     </tbody>
 </table>
@@ -72,12 +64,28 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap5.min.js"></script>
+
 <script>
-    $(document).ready(function () {
-    $('#orders').DataTable({
-        "lenghtMenu": [[5,10,20,-1],[5,10,20,"All"]]
-    });
-});
+    $(document).ready(function() {
+    $('#example').DataTable( {
+        responsive: {
+            details: {
+                display: $.fn.dataTable.Responsive.display.modal( {
+                    header: function ( row ) {
+                        var data = row.data();
+                        return 'Details for '+data[0]+' '+data[1];
+                    }
+                } ),
+                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                    tableClass: 'table'
+                } )
+            }
+        }
+    } );
+} );
 </script>
 @endsection
 
