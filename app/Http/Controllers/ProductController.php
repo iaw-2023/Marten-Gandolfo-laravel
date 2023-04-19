@@ -39,8 +39,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        //TODO tirar error si la categoría no existe, precio numero positivo
         $products = new Product();
-        //El get('x') se corresponde con el parametro name
         $products->category_ID = $request->get('category_id');
         $products->name = $request->get('name');
         $products->description = $request->get('description');
@@ -67,6 +67,7 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
+        //TODO controlar id sea un numero y que el producto exista
         $product = Product::find($id);
         $categories = Category::all();
 
@@ -78,8 +79,8 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        //TODO controlar id sea un numero, que el producto exista, precio positivo y tirar error si la categoria no existe
         $product = Product::find($id);
-        //El get('x') se corresponde con el parametro name
         $product->category_ID = $request->get('category_id');
         $product->name = $request->get('name');
         $product->description = $request->get('description');
@@ -98,6 +99,7 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
+        //TODO tirar error si el producto ya fue eliminado, controlar que id sea un numero?
         $product = Product::find($id);
         $product->delete();
         return redirect('/products');
@@ -109,6 +111,7 @@ class ProductController extends Controller
     }
 
     public function showApi($id){
+        //controlar que id sea un numero
         $product = Product::find($id);
         if(!$product){
             return response()->json([
@@ -119,24 +122,16 @@ class ProductController extends Controller
     }
 
     public function searchApi($name){
+        //TODO name no este vacio
         $products = Product::where('name', 'ilike', '%' . $name . '%')->select('id', 'name', 'price', 'product_image')->get();
-        if ($products->isEmpty()) {
-            return response()->json([
-                'message' => 'No products found'
-            ], 404);
-        }
         return response()->json($products);
     }
 
     public function searchByCategoryApi($categoryId){
+        //TODO categoryID sea un numero
         $products = Product::whereHas('category', function($query) use ($categoryId){
             $query->where('id', $categoryId);
         })->select('id', 'name', 'price', 'product_image')->get();
-        if ($products->isEmpty()) {
-            return response()->json([
-                'message' => 'No products found'
-            ], 404);
-        }
         return response()->json($products);
     }
 }

@@ -28,7 +28,6 @@ class OrderController extends Controller
         $orders = Order::with(['client', 'orderDetails.product' => function($query){
             $query->withTrashed();
         }])->get();
-        $details = OrderDetail::all();
         return view('order.index')
             ->with('orders',$orders);
     }
@@ -82,6 +81,7 @@ class OrderController extends Controller
     }
 
     public function storeApi(Request $request){
+        //TODO validar entrada, productos  sean numeros y existan, unidades sean umeros positivos, no repetidos
         $clientEmail = $request->input('email');
         $products = $request->input('products');
 
@@ -120,7 +120,7 @@ class OrderController extends Controller
     }
 
     public function showApi($id){
-        //$order = Order::with('orderDetails.product', 'client')->find($id);
+        //TODO controlar que el id sea un numero
         $order = Order::select('id', 'client_ID', 'order_date', 'price')->with([
             'orderDetails' => function($query){
                 $query->select('id', 'order_ID', 'product_ID', 'units', 'subtotal');
