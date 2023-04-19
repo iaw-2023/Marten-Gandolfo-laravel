@@ -17,7 +17,7 @@
             <th scope="col">Precio</th>
             <th scope="col">Categoría</th>
             <th scope="col">Marca</th>
-            <th scope="col">Acciones</th>
+            <th scope="col"></th>
         </tr>
     </thead>
     
