@@ -32,13 +32,21 @@
             <td>{{ $product->brand }}</td>
 
             <td>
-                <form action="{{ route('products.destroy', $product->id)}}" method="POST">
+                <form id="delete-form-{{ $product->id }}" action="{{ route('products.destroy', $product->id)}}" method="POST">
                     <a href="/products/{{$product->id}}/edit" class="btn btn-info">Editar</a>
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Borrar</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $product->id }})">Borrar</button>
                 </form>
             </td>
+
+            <script>
+            function confirmDelete(productId) {
+                if (confirm("¿Está seguro de que desea eliminar este producto?")) {
+                    document.getElementById('delete-form-'+productId).submit();
+                }
+            }
+            </script>
         </tr>
         @endforeach
     </tbody>

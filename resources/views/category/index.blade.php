@@ -24,13 +24,21 @@
             <td>{{ $category->name }}</td>
 
             <td>
-                <form action="{{ route('categories.destroy', $category->id)}}" method="POST">
+                <form id="delete-form-{{ $category->id }}" action="{{ route('categories.destroy', $category->id)}}" method="POST">
                     <a href="/categories/{{$category->id}}/edit" class="btn btn-info">Editar</a>
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Borrar</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $category->id }})">Borrar</button>
                 </form>
             </td>
+
+            <script>
+            function confirmDelete(categoryId) {
+                if (confirm("¿Está seguro de que desea eliminar esta categoría?")) {
+                    document.getElementById('delete-form-'+categoryId).submit();
+                }
+            }
+            </script>
         </tr>
         @endforeach
     </tbody>
