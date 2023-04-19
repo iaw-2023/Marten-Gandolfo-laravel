@@ -11,7 +11,7 @@
 
     <div class="mb-3">
         <label for="" class="form-label">Category_ID</label>
-        <select id="category_id" name="category_id" type="number" class="form-control" tabindex="1">
+        <select id="category_id" name="category_id" type="number" class="form-control" tabindex="1" required>
         @foreach($categories as $category)
             <option value="{{$category->id}}">{{$category->name}}</option>
         @endforeach
@@ -21,32 +21,32 @@
 
     <div class="mb-3">
         <label for="" class="form-label">Name</label>
-        <input id="name" name="name" type="text" class="form-control" tabindex="1">
+        <input id="name" name="name" type="text" class="form-control" tabindex="1" required>
     </div>
 
     <div class="mb-3">
         <label for="" class="form-label">Description</label>
-        <input id="description" name="description" type="text" class="form-control" tabindex="1">
+        <input id="description" name="description" type="text" class="form-control" tabindex="1" required>
     </div>
 
     <div class="mb-3">
         <label for="" class="form-label">Brand</label>
-        <input id="brand" name="brand" type="text" class="form-control" tabindex="1">
+        <input id="brand" name="brand" type="text" class="form-control" tabindex="1" required>
     </div>
 
     <div class="mb-3">
         <label for="" class="form-label">Price</label>
-        <input id="price" name="price" type="number" class="form-control" tabindex="1">
+        <input id="price" name="price" type="number" class="form-control" tabindex="1" required>
     </div>
 
     <div class="mb-3">
         <label for="" class="form-label">Product official site</label>
-        <input id="official_site" name="official_site" type="text" class="form-control" tabindex="1">
+        <input id="official_site" name="official_site" type="text" class="form-control" tabindex="1" required>
     </div>
 
     <div class="mb-3">
         <label for="" class="form-label">Product image</label>
-        <input id="image" name="image" type="text" class="form-control" tabindex="1">
+        <input id="image" name="image" type="text" class="form-control" tabindex="1" required>
     </div>
 
     <a href="/products" class="btn btn-secondary" tabindex="5">Cancelar</a>
