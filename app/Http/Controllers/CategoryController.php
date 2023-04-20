@@ -94,6 +94,8 @@ class CategoryController extends Controller
     public function destroy(string $id)
     {
         $category = Category::find($id);
+        if(!$category)
+            return redirect()->back()->withErrors(['category' => 'La categoría ya fue eliminada']);
         if(!$category->products->isEmpty())
             return redirect()->back()->withErrors(['category' => 'No es posible eliminar categorías con productos asociados']);
         $category->delete();
