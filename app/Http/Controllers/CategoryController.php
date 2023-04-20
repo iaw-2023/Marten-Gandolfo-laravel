@@ -38,12 +38,21 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //TODO tirar error si el nombre es duplicado o esta vacio
-        $categories = new Category();
-        $categories->name = $request->get('name');
-
-        $categories->save();
-
+        $category = Category::withTrashed()
+                            ->where('name', 'ilike', $request->input('name'))
+                            ->first();
+    
+        if ($category) {
+            if ($category->trashed()) {
+                $category->restore();
+            } else {
+                return redirect()->back()->withErrors(['name' => 'Ya existe una categoría con ese nombre']);
+            }
+        } else {
+            $category = new Category();
+            $category->name = $request->get('name');
+            $category->save();
+        }
         return redirect('/categories');
     }
 
@@ -70,11 +79,21 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //TODO tirar error si el nombre es duplicado o esta vacio
-        $category = Category::find($id);
-        $category->name = $request->get('name');
-
-        $category->save();
+        $thisCategory = Category::find($id);
+        $sameNameCategory = Category::withTrashed()
+                            ->where('name', 'ilike', $request->input('name'))
+                            ->where('id', '<>', $id)
+                            ->first();
+    
+        if ($sameNameCategory) {
+            if ($sameNameCategory->trashed()) {
+                $sameNameCategory->forceDelete();//TODO revisar esto
+            } else {
+                return redirect()->back()->withErrors(['name' => 'Ya existe una categoría con ese nombre']);
+            }
+        }
+        $thisCategory->name = $request->get('name');
+        $thisCategory->save();
 
         return redirect('/categories');
     }
@@ -84,20 +103,11 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //TODO tirar error si existen productos disponibles bajo esa categoria
         $category = Category::find($id);
+        if(!$category->products->isEmpty())
+            return redirect()->back()->withErrors(['category' => 'No es posible eliminar categorías con productos asociados']);
         $category->delete();
         return redirect('/categories');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function testdestroy()
-    {
-        //TODO ELIMINAR
-        $category = Category::find('1');
-        $category->delete();
     }
     
     public function indexApi(){
