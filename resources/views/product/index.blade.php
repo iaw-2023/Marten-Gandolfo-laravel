@@ -6,6 +6,7 @@
 @endsection
 
 @section('contenido')
+@include('components.error-message')
 <a href="products/create" class="btn btn-primary mb-3">Nuevo Producto</a>
 
 <table id="products" class="table table-striped table-bordered shadow-lg" style="width:100%">

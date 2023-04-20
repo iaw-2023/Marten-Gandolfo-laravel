@@ -2,13 +2,9 @@
 @include('components.navbar', ['activeLink' => 'categories'])
 
 @section('contenido')
+@include('components.error-message')
 
 <h2>CREAR REGISTRO</h2>
-@if ($errors->any())
-    <div class="alert alert-danger">
-        {{ implode('\n', $errors->all()) }}
-    </div>
-@endif
 <form action="/categories" method="POST">
 
     @csrf

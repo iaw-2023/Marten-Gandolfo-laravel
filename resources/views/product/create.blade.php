@@ -2,6 +2,7 @@
 @include('components.navbar', ['activeLink' => 'products'])
 
 @section('contenido')
+@include('components.error-message')
 
 <h2>CREAR REGISTRO</h2>
 

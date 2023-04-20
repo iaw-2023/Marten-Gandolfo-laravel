@@ -6,11 +6,7 @@
 @endsection
 
 @section('contenido')
-@if ($errors->any())
-    <div class="alert alert-danger">
-        {{ implode('\n', $errors->all()) }}
-    </div>
-@endif
+@include('components.error-message')
 <a href="categories/create" class="btn btn-primary mb-3">Nueva Categoria</a>
 
 <table id="categories" class="table table-striped table-bordered shadow-lg" style="width:100%">

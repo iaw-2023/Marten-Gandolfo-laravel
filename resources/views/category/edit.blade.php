@@ -4,11 +4,7 @@
 @section('contenido')
 
 <h2>EDITAR REGISTRO</h2>
-@if ($errors->any())
-    <div class="alert alert-danger">
-        {{ implode('\n', $errors->all()) }}
-    </div>
-@endif
+@include('components.error-message')
 <form action="/categories/{{$category->id}}" method="POST">
 
     @csrf
