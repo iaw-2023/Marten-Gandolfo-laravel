@@ -11,6 +11,13 @@
         <a class="nav-link @if($activeLink == 'categories') active @endif" href="/categories">Categorías</a>
         <a class="nav-link @if($activeLink == 'clients') active @endif" href="/clients">Clientes</a>
         <a class="nav-link @if($activeLink == 'orders') active @endif" href="/orders">Pedidos</a>
+        <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+        <a class="nav-link" href="/profile">Profile</a>
+        
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+          @csrf
+        </form>
+
       </div>
     </div>
   </div>
