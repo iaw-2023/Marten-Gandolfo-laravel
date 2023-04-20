@@ -11,13 +11,13 @@
 <table id="products" class="table table-striped table-bordered shadow-lg" style="width:100%">
     <thead class="bg-primary text-white">
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Imagen</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Precio</th>
-            <th scope="col">Categoría</th>
-            <th scope="col">Marca</th>
-            <th scope="col"></th>
+            <th class="text-center" scope="col">ID</th>
+            <th class="text-center" scope="col">Imagen</th>
+            <th class="text-center" scope="col">Nombre</th>
+            <th class="text-center" scope="col">Precio</th>
+            <th class="text-center" scope="col">Categoría</th>
+            <th class="text-center" scope="col">Marca</th>
+            <th class="text-center" scope="col"></th>
         </tr>
     </thead>
     
@@ -32,13 +32,21 @@
             <td>{{ $product->brand }}</td>
 
             <td>
-                <form action="{{ route('products.destroy', $product->id)}}" method="POST">
-                    <a href="/products/{{$product->id}}/edit" class="btn btn-info mb-3">Editar</a>
+                <form id="delete-form-{{ $product->id }}" action="{{ route('products.destroy', $product->id)}}" method="POST">
+                    <a href="/products/{{$product->id}}/edit" class="btn btn-info">Editar</a>
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Borrar</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $product->id }})">Borrar</button>
                 </form>
             </td>
+
+            <script>
+            function confirmDelete(productId) {
+                if (confirm("¿Está seguro de que desea eliminar este producto?")) {
+                    document.getElementById('delete-form-'+productId).submit();
+                }
+            }
+            </script>
         </tr>
         @endforeach
     </tbody>

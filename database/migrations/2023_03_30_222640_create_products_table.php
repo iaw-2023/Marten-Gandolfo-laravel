@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();                                   // product_ID
             $table->unsignedBigInteger('category_ID');      // FK
             $table->string('name');
-            $table->string('description');
+            $table->string('description', 1000);
             $table->string('brand');
             $table->float('price');
             $table->string('product_official_site');

@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();                                 // order_ID
             $table->unsignedBigInteger('client_ID');      // FK
             $table->dateTime('order_date');
-            $table->float('price');
             $table->timestamps();
 
             $table->foreign('client_ID')->references('id')->on('clients')->onDelete('cascade');

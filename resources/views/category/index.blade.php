@@ -6,14 +6,19 @@
 @endsection
 
 @section('contenido')
+@if ($errors->any())
+    <div class="alert alert-danger">
+        {{ implode('\n', $errors->all()) }}
+    </div>
+@endif
 <a href="categories/create" class="btn btn-primary mb-3">Nueva Categoria</a>
 
 <table id="categories" class="table table-striped table-bordered shadow-lg" style="width:100%">
     <thead class="bg-primary text-white">
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Nombre</th>
-            <th scope="col"></th>
+            <th class="text-center" scope="col">ID</th>
+            <th class="text-center" scope="col">Nombre</th>
+            <th class="text-center" scope="col"></th>
         </tr>
     </thead>
     
@@ -24,13 +29,21 @@
             <td>{{ $category->name }}</td>
 
             <td>
-                <form action="{{ route('categories.destroy', $category->id)}}" method="POST">
+                <form id="delete-form-{{ $category->id }}" action="{{ route('categories.destroy', $category->id)}}" method="POST">
                     <a href="/categories/{{$category->id}}/edit" class="btn btn-info">Editar</a>
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Borrar</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $category->id }})">Borrar</button>
                 </form>
             </td>
+
+            <script>
+            function confirmDelete(categoryId) {
+                if (confirm("¿Está seguro de que desea eliminar esta categoría?")) {
+                    document.getElementById('delete-form-'+categoryId).submit();
+                }
+            }
+            </script>
         </tr>
         @endforeach
     </tbody>

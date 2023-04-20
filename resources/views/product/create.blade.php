@@ -10,7 +10,7 @@
     @csrf
 
     <div class="mb-3">
-        <label for="" class="form-label">Category_ID</label>
+        <label for="" class="form-label">Categoría</label>
         <select id="category_id" name="category_id" type="number" class="form-control" tabindex="1" required>
         @foreach($categories as $category)
             <option value="{{$category->id}}">{{$category->name}}</option>
@@ -20,32 +20,32 @@
     </div>
 
     <div class="mb-3">
-        <label for="" class="form-label">Name</label>
+        <label for="" class="form-label">Nombre</label>
         <input id="name" name="name" type="text" class="form-control" tabindex="1" required>
     </div>
 
     <div class="mb-3">
-        <label for="" class="form-label">Description</label>
-        <input id="description" name="description" type="text" class="form-control" tabindex="1" required>
+        <label for="" class="form-label">Descripción</label>
+        <textarea id="description" name="description" type="text" class="form-control" tabindex="1" rows="3" required></textarea>
     </div>
 
     <div class="mb-3">
-        <label for="" class="form-label">Brand</label>
+        <label for="" class="form-label">Marca</label>
         <input id="brand" name="brand" type="text" class="form-control" tabindex="1" required>
     </div>
 
     <div class="mb-3">
-        <label for="" class="form-label">Price</label>
+        <label for="" class="form-label">Precio</label>
         <input id="price" name="price" type="number" class="form-control" tabindex="1" required>
     </div>
 
     <div class="mb-3">
-        <label for="" class="form-label">Product official site</label>
+        <label for="" class="form-label">Sitio oficial</label>
         <input id="official_site" name="official_site" type="text" class="form-control" tabindex="1" required>
     </div>
 
     <div class="mb-3">
-        <label for="" class="form-label">Product image</label>
+        <label for="" class="form-label">Imagen</label>
         <input id="image" name="image" type="text" class="form-control" tabindex="1" required>
     </div>
 

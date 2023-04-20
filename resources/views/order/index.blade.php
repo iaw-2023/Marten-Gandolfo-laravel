@@ -10,11 +10,11 @@
 <table id="orders" class="table table-striped table-bordered shadow-lg" style="width:100%">
     <thead class="bg-primary text-white">
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Cliente</th>
-            <th scope="col">Fecha - Hora</th>
-            <th scope="col">Monto</th>
-            <th scope="col">Detalle</th>
+            <th class="text-center" scope="col">ID</th>
+            <th class="text-center" scope="col">Cliente</th>
+            <th class="text-center" scope="col">Fecha - Hora</th>
+            <th class="text-center" scope="col">Monto</th>
+            <th class="text-center" scope="col">Detalle</th>
         </tr>
     </thead>
     
@@ -29,7 +29,7 @@
                 <p>
                     <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $order->id }}" aria-expanded="false" aria-controls="collapse{{ $order->id }}">Ver</button>
                 </p>
-                <div class="collapse" id="collapse{{ $order->id }}">
+                <!-- <div class="collapse" id="collapse{{ $order->id }}">
                     <div class="card card-body">
                         
                         @foreach ($order->orderDetails as $detail)
@@ -37,12 +37,12 @@
                         @endforeach
 
                     </div>
-                </div>
+                </div> -->
             </td>
         </tr>
 
 
-        <!---<tr>
+        <tr>
             <td colspan="5" class="p-0">
                 <div class="collapse" id="collapse{{ $order->id }}">
                     <div class="card card-body border-0 p-3">
@@ -52,7 +52,7 @@
                     </div>
                 </div>
             </td>
-        </tr>-->
+        </tr>
 
         
         @endforeach

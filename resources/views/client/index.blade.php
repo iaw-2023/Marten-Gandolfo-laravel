@@ -10,8 +10,8 @@
 <table id="clients" class="table table-striped table-bordered shadow-lg" style="width:100%">
     <thead class="bg-primary text-white">
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">email</th>
+            <th class="text-center" scope="col">ID</th>
+            <th class="text-center" scope="col">email</th>
         </tr>
     </thead>
     
