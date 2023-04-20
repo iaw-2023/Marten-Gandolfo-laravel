@@ -8,7 +8,7 @@ use App\Models\Category;
 class CategoryController extends Controller
 {
     public function allCategories(){
-        $categories = Category::withTrashed()->get();
+        $categories = Category::all();
         foreach($categories as $category){
             echo $category . "<br>";
             $products = $category->products()->get();
@@ -38,16 +38,11 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $category = Category::withTrashed()
-                            ->where('name', 'ilike', $request->input('name'))
+        $category = Category::where('name', 'ilike', $request->input('name'))
                             ->first();
     
         if ($category) {
-            if ($category->trashed()) {
-                $category->restore();
-            } else {
-                return redirect()->back()->withErrors(['name' => 'Ya existe una categoría con ese nombre']);
-            }
+            return redirect()->back()->withErrors(['name' => 'Ya existe una categoría con ese nombre']);
         } else {
             $category = new Category();
             $category->name = $request->get('name');
@@ -80,17 +75,12 @@ class CategoryController extends Controller
     public function update(Request $request, string $id)
     {
         $thisCategory = Category::find($id);
-        $sameNameCategory = Category::withTrashed()
-                            ->where('name', 'ilike', $request->input('name'))
+        $sameNameCategory = Category::where('name', 'ilike', $request->input('name'))
                             ->where('id', '<>', $id)
                             ->first();
     
         if ($sameNameCategory) {
-            if ($sameNameCategory->trashed()) {
-                $sameNameCategory->forceDelete();//TODO revisar esto
-            } else {
-                return redirect()->back()->withErrors(['name' => 'Ya existe una categoría con ese nombre']);
-            }
+            return redirect()->back()->withErrors(['name' => 'Ya existe una categoría con ese nombre']);
         }
         $thisCategory->name = $request->get('name');
         $thisCategory->save();
