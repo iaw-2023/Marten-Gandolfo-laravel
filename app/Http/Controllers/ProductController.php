@@ -8,14 +8,7 @@ use App\Models\Category;
 
 class ProductController extends Controller
 {
-    public function allProducts(){
-        $products = Product::withTrashed()->get();
-        foreach($products as $product){
-            echo $product->category()->get() . "<br>";
-            echo $product . "<br>";
-            echo $product->orderDetails()->get() . "<br><br>";
-        }
-    }
+    
     /**
      * Display a listing of the resource.
      */

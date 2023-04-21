@@ -39,11 +39,4 @@ Route::resource('categories', CategoryController::class)->middleware(['auth']);
 Route::resource('orders', OrderController::class)->middleware(['auth']);
 Route::resource('clients', ClientController::class)->middleware(['auth']);
 
-Route::get('/allcategories', [CategoryController::class, 'allCategories']);
-Route::get('/allclients', [ClientController::class, 'allClients']);
-Route::get('/allorders', [OrderController::class, 'allOrders']);
-Route::get('/allorderdetails', [OrderDetailController::class, 'allOrderDetails']);
-Route::get('/allproducts', [ProductController::class, 'allProducts']);
-Route::get('/allusers', [UserController::class, 'allUsers']);
-
 require __DIR__.'/auth.php';

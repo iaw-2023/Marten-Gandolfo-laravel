@@ -8,13 +8,6 @@ use Illuminate\Http\Response;
 
 class ClientController extends Controller
 {
-    public function allClients(){
-        $clients = Client::all();
-        foreach($clients as $client){
-            echo $client . "<br>";
-            echo $client->orders()->get() . "<br><br>";
-        }
-    }
 
     /**
      * Display a listing of the resource.

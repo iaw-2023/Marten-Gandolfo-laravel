@@ -14,14 +14,6 @@ use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
-    public function allOrders(){
-        $orders = Order::all();
-        foreach($orders as $order){
-            echo $order->client()->get() . "<br>";
-            echo $order . "<br>";
-            echo $order->orderDetails()->get() . "<br><br>";
-        }
-    }
 
     /**
      * Display a listing of the resource.
