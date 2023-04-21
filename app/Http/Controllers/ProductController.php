@@ -39,7 +39,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //TODO tirar error si la categoría no existe, precio numero positivo
+        $errors = [];
+        if(!Category::find($request->get('category_id')))
+            $errors[] = 'La categoría seleccionada ya no existe.';
+        if(Product::where('name', 'ilike', $request->get('name'))->first())
+            $errors[] = 'Ya existe un producto con este nombre.';
+        if(!empty($errors))
+            return redirect()->back()->withErrors($errors);
         $products = new Product();
         $products->category_ID = $request->get('category_id');
         $products->name = $request->get('name');
@@ -67,8 +73,11 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //TODO controlar id sea un numero y que el producto exista
+        if(!ctype_digit($id))
+            return redirect('/products')->withErrors(['Identificador inválido.']);
         $product = Product::find($id);
+        if(!$product)
+            return redirect('/products')->withErrors(['El producto no existe.']);
         $categories = Category::all();
 
         return view('product.edit')->with('product',$product)->with('categories', $categories);
@@ -79,8 +88,18 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //TODO controlar id sea un numero, que el producto exista, precio positivo y tirar error si la categoria no existe
+        if(!ctype_digit($id))
+            return redirect('/products')->withErrors(['Identificador inválido.']);
         $product = Product::find($id);
+        if(!$product)
+            return redirect('/categories')->withErrors(['El producto fue eliminado.']);
+        $errors = [];
+        if(!Category::find($request->get('category_id')))
+            $errors[] = 'La categoría seleccionada ya no existe.';
+        if(Product::where('name', 'ilike', $request->get('name'))->where('id', '<>', $id)->first())
+            $errors[] = 'Ya existe un producto con este nombre.';
+        if(!empty($errors))
+            return redirect()->back()->withErrors($errors);
         $product->category_ID = $request->get('category_id');
         $product->name = $request->get('name');
         $product->description = $request->get('description');
@@ -99,8 +118,11 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //TODO tirar error si el producto ya fue eliminado, controlar que id sea un numero?
+        if(!ctype_digit($id))
+            return redirect('/products')->withErrors(['Identificador inválido.']);
         $product = Product::find($id);
+        if(!$product)
+            return redirect('/products')->withErrors(['El producto ya fue eliminado.']);
         $product->delete();
         return redirect('/products');
     }
@@ -111,7 +133,6 @@ class ProductController extends Controller
     }
 
     public function showApi($id){
-        //controlar que id sea un numero
         $product = Product::find($id);
         if(!$product){
             return response()->json([
@@ -122,13 +143,18 @@ class ProductController extends Controller
     }
 
     public function searchApi($name){
-        //TODO name no este vacio
-        $products = Product::where('name', 'ilike', '%' . $name . '%')->select('id', 'name', 'price', 'product_image')->get();
+        if(is_string($name) && !empty($name))
+            $products = Product::where('name', 'ilike', '%' . $name . '%')->select('id', 'name', 'price', 'product_image')->get();
+        else
+            $products = Product::all();
         return response()->json($products);
     }
 
     public function searchByCategoryApi($categoryId){
-        //TODO categoryID sea un numero
+        if(!ctype_digit($categoryId))
+            return response()->json([
+                'message' => 'Invalid category ID'
+            ], 400);
         $products = Product::whereHas('category', function($query) use ($categoryId){
             $query->where('id', $categoryId);
         })->select('id', 'name', 'price', 'product_image')->get();

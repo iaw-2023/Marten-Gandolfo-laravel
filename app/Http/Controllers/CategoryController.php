@@ -37,17 +37,13 @@ class CategoryController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $category = Category::where('name', 'ilike', $request->input('name'))
-                            ->first();
-    
-        if ($category) {
-            return redirect()->back()->withErrors(['name' => 'Ya existe una categoría con ese nombre']);
-        } else {
-            $category = new Category();
-            $category->name = $request->get('name');
-            $category->save();
+    {    
+        if (Category::where('name', 'ilike', $request->input('name'))->first()) {
+            return redirect()->back()->withErrors(['Ya existe una categoría con ese nombre']);
         }
+        $category = new Category();
+        $category->name = $request->get('name');
+        $category->save();
         return redirect('/categories');
     }
 
@@ -64,7 +60,11 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
+        if(!ctype_digit($id))
+            return redirect('/categories')->withErrors(['Identificador inválido.']);
         $category = Category::find($id);
+        if(!$category)
+            return redirect('/categories')->withErrors(['La categoría no existe.']);
 
         return view('category.edit')->with('category',$category);
     }
@@ -74,13 +74,17 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        if(!ctype_digit($id))
+            return redirect('/categories')->withErrors(['Identificador inválido.']);
         $thisCategory = Category::find($id);
+        if(!$thisCategory)
+            return redirect('/categories')->withErrors(['La categoría fue eliminada.']);
         $sameNameCategory = Category::where('name', 'ilike', $request->input('name'))
                             ->where('id', '<>', $id)
                             ->first();
     
         if ($sameNameCategory) {
-            return redirect()->back()->withErrors(['name' => 'Ya existe una categoría con ese nombre']);
+            return redirect()->back()->withErrors(['Ya existe una categoría con ese nombre.']);
         }
         $thisCategory->name = $request->get('name');
         $thisCategory->save();
@@ -93,11 +97,13 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
+        if(!ctype_digit($id))
+            return redirect('/categories')->withErrors(['Identificador inválido.']);
         $category = Category::find($id);
         if(!$category)
-            return redirect()->back()->withErrors(['category' => 'La categoría ya fue eliminada']);
+            return redirect()->back()->withErrors(['La categoría ya fue eliminada']);
         if(!$category->products->isEmpty())
-            return redirect()->back()->withErrors(['category' => 'No es posible eliminar categorías con productos asociados']);
+            return redirect()->back()->withErrors(['No es posible eliminar categorías con productos asociados']);
         $category->delete();
         return redirect('/categories');
     }

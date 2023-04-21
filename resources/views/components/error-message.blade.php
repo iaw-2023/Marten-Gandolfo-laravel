@@ -1,5 +1,5 @@
 @if ($errors->any())
     <div class="alert alert-danger">
-        {{ implode('\n', $errors->all()) }}
+        {!! implode('<br>', $errors->all()) !!}
     </div>
 @endif
