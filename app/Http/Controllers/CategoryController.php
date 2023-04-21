@@ -7,14 +7,6 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-    public function allCategories(){
-        $categories = Category::all();
-        foreach($categories as $category){
-            echo $category . "<br>";
-            $products = $category->products()->get();
-            echo $products . "<br><br>";
-        }
-    }
 
     /**
      * Display a listing of the resource.
