@@ -29,7 +29,7 @@
 
     <div class="mb-3">
         <label for="price" class="form-label">Precio</label>
-        <input id="price" name="price" type="number" class="form-control" tabindex="1" value="{{ $product->price ?? '' }}" required>
+        <input id="price" name="price" type="number" class="form-control" tabindex="1" value="{{ $product->price ?? '' }}" min="0.01" step="0.01" required>
     </div>
 
     <div class="mb-3">
