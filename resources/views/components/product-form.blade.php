@@ -14,17 +14,17 @@
 
     <div class="mb-3">
         <label for="name" class="form-label">Nombre</label>
-        <input id="name" name="name" type="text" class="form-control" tabindex="1" value="{{ $product->name ?? '' }}" required>
+        <input id="name" name="name" type="text" class="form-control" tabindex="1" maxlength="255" value="{{ $product->name ?? '' }}" required>
     </div>
 
     <div class="mb-3">
         <label for="description" class="form-label">Descripción</label>
-        <textarea id="description" name="description" type="text" class="form-control" tabindex="1" rows="3" required>{{ $product->description ?? '' }}</textarea>
+        <textarea id="description" name="description" type="text" class="form-control" tabindex="1" maxlength="1000" rows="3" required>{{ $product->description ?? '' }}</textarea>
     </div>
 
     <div class="mb-3">
         <label for="brand" class="form-label">Marca</label>
-        <input id="brand" name="brand" type="text" class="form-control" tabindex="1" value="{{ $product->brand ?? '' }}" required>
+        <input id="brand" name="brand" type="text" class="form-control" tabindex="1" maxlength="255" value="{{ $product->brand ?? '' }}" required>
     </div>
 
     <div class="mb-3">
@@ -34,12 +34,12 @@
 
     <div class="mb-3">
         <label for="official_site" class="form-label">Sitio oficial</label>
-        <input id="official_site" name="official_site" type="text" class="form-control" tabindex="1" value="{{ $product->product_official_site ?? '' }}" required>
+        <input id="official_site" name="official_site" type="text" class="form-control" tabindex="1" maxlength="255" value="{{ $product->product_official_site ?? '' }}" required>
     </div>
 
     <div class="mb-3">
         <label for="image" class="form-label">Imagen</label>
-        <input id="image" name="image" type="text" class="form-control" tabindex="1" value="{{ $product->product_image ?? '' }}" required>
+        <input id="image" name="image" type="text" class="form-control" tabindex="1" maxlength="255" value="{{ $product->product_image ?? '' }}" required>
     </div>
 
     <a href="/products" class="btn btn-secondary" tabindex="5">Cancelar</a>
