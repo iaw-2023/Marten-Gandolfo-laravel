@@ -41,7 +41,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        return response()->view('errors.404', [], Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -49,7 +49,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return response()->view('errors.404', [], Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -57,7 +57,7 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return response()->view('errors.404', [], Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -65,7 +65,7 @@ class OrderController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return response()->view('errors.404', [], Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -73,7 +73,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        return response()->view('errors.404', [], Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -81,7 +81,7 @@ class OrderController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return response()->view('errors.404', [], Response::HTTP_NOT_FOUND);
     }
 
     public function storeApi(Request $request){

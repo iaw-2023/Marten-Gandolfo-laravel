@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Client;
+use Illuminate\Http\Response;
 
 class ClientController extends Controller
 {
@@ -29,7 +30,7 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        return response()->view('errors.404', [], Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -37,7 +38,7 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return response()->view('errors.404', [], Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -45,7 +46,7 @@ class ClientController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return response()->view('errors.404', [], Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -53,7 +54,7 @@ class ClientController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return response()->view('errors.404', [], Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -61,7 +62,7 @@ class ClientController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        return response()->view('errors.404', [], Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -69,6 +70,6 @@ class ClientController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        return response()->view('errors.404', [], Response::HTTP_NOT_FOUND);
     }
 }
