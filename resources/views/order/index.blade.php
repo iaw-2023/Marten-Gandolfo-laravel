@@ -6,6 +6,7 @@
 @endsection
 
 @section('contenido')
+@include('components.error-message')
 
 <table id="orders" class="table table-striped table-bordered shadow-lg" style="width:100%">
     <thead class="bg-primary text-white">
