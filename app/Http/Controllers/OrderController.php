@@ -77,6 +77,17 @@ class OrderController extends Controller
         return response()->view('errors.404', [], Response::HTTP_NOT_FOUND);
     }
 
+    /**
+     * Show details of specific order.
+     */
+    public function details(string $id)
+    {
+        $order = Order::find($id);
+
+        return view('order.details')
+            ->with('order',$order);
+    }
+
     public function storeApi(Request $request){
         $validator = $this->getStoreApiValidator($request);
         if ($validator->fails()) {

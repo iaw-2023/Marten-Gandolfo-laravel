@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Pedidos') }}
         </h2>
     </x-slot>
 
@@ -34,10 +34,11 @@
                                 <td>{{ $order->order_date }}</td>
                                 <td>${{ $order->price }}</td>
                                 <td>
-                                    <p>
+                                    <a href="/orders/{{ $order->id }}/details" class="btn btn-info">Detalles</a>
+                                    <!--p>
                                         <button class="btn bg-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $order->id }}" aria-expanded="false" aria-controls="collapse{{ $order->id }}">Ver</button>
                                     </p>
-                                    <!-- <div class="collapse" id="collapse{{ $order->id }}">
+                                    <div class="collapse" id="collapse{{ $order->id }}">
                                         <div class="card card-body">
                                             
                                             @foreach ($order->orderDetails as $detail)
@@ -49,23 +50,27 @@
                                 </td>
                             </tr>
 
-
-                            <tr>
-                                <td colspan="5" class="p-0">
-                                    <div class="collapse" id="collapse{{ $order->id }}">
-                                        <div class="card card-body border-0 p-3">
-                                            @foreach ($order->orderDetails as $detail)
-                                                    [{{$detail->product_ID}}] {{$detail->product->name}}    x{{$detail->units}}    ${{$detail->subtotal}}<br>
-                                            @endforeach
-                                        </div>
+                            <!--div class="toast-container position-fixed bottom-0 end-0 p-3">
+                                <div id="liveToast{{ $order->id }}" class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="false">
+                                    <div class="toast-header">
+                                        <img src="..." class="rounded me-2" alt="...">
+                                        <strong class="me-auto">Detalle de orden: {{ $order->id }}</strong>
+                                        <small>{{ $order->client->email }}</small>
+                                        <button type="button" class="btn-close text-black" data-bs-dismiss="toast" aria-label="Close">X</button>
                                     </div>
-                                </td>
-                            </tr>
+                                    <div class="toast-body">
+                                        @foreach ($order->orderDetails as $detail)
+                                            [{{$detail->product_ID}}] {{$detail->product->name}}    x{{$detail->units}}    ${{$detail->subtotal}}<br>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div-->
 
-                            
                             @endforeach
                         </tbody>
                     </table>
+
+                    <!--div class="toast-container position-fixed bottom-0 end-0 p-3" id="toast-container"></div-->
 
                     @section('js')
                     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -78,22 +83,33 @@
 
                     <script>
                         $(document).ready(function() {
-                        $('#example').DataTable( {
-                            responsive: {
-                                details: {
-                                    display: $.fn.dataTable.Responsive.display.modal( {
-                                        header: function ( row ) {
-                                            var data = row.data();
-                                            return 'Details for '+data[0]+' '+data[1];
-                                        }
-                                    } ),
-                                    renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
-                                        tableClass: 'table'
-                                    } )
+                            $('#orders').DataTable( {
+                                responsive: {
+                                    details: {
+                                        display: $.fn.dataTable.Responsive.display.modal( {
+                                            header: function ( row ) {
+                                                var data = row.data();
+                                                return 'Details for '+data[0]+' '+data[1];
+                                            }
+                                        } ),
+                                        renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                                            tableClass: 'table'
+                                        } )
+                                    }
                                 }
-                            }
+                            } );
                         } );
-                    } );
+                        
+                        //var container = document.getElementById("toast-container");
+                        //container.appendChild(document.getElementById("liveToast1"));
+                        //container.appendChild(document.getElementById("liveToast2"));
+                        //container.appendChild(document.getElementById("liveToast3"));
+                        //container.appendChild(document.getElementById("liveToast4"));
+                        //function showToast(orderId) {
+                        //    var toastEl = document.getElementById('liveToast' + orderId);
+                        //    var toast = new bootstrap.Toast(toastEl);
+                        //    toast.show();
+                        //}
                     </script>
                     @endsection
                 </div>
