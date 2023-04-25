@@ -40,5 +40,8 @@ Route::resource('orders', OrderController::class)->middleware(['auth']);
 Route::resource('clients', ClientController::class)->middleware(['auth']);
 Route::get('/orders/{id}/details', [OrderController::class, 'details'])->middleware(['auth']);
 
+Route::get('/logo', function () {
+    return response()->file('logo.png');
+});
 
 require __DIR__.'/auth.php';
