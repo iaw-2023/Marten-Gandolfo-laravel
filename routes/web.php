@@ -38,7 +38,7 @@ Route::resource('products', ProductController::class)->middleware(['auth']);
 Route::resource('categories', CategoryController::class)->middleware(['auth']);
 Route::resource('orders', OrderController::class)->middleware(['auth']);
 Route::resource('clients', ClientController::class)->middleware(['auth']);
-Route::get('/orders/{id}/details', [OrderController::class, 'details']);
+Route::get('/orders/{id}/details', [OrderController::class, 'details'])->middleware(['auth']);
 
 Route::get('/logo', function () {
     return response()->file('logo.png');
