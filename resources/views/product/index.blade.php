@@ -7,13 +7,13 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            @include('components.error-message')
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     @section('css')
                     <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
                     @endsection
 
-                    @include('components.error-message')
                     <a href="products/create" class="btn btn-primary mb-3">Nuevo Producto</a>
 
                     <table id="products" class="table table-striped table-bordered shadow-lg" style="width:100%">
