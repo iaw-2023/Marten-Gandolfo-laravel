@@ -18,9 +18,6 @@
                     <table id="details" class="table table-striped table-bordered shadow-lg" style="width:100%">
                         <thead class="bg-primary text-white">
                             <tr>
-                                <th class="text-center" scope="col">ID</th>
-                                <th class="text-center" scope="col">ID Orden</th>
-                                <th class="text-center" scope="col">Cliente</th>
                                 <th class="text-center" scope="col">ID Producto</th>
                                 <th class="text-center" scope="col">Producto</th>
                                 <th class="text-center" scope="col">Unidades</th>
@@ -30,32 +27,16 @@
                         
                         <tbody>
                             @foreach ($order->orderDetails as $detail)
-                            <tr>
-                                <td>{{ $detail->id }}</td>
-                                <td>{{ $detail->order_ID }}</td>
-                                <td>{{ $order->client->email }}</td>
-                                <td>{{ $detail->product_ID }}</td>
-                                <td>{{ $detail->product->name }}</td>
-                                <td>{{ $detail->units }}</td>
-                                <td>${{ $detail->subtotal }}</td>
-                            </tr>
+                                <tr>
+                                    <td>{{ $detail->product_ID }}</td>
+                                    <td>{{ $detail->product()->withTrashed()->first()->name }}</td>
+                                    <td>{{ $detail->units }}</td>
+                                    <td>${{ $detail->subtotal }}</td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
 
-                    @section('js')
-                    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-                    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-                    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-
-                    <script>
-                        $(document).ready(function () {
-                        $('#details').DataTable({
-                            "lenghtMenu": [[5,10,20,50,-1],[5,10,20,50,"All"]]
-                        });
-                    });
-                    </script>
-                    @endsection
                 </div>
             </div>
         </div>
