@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
@@ -30,9 +31,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {    
-        if (Category::where('name', 'ilike', $request->input('name'))->first()) {
-            return redirect()->back()->withErrors(['Ya existe una categoría con ese nombre']);
-        }
+        $request->validate($this->getValidationRules(null), $this->getValidationErrorMessages());
         $category = new Category();
         $category->name = $request->get('name');
         $category->save();
@@ -68,20 +67,30 @@ class CategoryController extends Controller
     {
         if(!ctype_digit($id))
             return redirect('/categories')->withErrors(['Identificador inválido.']);
-        $thisCategory = Category::find($id);
-        if(!$thisCategory)
+        $category = Category::find($id);
+        if(!$category)
             return redirect('/categories')->withErrors(['La categoría fue eliminada.']);
-        $sameNameCategory = Category::where('name', 'ilike', $request->input('name'))
-                            ->where('id', '<>', $id)
-                            ->first();
-    
-        if ($sameNameCategory) {
-            return redirect()->back()->withErrors(['Ya existe una categoría con ese nombre.']);
-        }
-        $thisCategory->name = $request->get('name');
-        $thisCategory->save();
+
+        $request->validate($this->getValidationRules($id), $this->getValidationErrorMessages());
+        $category->name = $request->get('name');
+        $category->save();
 
         return redirect('/categories');
+    }
+
+    private function getValidationRules($id){
+        return [
+            'name' => ['required', 'string', 'max:255', Rule::unique('categories', 'name')->ignore($id ?? null)]
+        ];
+    }
+
+    private function getValidationErrorMessages(){
+        return [
+            'name.required' => 'El nombre es obligatorio.',
+            'name.string' => 'El nombre debe ser una cadena de caracteres.',
+            'name.max' => 'El nombre no puede tener más de 255 caracteres.',
+            'name.unique' => 'El nombre ya está siendo utilizado.',
+        ];
     }
 
     /**
