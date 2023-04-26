@@ -82,7 +82,11 @@ class OrderController extends Controller
      */
     public function details(string $id)
     {
-        $order = Order::find($id);
+        $order = Order::select('orders.id', 'client_ID', 'order_date', DB::raw('CAST(SUM(order_details.subtotal) AS DECIMAL(10, 2)) AS price'))
+                    ->leftJoin('order_details', 'orders.id', '=', 'order_details.order_ID')
+                    ->groupBy('orders.id', 'client_ID', 'order_date')
+                    ->orderByDesc('order_date')
+                    ->find($id);
 
         return view('order.details')
             ->with('order',$order);

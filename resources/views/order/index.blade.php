@@ -56,7 +56,6 @@
                                 "lenghtMenu": [[5,10,20,50,-1],[5,10,20,50,"All"]]
                             } );
                         } );
-                        
                     </script>
                     @endsection
                 </div>
