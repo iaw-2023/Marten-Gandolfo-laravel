@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
@@ -32,13 +33,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $errors = [];
-        if(!Category::find($request->get('category_id')))
-            $errors[] = 'La categoría seleccionada ya no existe.';
-        if(Product::where('name', 'ilike', $request->get('name'))->first())
-            $errors[] = 'Ya existe un producto con este nombre.';
-        if(!empty($errors))
-            return redirect()->back()->withErrors($errors);
+        $request->validate($this->getValidationRules(null), $this->getValidationErrorMessages());
+
         $products = new Product();
         $products->category_ID = $request->get('category_id');
         $products->name = $request->get('name');
@@ -85,14 +81,10 @@ class ProductController extends Controller
             return redirect('/products')->withErrors(['Identificador inválido.']);
         $product = Product::find($id);
         if(!$product)
-            return redirect('/categories')->withErrors(['El producto fue eliminado.']);
-        $errors = [];
-        if(!Category::find($request->get('category_id')))
-            $errors[] = 'La categoría seleccionada ya no existe.';
-        if(Product::where('name', 'ilike', $request->get('name'))->where('id', '<>', $id)->first())
-            $errors[] = 'Ya existe un producto con este nombre.';
-        if(!empty($errors))
-            return redirect()->back()->withErrors($errors);
+            return redirect('/products')->withErrors(['El producto fue eliminado.']);
+        $request->validate($this->getValidationRules($id), $this->getValidationErrorMessages());
+
+        $product = Product::find($id);
         $product->category_ID = $request->get('category_id');
         $product->name = $request->get('name');
         $product->description = $request->get('description');
@@ -104,6 +96,42 @@ class ProductController extends Controller
         $product->save();
 
         return redirect('/products');
+    }
+
+    private function getValidationRules($id){
+        return [
+            'category_id' => 'required|integer|exists:categories,id',
+            'name' => ['required', 'string', 'max:255', Rule::unique('products', 'name')->ignore($id ?? null)],
+            'description' => 'required|max:1000',
+            'brand' => 'required|max:255',
+            'price' => 'required|numeric|min:0.01|regex:/^\d+(\.\d{1,2})?$/',
+            'official_site' => 'required|max:255',
+            'image' => 'required|max:255',
+        ];
+    }
+
+    private function getValidationErrorMessages(){
+        return [
+            'category_id.required' => 'La categoría es obligatoria.',
+            'category_id.integer' => 'El identificador de categoría debe ser un número entero.',
+            'category_id.exists' => 'La categoría seleccionada no existe.',
+            'name.required' => 'El nombre es obligatorio.',
+            'name.string' => 'El nombre debe ser una cadena de caracteres.',
+            'name.max' => 'El nombre no puede tener más de 255 caracteres.',
+            'name.unique' => 'El nombre ya está siendo utilizado.',
+            'description.required' => 'La descripción es obligatoria.',
+            'description.max' => 'La descripción no puede tener más de 1000 caracteres.',
+            'brand.required' => 'La marca es obligatoria.',
+            'brand.max' => 'La marca no puede tener más de 255 caracteres.',
+            'price.required' => 'El precio es obligatorio.',
+            'price.numeric' => 'El precio debe ser un número.',
+            'price.min' => 'El precio debe ser mayor a 0.',
+            'price.regex' => 'El precio debe ser un número con hasta 2 decimales.',
+            'official_site.required' => 'El sitio oficial es obligatorio.',
+            'official_site.max' => 'El sitio oficial no puede tener más de 255 caracteres.',
+            'image.required' => 'La imagen es obligatoria.',
+            'image.max' => 'La imagen no puede tener más de 255 caracteres.',
+        ];
     }
 
     /**
