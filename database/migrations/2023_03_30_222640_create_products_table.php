@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();                                   // product_ID
-            $table->unsignedBigInteger('category_ID');      // FK
+            $table->unsignedBigInteger('category_ID')->nullable();      // FK
             $table->string('name');
             $table->string('description', 1000);
             $table->string('brand');
@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('product_image');
             $table->timestamps();
 
-            $table->foreign('category_ID')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('category_ID')->references('id')->on('categories')->onDelete('set null');
             $table->softDeletes();
         });
     }
