@@ -41,7 +41,7 @@
 
                                 <td>
                                     <form id="delete-form-{{ $product->id }}" action="{{ route('products.destroy', $product->id)}}" method="POST">
-                                        <a href="/products/{{$product->id}}/edit" class="btn btn-info">Editar</a>
+                                        <a href="/products/{{$product->id}}/edit" class="btn btn-info mb-1">Editar</a>
                                         @csrf
                                         @method('DELETE')
                                         <button type="button" class="btn bg-danger" onclick="confirmDelete({{ $product->id }})">Borrar</button>

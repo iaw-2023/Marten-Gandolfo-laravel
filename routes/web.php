@@ -44,4 +44,8 @@ Route::get('/logo', function () {
     return response()->file('logo.png');
 });
 
+Route::get('/logo_name', function () {
+    return response()->file('master_gaming.jpg');
+});
+
 require __DIR__.'/auth.php';
