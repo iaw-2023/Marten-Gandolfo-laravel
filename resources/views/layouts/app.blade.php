@@ -9,6 +9,25 @@
 
         @yield('css')
 
+        <style>
+            table.dataTable, table.dataTable th, table.dataTable td {
+                border: none;
+            }
+
+            .dataTables_filter input {
+                border-radius: 5px;
+            }
+
+            /* Dark mode styles */
+            @media (prefers-color-scheme: dark) {
+                /* Change text color for all cells in the table */
+                table.dataTable tbody td {
+                    color: white !important; /* Change to your desired color */
+                }
+            }
+
+        </style>
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -23,8 +42,8 @@
             @yield('contenido')
             <!-- Page Heading -->
             @if (isset($header))
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <header class="dark:bg-gray-700 shadow">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 dark:bg-gray-700">
                         {{ $header }}
                     </div>
                 </header>
