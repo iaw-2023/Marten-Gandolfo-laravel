@@ -1,1 +1,1 @@
-<img src="{{ asset('images/logo.png') }}" width="70">
+<img src="{{ asset('images/master_gaming.png') }}" width="300">
