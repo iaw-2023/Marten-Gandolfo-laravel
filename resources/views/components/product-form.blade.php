@@ -1,3 +1,12 @@
+<style>
+    @media (prefers-color-scheme: dark) {
+        #name, #description, #brand, #price, #official_site, #image, #category_id {
+            color: white;
+            background-color: black;
+        }
+    }
+</style>
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -9,7 +18,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             @include('components.error-message')
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+                <div class="p-6 text-gray-900 dark:text-gray-100 dark:bg-gray-700">
                     <form action="{{ $action }}" method="POST">
                     @csrf
                     @if(isset($method))
