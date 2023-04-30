@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class OrderSeeder extends Seeder
 {
@@ -17,22 +18,22 @@ class OrderSeeder extends Seeder
             [
                 'client_ID' => '1',
                 'order_date' => '01-03-2023 12:00:00',
-                'price' => '51999.97'
+                'token' => str::random(32)
             ],
             [
                 'client_ID' => '1',
                 'order_date' => '02-03-2023 13:00:00',
-                'price' => '99999.99'
+                'token' => str::random(32)
             ],
             [
                 'client_ID' => '2',
                 'order_date' => '03-03-2023 14:00:00',
-                'price' => '282999.88'
+                'token' => str::random(32)
             ],
             [
                 'client_ID' => '2',
                 'order_date' => '04-03-2023 15:00:00',
-                'price' => '159999.98'
+                'token' => str::random(32)
             ]
         ]);
     }

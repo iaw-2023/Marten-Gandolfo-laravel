@@ -25,6 +25,10 @@ class Handler extends ExceptionHandler
         //
     ];
 
+    protected $renders = [
+        CustomExceptionHandler::class
+    ];
+
     /**
      * A list of the inputs that are never flashed to the session on validation exceptions.
      *

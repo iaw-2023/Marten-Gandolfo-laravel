@@ -17,13 +17,13 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Matias',
                 'username' => 'mati',
-                'email' => 'matias@gmail.com',
+                'email' => 'matiasgandolfo17@gmail.com',
                 'password' => bcrypt('1234')
             ],
             [
                 'name' => 'Juan',
                 'username' => 'juan',
-                'email' => 'juan@gmail.com',
+                'email' => 'juanmarten99@gmail.com',
                 'password' => bcrypt('4321')
             ],
             [

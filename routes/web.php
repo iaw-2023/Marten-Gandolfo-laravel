@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClientController;
@@ -20,32 +21,45 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('login');
 });
 
-Route::resource('products', ProductController::class);
-//Route::get('/products', [ProductController::class, 'index']);
-//Route::get('/products/create', [ProductController::class, 'create']);
-//Route::post('/products/create', [ProductController::class, 'store']);
-//Route::put('/products/create', [ProductController::class, 'store']);
+Route::get('/home', function () {
+    return view('home');
+})->middleware(['auth', 'verified'])->name('home');
 
-Route::get('/allcategories', [CategoryController::class, 'allCategories']);
-Route::get('/allclients', [ClientController::class, 'allClients']);
-Route::get('/allorders', [OrderController::class, 'allOrders']);
-Route::get('/allorderdetails', [OrderDetailController::class, 'allOrderDetails']);
-Route::get('/allproducts', [ProductController::class, 'allProducts']);
-Route::get('/allusers', [UserController::class, 'allUsers']);
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
+Route::resource('products', ProductController::class)->middleware(['auth']);
+Route::resource('categories', CategoryController::class)->middleware(['auth']);
+Route::resource('orders', OrderController::class)->middleware(['auth']);
+Route::resource('clients', ClientController::class)->middleware(['auth']);
+Route::get('/orders/{id}/details', [OrderController::class, 'details'])->middleware(['auth']);
 
+Route::get('/logo', function () {
+    return response()->file('logo.png');
+});
+
+Route::get('/logo_name', function () {
+    return response()->file('master_gaming.jpg');
+});
+
+//Rutas API
 //Si las definimos en api.php no funcionan en vercel ya que interpreta de manera particular las rutas que comienzan con '/api'
 Route::prefix('_api')->group(function () {
     Route::get('/products', [ProductController::class, 'indexApi']);
     Route::get('/products/{id}', [ProductController::class, 'showApi']);
     Route::get('/products/search/{name}', [ProductController::class, 'searchApi']);
     Route::get('/products/category/{categoryId}', [ProductController::class, 'searchByCategoryApi']);
-    
+
     Route::get('/categories', [CategoryController::class, 'indexApi']);
-    
-    Route::get('/orders/{id}', [OrderController::class, 'showApi']);
+
+    Route::get('/orders/{token}', [OrderController::class, 'showApi']);
     Route::post('/orders', [OrderController::class, 'storeApi']);
 });
+
+require __DIR__.'/auth.php';
