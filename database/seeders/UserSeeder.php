@@ -25,6 +25,12 @@ class UserSeeder extends Seeder
                 'username' => 'juan',
                 'email' => 'juanmarten99@gmail.com',
                 'password' => bcrypt('4321')
+            ],
+            [
+                'name' => 'admin',
+                'username' => 'admin',
+                'email' => 'admin@iaw.com',
+                'password' => bcrypt('admin123')
             ]
         ]);
     }
