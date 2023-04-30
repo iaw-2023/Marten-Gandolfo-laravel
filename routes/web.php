@@ -48,4 +48,18 @@ Route::get('/logo_name', function () {
     return response()->file('master_gaming.jpg');
 });
 
+//Rutas API
+//Si las definimos en api.php no funcionan en vercel ya que interpreta de manera particular las rutas que comienzan con '/api'
+Route::prefix('_api')->group(function () {
+    Route::get('/products', [ProductController::class, 'indexApi']);
+    Route::get('/products/{id}', [ProductController::class, 'showApi']);
+    Route::get('/products/search/{name}', [ProductController::class, 'searchApi']);
+    Route::get('/products/category/{categoryId}', [ProductController::class, 'searchByCategoryApi']);
+
+    Route::get('/categories', [CategoryController::class, 'indexApi']);
+
+    Route::get('/orders/{token}', [OrderController::class, 'showApi']);
+    Route::post('/orders', [OrderController::class, 'storeApi']);
+});
+
 require __DIR__.'/auth.php';
