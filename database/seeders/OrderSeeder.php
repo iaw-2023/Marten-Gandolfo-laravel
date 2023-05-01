@@ -18,22 +18,22 @@ class OrderSeeder extends Seeder
             [
                 'client_ID' => '1',
                 'order_date' => '01-03-2023 12:00:00',
-                'token' => str::random(32)
+                'token' => '4sxgVva7EntBjG6xUC22ADjqNnCdayGv'
             ],
             [
                 'client_ID' => '1',
                 'order_date' => '02-03-2023 13:00:00',
-                'token' => str::random(32)
+                'token' => 'K2LSx599VfM7tjKFyCYV8qNTJtC8Ls1z'
             ],
             [
                 'client_ID' => '2',
                 'order_date' => '03-03-2023 14:00:00',
-                'token' => str::random(32)
+                'token' => 'Jd2WDGnwsta58xdBsaOorz5WTqqt17Rh'
             ],
             [
                 'client_ID' => '2',
                 'order_date' => '04-03-2023 15:00:00',
-                'token' => str::random(32)
+                'token' => 'BlieCRUyOWzxWfRY42990IEFdLa7x2OL'
             ]
         ]);
     }
