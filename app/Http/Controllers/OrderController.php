@@ -162,28 +162,49 @@ class OrderController extends Controller
             return response()->json(['message' => 'Invalid token format'], 400);
 
         $order = Order::select('orders.id', 'token', 'client_ID', 'order_date', DB::raw('CAST(SUM(order_details.subtotal) AS DECIMAL(10, 2)) AS price'))
-            ->leftJoin('order_details', 'orders.id', '=', 'order_details.order_ID')
-            ->where('token', $token)
-            ->groupBy('orders.id', 'token', 'client_ID', 'order_date')
-            ->with([
-                'orderDetails' => function($query){
-                    $query->select('id', 'order_ID', 'product_ID', 'units', 'subtotal');
-                },
-                'orderDetails.product' => function($query){
-                    $query->withTrashed()->select('id', 'name');
-                },
-                'client' => function($query){
-                    $query->select('id', 'email');
-                }
-            ])
-            ->first();
-
+                            ->leftJoin('order_details', 'orders.id', '=', 'order_details.order_ID')
+                            ->where('token', $token)
+                            ->groupBy('orders.id', 'token', 'client_ID', 'order_date')
+                            ->with([
+                                'orderDetails' => function($query){
+                                    $query->select('id', 'order_ID', 'product_ID', 'units', 'subtotal');
+                                },
+                                'orderDetails.product' => function($query){
+                                    $query->withTrashed()->select('id', 'name');
+                                },
+                                'client' => function($query){
+                                    $query->select('id', 'email');
+                                }
+                            ])
+                            ->first();
 
         if(!$order){
             return response()->json([
                 'message' => 'Order not found'
             ], 404);
         }
-        return response()->json($order);
+        return response()->json($this->formatOrderResponse($order));
+    }
+
+    private function formatOrderResponse($order){
+        return [
+            'id' => $order->id,
+            'client' => [
+                'id' => $order->client->id,
+                'email' => $order->client->email,
+            ],
+            'order_date' => $order->order_date,
+            'price' => $order->price,
+            'order_details' => $order->orderDetails->map(function ($orderDetail) {
+                return [
+                    'product' => [
+                        'id' => $orderDetail->product->id,
+                        'name' => $orderDetail->product->name,
+                    ],
+                    'units' => $orderDetail->units,
+                    'subtotal' => $orderDetail->subtotal,
+                ];
+            }),
+        ];
     }
 }

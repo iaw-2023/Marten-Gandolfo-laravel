@@ -115,7 +115,7 @@ class CategoryController extends Controller
     }
     
     public function indexApi(){
-        $categories = Category::all();
+        $categories = Category::select('id', 'name')->get();
         return response()->json($categories);
     }
 }

@@ -163,7 +163,7 @@ class ProductController extends Controller
             return response()->json([
                 'message' => 'Invalid ID'
             ], 400);
-        $product = Product::find($id);
+        $product = Product::select('id', 'category_ID', 'name', 'description', 'brand', 'price', 'product_official_site', 'product_image')->find($id);
         if(!$product){
             return response()->json([
                 'message' => 'Product not found'
