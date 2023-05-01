@@ -30,8 +30,11 @@ class CategoryController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {    
-        $request->validate($this->getValidationRules(null), $this->getValidationErrorMessages());
+    {        
+        if (Category::where('name', 'ilike', $request->input('name'))->first()) {
+            return redirect()->back()->withErrors(['El nombre ya está siendo utilizado.'])->withInput();
+        }
+        $request->validate($this->getValidationRules(), $this->getValidationErrorMessages());
         $category = new Category();
         $category->name = $request->get('name');
         $category->save();
@@ -70,17 +73,20 @@ class CategoryController extends Controller
         $category = Category::find($id);
         if(!$category)
             return redirect('/categories')->withErrors(['La categoría fue eliminada.']);
-
-        $request->validate($this->getValidationRules($id), $this->getValidationErrorMessages());
+        if (Category::where('name', 'ilike', $request->input('name'))->where('id', '<>', $id)->first()) {
+            return redirect()->back()->withErrors(['El nombre ya está siendo utilizado.'])->withInput();
+        }
+        
+        $request->validate($this->getValidationRules(), $this->getValidationErrorMessages());
         $category->name = $request->get('name');
         $category->save();
 
         return redirect('/categories');
     }
 
-    private function getValidationRules($id){
+    private function getValidationRules(){
         return [
-            'name' => ['required', 'string', 'max:255', Rule::unique('categories', 'name')->ignore($id ?? null)]
+            'name' => ['required', 'string', 'max:255']
         ];
     }
 
@@ -89,7 +95,6 @@ class CategoryController extends Controller
             'name.required' => 'El nombre es obligatorio.',
             'name.string' => 'El nombre debe ser una cadena de caracteres.',
             'name.max' => 'El nombre no puede tener más de 255 caracteres.',
-            'name.unique' => 'El nombre ya está siendo utilizado.',
         ];
     }
 

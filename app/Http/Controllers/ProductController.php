@@ -33,7 +33,9 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate($this->getValidationRules(null), $this->getValidationErrorMessages());
+        if(Product::where('name', 'ilike', $request->get('name'))->first())
+            return redirect()->back()->withErrors(['El nombre ya está siendo utilizado.'])->withInput();
+        $request->validate($this->getValidationRules(), $this->getValidationErrorMessages());
 
         $products = new Product();
         $products->category_ID = $request->get('category_id');
@@ -82,7 +84,11 @@ class ProductController extends Controller
         $product = Product::find($id);
         if(!$product)
             return redirect('/products')->withErrors(['El producto fue eliminado.']);
-        $request->validate($this->getValidationRules($id), $this->getValidationErrorMessages());
+        
+        if(Product::where('name', 'ilike', $request->get('name'))->where('id', '<>', $id)->first())
+            return redirect()->back()->withErrors(['El nombre ya está siendo utilizado.'])->withInput();
+        
+        $request->validate($this->getValidationRules(), $this->getValidationErrorMessages());
 
         $product = Product::find($id);
         $product->category_ID = $request->get('category_id');
@@ -98,10 +104,10 @@ class ProductController extends Controller
         return redirect('/products');
     }
 
-    private function getValidationRules($id){
+    private function getValidationRules(){
         return [
             'category_id' => 'required|integer|exists:categories,id',
-            'name' => ['required', 'string', 'max:255', Rule::unique('products', 'name')->ignore($id ?? null)],
+            'name' => ['required', 'string', 'max:255'],
             'description' => 'required|max:1000',
             'brand' => 'required|max:255',
             'price' => 'required|numeric|min:0.01|regex:/^\d+(\.\d{1,2})?$/',
@@ -118,7 +124,6 @@ class ProductController extends Controller
             'name.required' => 'El nombre es obligatorio.',
             'name.string' => 'El nombre debe ser una cadena de caracteres.',
             'name.max' => 'El nombre no puede tener más de 255 caracteres.',
-            'name.unique' => 'El nombre ya está siendo utilizado.',
             'description.required' => 'La descripción es obligatoria.',
             'description.max' => 'La descripción no puede tener más de 1000 caracteres.',
             'brand.required' => 'La marca es obligatoria.',
