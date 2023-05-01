@@ -48,7 +48,7 @@ Route::get('/logo_name', function () {
     return response()->file('master_gaming.jpg');
 });
 
-//Rutas API
+//Rutas API (prefijo /_api)
 //Si las definimos en api.php no funcionan en vercel ya que interpreta de manera particular las rutas que comienzan con '/api'
 Route::prefix('_api')->group(function () {
     Route::get('/products', [ProductController::class, 'indexApi']);
