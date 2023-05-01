@@ -154,6 +154,10 @@ class ProductController extends Controller
     }
 
     public function showApi($id){
+        if(!ctype_digit($id))
+            return response()->json([
+                'message' => 'Invalid ID'
+            ], 400);
         $product = Product::find($id);
         if(!$product){
             return response()->json([
