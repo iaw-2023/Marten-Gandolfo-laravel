@@ -149,7 +149,10 @@ class ProductController extends Controller
         $product = Product::find($id);
         if(!$product)
             return redirect('/products')->withErrors(['El producto ya fue eliminado.']);
-        $product->delete();
+        if($product->orderDetails()->exists())
+            $product->delete();
+        else
+            $product->forceDelete();
         return redirect('/products');
     }
 
