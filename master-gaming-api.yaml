@@ -3,7 +3,7 @@ info:
   title: Master Gaming API
   version: 1.0.11
 servers:
-  - url: https://marten-gandolfo-laravel.vercel.app/
+  - url: https://marten-gandolfo-laravel.vercel.app/_api/
 tags:
   - name: products
     description: Info about available products
@@ -130,7 +130,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Order created successfully'
+                  token:
+                    type: string
+                    example: 'BlieCRUyOWzxWfRY42990IEFdLa7x2OL'
         '400':
           description: invalid order details
   /orders/{token}:
