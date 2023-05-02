@@ -23,5 +23,7 @@ class AppServiceProvider extends ServiceProvider
         if($this->app->environment('production')){
             \URL::forceScheme('https');
         }
+
+        $this->app['router']->aliasMiddleware('verified', \Illuminate\Routing\Middleware\ValidateSignature::class);
     }
 }
