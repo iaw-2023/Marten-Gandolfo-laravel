@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\Response;
 
 class ProductController extends Controller
 {
