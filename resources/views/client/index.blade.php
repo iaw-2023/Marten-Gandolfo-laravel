@@ -16,7 +16,7 @@
                     @include('components.error-message')
 
                     <table id="clients" class="table table-striped table-bordered shadow-lg" style="width:100%">
-                        <thead class="bg-primary text-black">
+                        <thead class="bg-primary text-white">
                             <tr>
                                 <th class="text-center" scope="col">ID</th>
                                 <th class="text-center" scope="col">Correo</th>
