@@ -93,6 +93,37 @@ class OrderController extends Controller
             ->with('order',$order);
     }
 
+    /**
+    * @OA\Post(
+    *     path="/orders",
+    *     operationId="postOrder",
+    *     tags={"orders"},
+    *     summary="Create a new order",
+    *     requestBody={
+    *         "required": true,
+    *         "content": {
+    *             "application/json": {
+    *                 "schema": {
+    *                     "$ref": "#/components/schemas/NewOrder"
+    *                 }
+    *             }
+    *         }
+    *     },
+    *     @OA\Response(
+    *         response="200",
+    *         description="Successful operation",
+    *         @OA\JsonContent(
+    *             type="object",
+    *             @OA\Property(property="message", type="string", example="Order created successfully"),
+    *             @OA\Property(property="token", type="string", example="BlieCRUyOWzxWfRY42990IEFdLa7x2OL")
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response="400",
+    *         description="Invalid order details"
+    *     )
+    * )
+    */
     public function storeApi(Request $request){
         $validator = $this->getStoreApiValidator($request);
         if ($validator->fails()) {
@@ -158,6 +189,37 @@ class OrderController extends Controller
         }
     }
 
+    /**
+    * @OA\Get(
+    *     path="/orders/{token}",
+    *     operationId="getOrderByToken",
+    *     tags={"orders"},
+    *     summary="Get order by token",
+    *     @OA\Parameter(
+    *         name="token",
+    *         in="path",
+    *         description="Token of order to return",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="string",
+    *             example="4sxgVva7EntBjG6xUC22ADjqNnCdayGv"
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response="200",
+    *         description="Successful operation",
+    *         @OA\JsonContent(ref="#/components/schemas/Order")
+    *     ),
+    *     @OA\Response(
+    *         response="400",
+    *         description="Invalid token supplied"
+    *     ),
+    *     @OA\Response(
+    *         response="404",
+    *         description="Order not found"
+    *     )
+    * )
+    */
     public function showApi($token){
         if(!preg_match('/^[a-zA-Z0-9]{32}$/', $token))
             return response()->json(['message' => 'Invalid token format'], 400);

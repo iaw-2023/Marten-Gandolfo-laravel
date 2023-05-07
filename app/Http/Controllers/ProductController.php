@@ -157,11 +157,58 @@ class ProductController extends Controller
         return redirect('/products');
     }
 
+    /**
+    * @OA\Get(
+    *     path="/products",
+    *     operationId="getProducts",
+    *     tags={"products"},
+    *     summary="Get all available products",
+    *     @OA\Response(
+    *         response="200",
+    *         description="Successful operation",
+    *         @OA\JsonContent(
+    *             type="array",
+    *             @OA\Items(ref="#/components/schemas/ProductSummary")
+    *         )
+    *     )
+    * )
+    */
     public function indexApi(){
         $products = Product::select('id', 'name', 'price', 'product_image')->get();
         return response()->json($products);
     }
 
+    /**
+    * @OA\Get(
+    *     path="/products/{id}",
+    *     operationId="getProductById",
+    *     tags={"products"},
+    *     summary="Get product by ID",
+    *     @OA\Parameter(
+    *         name="id",
+    *         in="path",
+    *         description="ID of product to return",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="integer",
+    *             example=1
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response="200",
+    *         description="Successful operation",
+    *         @OA\JsonContent(ref="#/components/schemas/Product")
+    *     ),
+    *     @OA\Response(
+    *         response="400",
+    *         description="Invalid ID supplied"
+    *     ),
+    *     @OA\Response(
+    *         response="404",
+    *         description="Product not found"
+    *     )
+    * )
+    */
     public function showApi($id){
         if(!ctype_digit($id))
             return response()->json([
@@ -176,6 +223,32 @@ class ProductController extends Controller
         return response()->json($product);
     }
 
+    /**
+    * @OA\Get(
+    *     path="/products/search/{name}",
+    *     operationId="getProductsByName",
+    *     tags={"products"},
+    *     summary="Search products by name",
+    *     @OA\Parameter(
+    *         name="name",
+    *         in="path",
+    *         description="Name of product to search",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="string",
+    *             example="rtx"
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response="200",
+    *         description="Successful operation",
+    *         @OA\JsonContent(
+    *             type="array",
+    *             @OA\Items(ref="#/components/schemas/ProductSummary")
+    *         )
+    *     )
+    * )
+    */
     public function searchApi($name){
         if(is_string($name) && !empty($name))
             $products = Product::where('name', 'ilike', '%' . $name . '%')->select('id', 'name', 'price', 'product_image')->get();
@@ -184,6 +257,36 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
+    /**
+    * @OA\Get(
+    *     path="/products/category/{categoryId}",
+    *     operationId="getProductsByCategory",
+    *     tags={"products"},
+    *     summary="Search products by category",
+    *     @OA\Parameter(
+    *         name="categoryId",
+    *         in="path",
+    *         description="Category of products to search",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="integer",
+    *             example=1
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response="200",
+    *         description="Successful operation",
+    *         @OA\JsonContent(
+    *             type="array",
+    *             @OA\Items(ref="#/components/schemas/ProductSummary")
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response="400",
+    *         description="Invalid category ID supplied"
+    *     )
+    * )
+    */
     public function searchByCategoryApi($categoryId){
         if(!ctype_digit($categoryId))
             return response()->json([
