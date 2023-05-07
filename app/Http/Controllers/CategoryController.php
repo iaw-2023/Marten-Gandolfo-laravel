@@ -115,6 +115,22 @@ class CategoryController extends Controller
         return redirect('/categories');
     }
     
+    /**
+    * @OA\Get(
+    *     path="/categories",
+    *     operationId="getCategories",
+    *     tags={"categories"},
+    *     summary="Get all available categories",
+    *     @OA\Response(
+    *         response="200",
+    *         description="Successful operation",
+    *         @OA\JsonContent(
+    *             type="array",
+    *             @OA\Items(ref="#/components/schemas/Category")
+    *         )
+    *     )
+    * )
+    */
     public function indexApi(){
         $categories = Category::select('id', 'name')->get();
         return response()->json($categories);
