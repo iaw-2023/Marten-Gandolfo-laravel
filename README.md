@@ -4,7 +4,7 @@ En esta etapa se implemento la aplicación para administradores de la tienda de 
 
 Un usuario administrador puede iniciar sesión utilizando las credenciales indicadas por la cátedra. Luego podrá realizar operaciones de ABM sobre los productos y las categorías de la tienda y podrá obtener reportes sobre los clientes y los pedidos realizados.
 
-Con respecto a la API, su documentación puede encontrarse en https://marten-gandolfo-laravel.vercel.app/_api/documentation en donde además pueden probarse todos los endpoints facilmente con la funcionalidad 'Try it out' de Swagger. 
+Con respecto a la API, su documentación puede encontrarse en https://marten-gandolfo-laravel.vercel.app/_api/documentation en donde además pueden probarse todos los endpoints facilmente con la funcionalidad 'Try it out' de Swagger. Todos los endpoints de la API tienen el prefijo '/_api/', por ejemplo https://marten-gandolfo-laravel.vercel.app/_api/products
 
 # ETAPA 1
 
