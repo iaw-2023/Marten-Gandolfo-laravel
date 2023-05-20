@@ -12,6 +12,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Http\Response;
+use App\Mail\CustomOrderLink;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -141,6 +143,7 @@ class OrderController extends Controller
         }
 
         $token = $this->createOrder($clientId, $products);
+        
         return response()->json(['message' => 'Order created successfully', 'token' => $token]);
     }
 
@@ -175,6 +178,9 @@ class OrderController extends Controller
         $order->token = $token;
         $order->save();
         $this->createOrderDetails($order, $products);
+
+        Mail::to($order->client->email)->send(new CustomOrderLink($order));
+
         return $token;
     }
 
