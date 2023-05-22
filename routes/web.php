@@ -54,6 +54,7 @@ Route::prefix('_api')->group(function () {
     Route::get('/products', [ProductController::class, 'indexApi']);
     Route::get('/products/{id}', [ProductController::class, 'showApi']);
     Route::get('/products/search/{name}', [ProductController::class, 'searchApi']);
+    Route::get('/products/search/{name}/category/{categoryId}', [ProductController::class, 'searchByNameAndCategoryApi']);
     Route::get('/products/category/{categoryId}', [ProductController::class, 'searchByCategoryApi']);
 
     Route::get('/categories', [CategoryController::class, 'indexApi']);

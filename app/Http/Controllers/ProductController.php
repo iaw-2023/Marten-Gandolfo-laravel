@@ -250,10 +250,7 @@ class ProductController extends Controller
     * )
     */
     public function searchApi($name){
-        if(is_string($name) && !empty($name))
-            $products = Product::where('name', 'ilike', '%' . $name . '%')->select('id', 'name', 'price', 'product_image')->get();
-        else
-            $products = Product::all();
+        $products = Product::where('name', 'ilike', '%' . $name . '%')->select('id', 'name', 'price', 'product_image')->get();
         return response()->json($products);
     }
 
@@ -296,5 +293,66 @@ class ProductController extends Controller
             $query->where('id', $categoryId);
         })->select('id', 'name', 'price', 'product_image')->get();
         return response()->json($products);
+    }
+
+    /**
+    * @OA\Get(
+    *     path="/products/search/{name}/category/{categoryId}",
+    *     operationId="getProductsByNameAndCategory",
+    *     tags={"products"},
+    *     summary="Search products by name and category",
+    *     @OA\Parameter(
+    *         name="name",
+    *         in="path",
+    *         description="Name of product to search",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="string",
+    *             example="g"
+    *         )
+    *     ),
+    *     @OA\Parameter(
+    *         name="categoryId",
+    *         in="path",
+    *         description="Category of products to search",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="integer",
+    *             example=1
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response="200",
+    *         description="Successful operation",
+    *         @OA\JsonContent(
+    *             type="array",
+    *             @OA\Items(ref="#/components/schemas/ProductSummary")
+    *         )
+    *     )
+    * )
+    */
+    public function searchByNameAndCategoryApi($name, $categoryId){
+        if(!ctype_digit($categoryId))
+            return response()->json([
+                'message' => 'Invalid category ID'
+            ], 400);
+
+        $query = Product::query();
+        $query->where('name', 'ilike', '%' . $name . '%');
+        $query->whereHas('category', function ($query) use ($categoryId) {
+            $query->where('id', $categoryId);
+        });
+        $products = $query->select('id', 'name', 'price', 'product_image')->get();
+        return response()->json($products);
+    }
+
+    private function queryByName($query, $name){
+        $query->where('name', 'ilike', '%' . $name . '%'); 
+    }
+
+    private function queryByCategory($query, $categoryId){
+        $query->whereHas('category', function ($query) use ($categoryId) {
+            $query->where('id', $categoryId);
+        });
     }
 }

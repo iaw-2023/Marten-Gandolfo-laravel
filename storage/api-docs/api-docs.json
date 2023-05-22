@@ -254,6 +254,52 @@
                     }
                 }
             }
+        },
+        "/products/search/{name}/category/{categoryId}": {
+            "get": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "Search products by name and category",
+                "operationId": "getProductsByNameAndCategory",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Name of product to search",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "g"
+                        }
+                    },
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "description": "Category of products to search",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ProductSummary"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
