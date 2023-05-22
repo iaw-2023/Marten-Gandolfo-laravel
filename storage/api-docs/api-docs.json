@@ -124,6 +124,26 @@
                 ],
                 "summary": "Get all available products",
                 "operationId": "getProducts",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -132,7 +152,7 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/ProductSummary"
+                                        "$ref": "#/components/schemas/PaginatedProducts"
                                     }
                                 }
                             }
@@ -197,6 +217,24 @@
                             "type": "string",
                             "example": "rtx"
                         }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
                     }
                 ],
                 "responses": {
@@ -207,7 +245,7 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/ProductSummary"
+                                        "$ref": "#/components/schemas/PaginatedProducts"
                                     }
                                 }
                             }
@@ -233,6 +271,24 @@
                             "type": "integer",
                             "example": 1
                         }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
                     }
                 ],
                 "responses": {
@@ -243,7 +299,7 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/ProductSummary"
+                                        "$ref": "#/components/schemas/PaginatedProducts"
                                     }
                                 }
                             }
@@ -282,6 +338,24 @@
                             "type": "integer",
                             "example": 1
                         }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
                     }
                 ],
                 "responses": {
@@ -292,7 +366,7 @@
                                 "schema": {
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/ProductSummary"
+                                        "$ref": "#/components/schemas/PaginatedProducts"
                                     }
                                 }
                             }
@@ -323,6 +397,82 @@
                     "product_image": {
                         "type": "string",
                         "example": "https://resource.logitech.com/w_1600,c_limit,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/keyboards/mx-mechanical/gallery/mx-mechanical-keyboard-top-view-graphite-us.png?v=1"
+                    }
+                },
+                "type": "object"
+            },
+            "PaginatedProducts": {
+                "title": "Paginated Products",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductSummary"
+                        }
+                    },
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "first_page_url": {
+                        "type": "string",
+                        "example": "http://127.0.0.1:8000/_api/products?page=1"
+                    },
+                    "from": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "last_page_url": {
+                        "type": "string",
+                        "example": "http://127.0.0.1:8000/_api/products?page=3"
+                    },
+                    "links": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "url": {
+                                    "type": "string",
+                                    "example": "http://127.0.0.1:8000/_api/products?page=1"
+                                },
+                                "label": {
+                                    "type": "string",
+                                    "example": "1"
+                                },
+                                "active": {
+                                    "type": "boolean",
+                                    "example": true
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "example": "http://127.0.0.1:8000/_api/products?page=2"
+                    },
+                    "path": {
+                        "type": "string",
+                        "example": "http://127.0.0.1:8000/_api/products"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "to": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "total": {
+                        "type": "integer",
+                        "example": 29
                     }
                 },
                 "type": "object"

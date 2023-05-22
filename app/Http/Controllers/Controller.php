@@ -40,6 +40,38 @@ use Illuminate\Routing\Controller as BaseController;
  *     @OA\Property(property="price", type="number", format="double", example=1999.99),
  *     @OA\Property(property="product_image", type="string", example="https://resource.logitech.com/w_1600,c_limit,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/keyboards/mx-mechanical/gallery/mx-mechanical-keyboard-top-view-graphite-us.png?v=1")
  * )
+ * 
+ * @OA\Schema(
+ *     schema="PaginatedProducts",
+ *     title="Paginated Products",
+ *     type="object",
+ *     @OA\Property(
+ *         property="data",
+ *         type="array",
+ *         @OA\Items(ref="#/components/schemas/ProductSummary")
+ *     ),
+ *     @OA\Property(property="current_page", type="integer", example=1),
+ *     @OA\Property(property="first_page_url", type="string", example="http://127.0.0.1:8000/_api/products?page=1"),
+ *     @OA\Property(property="from", type="integer", example=1),
+ *     @OA\Property(property="last_page", type="integer", example=3),
+ *     @OA\Property(property="last_page_url", type="string", example="http://127.0.0.1:8000/_api/products?page=3"),
+ *     @OA\Property(
+ *         property="links",
+ *         type="array",
+ *         @OA\Items(
+ *             type="object",
+ *             @OA\Property(property="url", type="string", example="http://127.0.0.1:8000/_api/products?page=1"),
+ *             @OA\Property(property="label", type="string", example="1"),
+ *             @OA\Property(property="active", type="boolean", example=true)
+ *         )
+ *     ),
+ *     @OA\Property(property="next_page_url", type="string", example="http://127.0.0.1:8000/_api/products?page=2"),
+ *     @OA\Property(property="path", type="string", example="http://127.0.0.1:8000/_api/products"),
+ *     @OA\Property(property="per_page", type="integer", example=10),
+ *     @OA\Property(property="prev_page_url", type="string", example=null),
+ *     @OA\Property(property="to", type="integer", example=10),
+ *     @OA\Property(property="total", type="integer", example=29)
+ * )
  *
  * @OA\Schema(
  *     schema="Product",
