@@ -52,6 +52,7 @@ Route::get('/logo_name', function () {
 //Si las definimos en api.php no funcionan en vercel ya que interpreta de manera particular las rutas que comienzan con '/api'
 Route::prefix('_api')->group(function () {
     Route::get('/products', [ProductController::class, 'indexApi']);
+    Route::get('/products/random/{quantity}', [ProductController::class, 'randomIndexApi']);
     Route::get('/products/{id}', [ProductController::class, 'showApi']);
     Route::get('/products/search/{name}', [ProductController::class, 'searchApi']);
     Route::get('/products/search/{name}/category/{categoryId}', [ProductController::class, 'searchByNameAndCategoryApi']);

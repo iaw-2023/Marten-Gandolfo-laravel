@@ -201,6 +201,16 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
+    public function randomIndexApi($quantity){
+        if(!ctype_digit($quantity) || $quantity < 1)
+            return response()->json([
+                'message' => 'Invalid qunatity'
+            ], 400);
+
+        $products = Product::inRandomOrder()->take($quantity)->select('id', 'name', 'price', 'product_image')->get();
+        return response()->json($products);
+    }
+
     /**
     * @OA\Get(
     *     path="/products/{id}",
