@@ -476,10 +476,18 @@ class ProductController extends Controller
     */
     public function searchOrderedApi($order, Request $request){
         $perPage = $request->query('perPage', 10);
+        $category = $request->query('category');
+
         $products = Product::query()
-                            ->select('id', 'name', 'price', 'product_image')
-                            ->orderBy('price', $order)
+                            ->select('id', 'name', 'price', 'product_image');
+        
+        if ($category) {
+            $query->where('category', $category);
+        }
+    
+        $products = $query->orderBy('price', $order)
                             ->paginate($perPage);
+    
         return response()->json($products);
     }
 }
