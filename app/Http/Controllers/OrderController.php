@@ -239,7 +239,7 @@ class OrderController extends Controller
                                     $query->select('id', 'order_ID', 'product_ID', 'units', 'subtotal');
                                 },
                                 'orderDetails.product' => function($query){
-                                    $query->withTrashed()->select('id', 'name');
+                                    $query->withTrashed()->select('id', 'name', 'product_image');
                                 },
                                 'client' => function($query){
                                     $query->select('id', 'email');
@@ -269,6 +269,7 @@ class OrderController extends Controller
                     'product' => [
                         'id' => $orderDetail->product->id,
                         'name' => $orderDetail->product->name,
+                        'product_image' => $orderDetail->product->product_image,
                     ],
                     'units' => $orderDetail->units,
                     'subtotal' => $orderDetail->subtotal,

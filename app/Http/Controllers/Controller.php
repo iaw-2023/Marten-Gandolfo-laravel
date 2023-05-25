@@ -143,7 +143,8 @@ use Illuminate\Routing\Controller as BaseController;
  *         property="product",
  *         type="object",
  *         @OA\Property(property="id", type="integer", example=8),
- *         @OA\Property(property="name", type="string", example="MX MECHANICAL")
+ *         @OA\Property(property="name", type="string", example="MX MECHANICAL"),
+ *         @OA\Property(property="product_image", type="string", example="https://resource.logitech.com/w_1600,c_limit,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/keyboards/mx-mechanical/gallery/mx-mechanical-keyboard-top-view-graphite-us.png?v=1")
  *     ),
  *     @OA\Property(property="units", type="integer", example=3),
  *     @OA\Property(property="subtotal", type="number", format="double", example=999.99)
