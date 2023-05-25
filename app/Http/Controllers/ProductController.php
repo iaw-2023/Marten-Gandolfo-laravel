@@ -432,9 +432,230 @@ class ProductController extends Controller
 
     /**
     * @OA\Get(
+    *     path="/products/search/{name}/category/{categoryId}/order/{order}",
+    *     operationId="searchByNameCategoryAndOrderApi",
+    *     tags={"products"},
+    *     summary="Order the products according to their price and filter by search and category",
+    *     @OA\Parameter(
+    *         name="name",
+    *         in="path",
+    *         description="Name of product to search",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="string",
+    *             example="g"
+    *         )
+    *     ),
+    *     @OA\Parameter(
+    *         name="categoryId",
+    *         in="path",
+    *         description="Category of products to search",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="integer",
+    *             example=1
+    *         )
+    *     ),
+    *     @OA\Parameter(
+    *         name="order",
+    *         in="path",
+    *         description="Desired order type (ascending/descending)",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="string",
+    *             example="desc"
+    *         )
+    *     ),
+    *     @OA\Parameter(
+    *         name="page",
+    *         in="query",
+    *         description="Page number",
+    *         @OA\Schema(
+    *             type="integer",
+    *             default=1
+    *         )
+    *     ),
+    *     @OA\Parameter(
+    *         name="perPage",
+    *         in="query",
+    *         description="Number of items per page",
+    *         @OA\Schema(
+    *             type="integer",
+    *             default=10
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response="200",
+    *         description="Successful operation",
+    *         @OA\JsonContent(
+    *             type="array",
+    *             @OA\Items(ref="#/components/schemas/PaginatedProducts")
+    *         )
+    *     )
+    * )
+    */
+    public function searchByNameCategoryAndOrderApi($name, $categoryId, $order, Request $request){
+        if(!ctype_digit($categoryId))
+            return response()->json([
+                'message' => 'Invalid category ID'
+            ], 400);
+
+        $perPage = $request->query('perPage', 10);
+        $products = Product::query()
+                        -> where('name', 'ilike', '%' . $name . '%');
+        
+        if($categoryId != -1)
+            $products = $products 
+                        -> whereHas('category', fn ($query) => $query -> where('id', $categoryId));
+        
+        $products = $products
+                        -> select('id', 'name', 'price', 'product_image')
+                        -> orderBy('price', $order)
+                        -> paginate($perPage);
+
+        return response()->json($products);
+    }
+
+    /**
+    * @OA\Get(
+    *     path="/products/search/{name}/order/{order}",
+    *     operationId="searchByNameAndOrderApi",
+    *     tags={"products"},
+    *     summary="Order the products according to their price and filter by search",
+    *     @OA\Parameter(
+    *         name="name",
+    *         in="path",
+    *         description="Name of product to search",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="string",
+    *             example="g"
+    *         )
+    *     ),
+    *     @OA\Parameter(
+    *         name="order",
+    *         in="path",
+    *         description="Desired order type (ascending/descending)",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="string",
+    *             example="desc"
+    *         )
+    *     ),
+    *     @OA\Parameter(
+    *         name="page",
+    *         in="query",
+    *         description="Page number",
+    *         @OA\Schema(
+    *             type="integer",
+    *             default=1
+    *         )
+    *     ),
+    *     @OA\Parameter(
+    *         name="perPage",
+    *         in="query",
+    *         description="Number of items per page",
+    *         @OA\Schema(
+    *             type="integer",
+    *             default=10
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response="200",
+    *         description="Successful operation",
+    *         @OA\JsonContent(
+    *             type="array",
+    *             @OA\Items(ref="#/components/schemas/PaginatedProducts")
+    *         )
+    *     )
+    * )
+    */
+    public function searchByNameAndOrderApi($name, $order, Request $request){
+        $perPage = $request->query('perPage', 10);
+        $products = Product::query()
+                        -> where('name', 'ilike', '%' . $name . '%')
+                        -> select('id', 'name', 'price', 'product_image')
+                        -> orderBy('price', $order)
+                        -> paginate($perPage);
+
+        return response()->json($products);
+    }
+
+    /**
+    * @OA\Get(
+    *     path="/products/category/{categoryId}/order/{order}",
+    *     operationId="searchByCategoryAndOrderApi",
+    *     tags={"products"},
+    *     summary="Order the products according to their price and filter by category",
+    *     @OA\Parameter(
+    *         name="categoryId",
+    *         in="path",
+    *         description="Category of products to search",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="integer",
+    *             example=1
+    *         )
+    *     ),
+    *     @OA\Parameter(
+    *         name="order",
+    *         in="path",
+    *         description="Desired order type (ascending/descending)",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="string",
+    *             example="desc"
+    *         )
+    *     ),
+    *     @OA\Parameter(
+    *         name="page",
+    *         in="query",
+    *         description="Page number",
+    *         @OA\Schema(
+    *             type="integer",
+    *             default=1
+    *         )
+    *     ),
+    *     @OA\Parameter(
+    *         name="perPage",
+    *         in="query",
+    *         description="Number of items per page",
+    *         @OA\Schema(
+    *             type="integer",
+    *             default=10
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response="200",
+    *         description="Successful operation",
+    *         @OA\JsonContent(
+    *             type="array",
+    *             @OA\Items(ref="#/components/schemas/PaginatedProducts")
+    *         )
+    *     )
+    * )
+    */
+    public function searchByCategoryAndOrderApi($categoryId, $order, Request $request){
+        $perPage = $request->query('perPage', 10);
+        $products = Product::query()
+                        -> orderBy('price', $order);
+        
+        if($categoryId != -1)
+            $products = $products 
+                        -> whereHas('category', fn ($query) => $query -> where('id', $categoryId));
+        
+        $products = $products
+                        -> select('id', 'name', 'price', 'product_image')
+                        -> paginate($perPage);
+
+        return response()->json($products);
+    }
+
+    /**
+    * @OA\Get(
     *     path="/products/order/{order}",
-    *     operationId="searchOrderedApi",
-    *     tags={"order"},
+    *     operationId="searchByOrderApi",
+    *     tags={"products"},
     *     summary="Order the products according to their price",
     *     @OA\Parameter(
     *         name="order",
@@ -474,19 +695,13 @@ class ProductController extends Controller
     *     )
     * )
     */
-    public function searchOrderedApi($name, $categoryId, $order, Request $request){
-        if(!ctype_digit($categoryId))
-            return response()->json([
-                'message' => 'Invalid category ID'
-            ], 400);
-
+    public function searchByOrderApi($order, Request $request){
         $perPage = $request->query('perPage', 10);
         $products = Product::query()
-                            ->where('name', 'ilike', '%' . $name . '%')
-                            ->whereHas('category', fn ($query) => $query->where('id', $categoryId))
-                            ->select('id', 'name', 'price', 'product_image')
-                            ->orderBy('price', $order)
-                            ->paginate($perPage);
+                        -> select('id', 'name', 'price', 'product_image')
+                        -> orderBy('price', $order)
+                        -> paginate($perPage);
+
         return response()->json($products);
     }
 }
