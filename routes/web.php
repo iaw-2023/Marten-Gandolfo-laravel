@@ -45,7 +45,7 @@ Route::get('/logo', function () {
 });
 
 Route::get('/logo_name', function () {
-    return response()->file('master_gaming.jpg');
+    return response()->file('images/master_gaming.png');
 });
 
 //Rutas API (prefijo /_api)
