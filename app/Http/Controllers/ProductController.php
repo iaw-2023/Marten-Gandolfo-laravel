@@ -429,4 +429,57 @@ class ProductController extends Controller
                     ->paginate($perPage);
         return response()->json($products);
     }
+
+    /**
+    * @OA\Get(
+    *     path="/products/order/{order}",
+    *     operationId="searchOrderedApi",
+    *     tags={"order"},
+    *     summary="Order the products according to their price",
+    *     @OA\Parameter(
+    *         name="order",
+    *         in="path",
+    *         description="Desired order type (ascending/descending)",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="string",
+    *             example="desc"
+    *         )
+    *     ),
+    *     @OA\Parameter(
+    *         name="page",
+    *         in="query",
+    *         description="Page number",
+    *         @OA\Schema(
+    *             type="integer",
+    *             default=1
+    *         )
+    *     ),
+    *     @OA\Parameter(
+    *         name="perPage",
+    *         in="query",
+    *         description="Number of items per page",
+    *         @OA\Schema(
+    *             type="integer",
+    *             default=10
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response="200",
+    *         description="Successful operation",
+    *         @OA\JsonContent(
+    *             type="array",
+    *             @OA\Items(ref="#/components/schemas/PaginatedProducts")
+    *         )
+    *     )
+    * )
+    */
+    public function searchOrderedApi($order, Request $request){
+        $perPage = $request->query('perPage', 10);
+        $products = Product::query()
+                            ->select('id', 'name', 'price', 'product_image')
+                            ->orderBy('price', $order)
+                            ->paginate($perPage);
+        return response()->json($products);
+    }
 }
