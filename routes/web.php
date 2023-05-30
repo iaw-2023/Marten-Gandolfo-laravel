@@ -41,7 +41,7 @@ Route::resource('clients', ClientController::class)->middleware(['auth']);
 Route::get('/orders/{id}/details', [OrderController::class, 'details'])->middleware(['auth']);
 
 Route::get('/logo', function () {
-    $imagePath = public_path('images/logo');
+    $imagePath = public_path('images/logo.png');
     return response()->file($imagePath);
 });
 
