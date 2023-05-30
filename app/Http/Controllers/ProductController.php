@@ -195,7 +195,7 @@ class ProductController extends Controller
         //$products = Product::select('id', 'name', 'price', 'product_image')->get();
         //return response()->json($products);
 
-        $perPage = $request->query('perPage', 10); // Number of items per page, default is 10
+        $perPage = $request->query('perPage', 12); // Number of items per page, default is 10
         $products = Product::select('id', 'name', 'price', 'product_image')
             ->paginate($perPage);
         $products->setPath($this->replaceHttpWithHttps($products->path()));
@@ -312,7 +312,7 @@ class ProductController extends Controller
     * )
     */
     public function searchApi($name, Request $request){
-        $perPage = $request->query('perPage', 10);
+        $perPage = $request->query('perPage', 12);
         $products = Product::where('name', 'ilike', '%' . $name . '%')
                             ->select('id', 'name', 'price', 'product_image')
                             ->paginate($perPage);
@@ -374,7 +374,7 @@ class ProductController extends Controller
                 'message' => 'Invalid category ID'
             ], 400);
 
-        $perPage = $request->query('perPage', 10);
+        $perPage = $request->query('perPage', 12);
         $products = Product::whereHas('category', function ($query) use ($categoryId) {
                 $query->where('id', $categoryId);
             })
@@ -444,7 +444,7 @@ class ProductController extends Controller
                 'message' => 'Invalid category ID'
             ], 400);
 
-        $perPage = $request->query('perPage', 10);
+        $perPage = $request->query('perPage', 12);
         $products = Product::query()
                     ->where('name', 'ilike', '%' . $name . '%')
                     ->whereHas('category', fn ($query) => $query->where('id', $categoryId))
@@ -524,7 +524,7 @@ class ProductController extends Controller
                 'message' => 'Invalid category ID'
             ], 400);
 
-        $perPage = $request->query('perPage', 10);
+        $perPage = $request->query('perPage', 12);
         $products = Product::query()
                         -> where('name', 'ilike', '%' . $name . '%');
         
@@ -595,7 +595,7 @@ class ProductController extends Controller
     * )
     */
     public function searchByNameAndOrderApi($name, $order, Request $request){
-        $perPage = $request->query('perPage', 10);
+        $perPage = $request->query('perPage', 12);
         $products = Product::query()
                         -> where('name', 'ilike', '%' . $name . '%')
                         -> select('id', 'name', 'price', 'product_image')
@@ -660,7 +660,7 @@ class ProductController extends Controller
     * )
     */
     public function searchByCategoryAndOrderApi($categoryId, $order, Request $request){
-        $perPage = $request->query('perPage', 10);
+        $perPage = $request->query('perPage', 12);
         $products = Product::query()
                         -> orderBy('price', $order);
         
@@ -720,7 +720,7 @@ class ProductController extends Controller
     * )
     */
     public function searchByOrderApi($order, Request $request){
-        $perPage = $request->query('perPage', 10);
+        $perPage = $request->query('perPage', 12);
         $products = Product::query()
                         -> select('id', 'name', 'price', 'product_image')
                         -> orderBy('price', $order)
