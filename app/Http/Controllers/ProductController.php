@@ -198,7 +198,18 @@ class ProductController extends Controller
         $perPage = $request->query('perPage', 10); // Number of items per page, default is 10
         $products = Product::select('id', 'name', 'price', 'product_image')
             ->paginate($perPage);
+        $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
+    }
+
+    private function replaceHttpWithHttps($url){
+        $pos = strpos($url, 'http:');
+        if ($pos !== false) {
+            return substr_replace($url, 'https:', $pos, strlen('http:'));
+        }
+        else{
+            return $url;
+        }
     }
 
     public function randomIndexApi($quantity){
@@ -305,6 +316,7 @@ class ProductController extends Controller
         $products = Product::where('name', 'ilike', '%' . $name . '%')
                             ->select('id', 'name', 'price', 'product_image')
                             ->paginate($perPage);
+        $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
 
@@ -368,6 +380,7 @@ class ProductController extends Controller
             })
                             ->select('id', 'name', 'price', 'product_image')
                             ->paginate($perPage);
+        $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
 
@@ -437,6 +450,7 @@ class ProductController extends Controller
                     ->whereHas('category', fn ($query) => $query->where('id', $categoryId))
                     ->select('id', 'name', 'price', 'product_image')
                     ->paginate($perPage);
+        $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
 
@@ -522,7 +536,7 @@ class ProductController extends Controller
                         -> select('id', 'name', 'price', 'product_image')
                         -> orderBy('price', $order)
                         -> paginate($perPage);
-
+        $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
 
@@ -587,7 +601,7 @@ class ProductController extends Controller
                         -> select('id', 'name', 'price', 'product_image')
                         -> orderBy('price', $order)
                         -> paginate($perPage);
-
+        $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
 
@@ -657,7 +671,7 @@ class ProductController extends Controller
         $products = $products
                         -> select('id', 'name', 'price', 'product_image')
                         -> paginate($perPage);
-
+        $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
 
@@ -711,7 +725,7 @@ class ProductController extends Controller
                         -> select('id', 'name', 'price', 'product_image')
                         -> orderBy('price', $order)
                         -> paginate($perPage);
-
+        $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
 }
