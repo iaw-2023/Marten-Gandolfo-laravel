@@ -22,7 +22,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Corsair',
                 'price' => '19999.99',
                 'product_official_site' => 'https://www.corsair.com/lm/es/Categor%C3%ADas/Productos/Teclados-para-juegos/Teclados-RGB-mec%C3%A1nicos-para-juegos/K100/p/CH-912A21A-NA',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/1.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/1.webp'
             ],
             [
                 'category_ID' => '1',
@@ -31,7 +31,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Logitech',
                 'price' => '14999.99',
                 'product_official_site' => 'https://www.logitech.com/es-ar/products/keyboards/mx-mechanical.html',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/2.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/2.webp'
             ],
             [
                 'category_ID' => '1',
@@ -40,7 +40,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Logitech',
                 'price' => '16999.99',
                 'product_official_site' => 'https://www.logitechg.com/es-ar/products/gaming-keyboards/g915-tkl-wireless.920-009660.html',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/3.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/3.webp'
             ],
             //-----Mouse-----
             [
@@ -50,7 +50,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Corsair',
                 'price' => '7999.99',
                 'product_official_site' => 'https://www.corsair.com/lm/es/Categor%C3%ADas/Productos/Ratones-para-juegos/Ratones-para-juegos-de-acci%C3%B3n-r%C3%A1pida-FPS/Rat%C3%B3n-para-juegos-IRONCLAW-RGB-FPS-MOBA/p/CH-9307011-NA',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/4.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/4.webp'
             ],
             [
                 'category_ID' => '2',
@@ -59,7 +59,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Logitech',
                 'price' => '10999.99',
                 'product_official_site' => 'https://www.logitechg.com/es-ar/products/gaming-mice/g502-x-plus-wireless-lightforce.910-006170.html',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/5.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/5.webp'
             ],
             [
                 'category_ID' => '2',
@@ -68,7 +68,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Razer',
                 'price' => '15999.99',
                 'product_official_site' => 'https://www.razer.com/latam-es/gaming-mice/razer-viper-mini-signature-edition',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/6.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/6.webp'
             ],
             //-----Monitor-----
             [
@@ -78,7 +78,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Samsung',
                 'price' => '25999.99',
                 'product_official_site' => 'https://www.samsung.com/ar/monitors/gaming/odyssey-ark-g97nb-55-inch-165hz-1ms-curved-uhd-4k-ls55bg970nlxzb/',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/7.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/7.webp'
             ],
             [
                 'category_ID' => '3',
@@ -87,7 +87,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'LG',
                 'price' => '17999.99',
                 'product_official_site' => 'https://www.lg.com/ar/monitores/lg-27gp950-b',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/8.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/8.webp'
             ],
             [
                 'category_ID' => '3',
@@ -96,7 +96,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Asus',
                 'price' => '20999.99',
                 'product_official_site' => 'https://rog.asus.com/latin/monitors/above-34-inches/rog-strix-xg35vq-model/',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/9.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/9.webp'
             ],
             //-----Chasis/Gabinete-----
             [
@@ -106,7 +106,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'DeepCool',
                 'price' => '10999.99',
                 'product_official_site' => 'https://es.deepcool.com/products/Cases/fulltowercases/CH370-Micro-ATX-Case/2022/15966.shtml',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/10.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/10.webp'
             ],
             [
                 'category_ID' => '4',
@@ -115,7 +115,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Thermaltake',
                 'price' => '79999.99',
                 'product_official_site' => 'https://es.thermaltake.com/core-p6-tempered-glass-racing-green-mid-tower-chassis.html',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/11.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/11.webp'
             ],
             [
                 'category_ID' => '4',
@@ -124,7 +124,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Corsair',
                 'price' => '9999.99',
                 'product_official_site' => 'https://www.corsair.com/lm/es/Categor%C3%ADas/Productos/Chasis/Chasis-de-semitorre-ATX/4000D-Tempered-Glass-Mid-Tower-ATX-Case/p/CC-9011199-WW',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/12.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/12.webp'
             ],
             //-----Procesador-----
             [
@@ -134,7 +134,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Intel',
                 'price' => '20999.99',
                 'product_official_site' => 'https://www.intel.la/content/www/xl/es/products/sku/232161/intel-core-i713850hx-processor-30m-cache-up-to-5-30-ghz/specifications.html',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/13.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/13.webp'
             ],
             [
                 'category_ID' => '5',
@@ -143,7 +143,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'AMD',
                 'price' => '20999.99',
                 'product_official_site' => 'https://www.amd.com/es/products/cpu/amd-ryzen-7-7700x',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/14.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/14.webp'
             ],
             //-----Placa de video-----
             [
@@ -153,7 +153,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Gigabyte',
                 'price' => '100999.99',
                 'product_official_site' => 'https://www.gigabyte.com/es/Graphics-Card/GV-N4080AORUSX-WB-16GD#kf',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/15.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/15.webp'
             ],
             [
                 'category_ID' => '6',
@@ -162,7 +162,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Asus',
                 'price' => '99999.99',
                 'product_official_site' => 'https://rog.asus.com/latin/graphics-cards/graphics-cards/rog-strix/rog-strix-rtx3090-o24g-eva-model/',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/16.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/16.webp'
             ],
             [
                 'category_ID' => '6',
@@ -171,7 +171,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'ZOTAC',
                 'price' => '70999.99',
                 'product_official_site' => 'https://www.zotac.com/us/product/graphics_card/zotac-gaming-geforce-rtx-4070-ti-amp-airo',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/17.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/17.webp'
             ],
             //-----Memoria RAM-----
             [
@@ -181,7 +181,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Kingston',
                 'price' => '5999.99',
                 'product_official_site' => 'https://www.kingston.com/es/memory/gaming/kingston-fury-beast-ddr5-rgb-memory',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/18.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/18.webp'
             ],
             [
                 'category_ID' => '7',
@@ -190,7 +190,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Gigabyte',
                 'price' => '11999.99',
                 'product_official_site' => 'https://www.gigabyte.com/es/Memory/AORUS-RGB-Memory-DDR5-32GB--2x16GB-6000MT-s#kf',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/19.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/19.webp'
             ],
             [
                 'category_ID' => '7',
@@ -199,7 +199,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Corsair',
                 'price' => '9999.99',
                 'product_official_site' => 'https://www.corsair.com/es/es/Categor%C3%ADas/Productos/Memoria/VENGEANCE-RGB-RT-Black/p/CMN32GX4M2Z3600C16',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/20.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/20.webp'
             ],
             //-----Memoria ROM-----
             [
@@ -209,7 +209,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Western Digital',
                 'price' => '15999.99',
                 'product_official_site' => 'https://www.westerndigital.com/es-la/products/internal-drives/wd-black-sn850x-nvme-ssd#WDS100T2X0E',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/21.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/21.webp'
             ],
             [
                 'category_ID' => '8',
@@ -218,7 +218,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Western Digital',
                 'price' => '10999.99',
                 'product_official_site' => 'https://www.westerndigital.com/es-la/products/internal-drives/wd-blue-sa510-sata-2-5-ssd#WDS250G3B0A',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/22.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/22.webp'
             ],
             [
                 'category_ID' => '8',
@@ -227,7 +227,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Kingston',
                 'price' => '8999.99',
                 'product_official_site' => 'https://www.kingston.com/es/ssd/a400-solid-state-drive',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/23.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/23.webp'
             ],
             //-----Motherboard-----
             [
@@ -237,7 +237,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Asus',
                 'price' => '20999.99',
                 'product_official_site' => 'https://rog.asus.com/latin/motherboards/rog-strix/rog-strix-z790-h-gaming-wifi-model/',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/24.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/24.webp'
             ],
             [
                 'category_ID' => '9',
@@ -246,7 +246,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Gigabyte',
                 'price' => '20999.99',
                 'product_official_site' => 'https://www.gigabyte.com/ar/Motherboard/X670E-AORUS-XTREME-rev-10#kf',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/25.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/25.webp'
             ],
             [
                 'category_ID' => '9',
@@ -255,7 +255,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Asus',
                 'price' => '15999.99',
                 'product_official_site' => 'https://www.asus.com/latin/motherboards-components/motherboards/tuf-gaming/tuf-gaming-b650-plus-wifi/',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/26.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/26.webp'
             ],
             //-----Fuente-----
             [
@@ -265,7 +265,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Seasonic',
                 'price' => '10999.99',
                 'product_official_site' => 'https://seasonic.com/prime-gx',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/27.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/27.webp'
             ],
             [
                 'category_ID' => '10',
@@ -274,7 +274,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Corsair',
                 'price' => '9999.99',
                 'product_official_site' => 'https://www.corsair.com/lm/es/Categor%C3%ADas/Productos/Unidades-de-fuente-de-alimentaci%C3%B3n/Fuente-de-alimentaci%C3%B3n-ATX-totalmente-modular-y-silenciosa-RMe-Series/p/CP-9020262-AR',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/28.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/28.webp'
             ],
             [
                 'category_ID' => '10',
@@ -283,7 +283,7 @@ class ProductSeeder extends Seeder
                 'brand' => 'Gigabyte',
                 'price' => '15999.99',
                 'product_official_site' => 'https://www.gigabyte.com/es/Power-Supply/GP-AP1200PM#kf',
-                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/29.png'
+                'product_image' => 'https://raw.githubusercontent.com/mjuan99/public_images/main/images/29.webp'
             ]
         ]);
     }
