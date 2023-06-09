@@ -8,6 +8,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SteamProxyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +70,10 @@ Route::prefix('_api')->group(function () {
 
     Route::get('/orders/{token}', [OrderController::class, 'showApi']);
     Route::post('/orders', [OrderController::class, 'storeApi']);
+
+    Route::get('/steam/games', [SteamProxyController::class, 'indexApi']);
+    Route::get('/steam/games/featured', [SteamProxyController::class, 'featuredApi']);
+    Route::get('/steam/games/{id}', [SteamProxyController::class, 'showApi']);
 });
 
 require __DIR__.'/auth.php';
