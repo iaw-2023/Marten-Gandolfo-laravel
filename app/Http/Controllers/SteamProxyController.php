@@ -8,18 +8,18 @@ use Illuminate\Support\Facades\Http;
 class SteamProxyController extends Controller
 {
     public function indexApi(){
-        $response = Http::withoutVerifying()->get('https://api.steampowered.com/ISteamApps/GetAppList/v2/');
+        $response = Http::get('https://api.steampowered.com/ISteamApps/GetAppList/v2/');
         return $response->json();
     }
 
     public function featuredApi(){
-        $response = Http::withoutVerifying()->get('https://store.steampowered.com/api/featured');
+        $response = Http::get('https://store.steampowered.com/api/featured');
             return $response->json();
 
     }
 
     public function showApi($id){
-        $response = Http::withoutVerifying()->get('https://store.steampowered.com/api/appdetails?appids=' . $id);
+        $response = Http::get('https://store.steampowered.com/api/appdetails?appids=' . $id);
         return $response->json();
     }
 
