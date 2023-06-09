@@ -9,7 +9,7 @@ class SteamProxyController extends Controller
 {
     public function indexApi(){
         $response = Http::withoutVerifying()->get('https://api.steampowered.com/ISteamApps/GetAppList/v2/')->json()['applist']['apps'];
-        return response()->json(array_slice($response, 0, 90000));
+        return response()->json(array_slice($response, 0, 85000));
     }
 
     public function featuredApi(){
