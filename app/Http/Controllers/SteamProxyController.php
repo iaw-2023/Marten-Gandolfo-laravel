@@ -7,9 +7,9 @@ use Illuminate\Support\Facades\Http;
 
 class SteamProxyController extends Controller
 {
-    public function indexApi(){
-        $response = Http::withoutVerifying()->get('https://api.steampowered.com/ISteamApps/GetAppList/v2/')->json()['applist']['apps'];
-        return response()->json(array_slice($response, 0, 85000));
+    public function indexApi($page){
+        $games = Http::withoutVerifying()->get('https://api.steampowered.com/ISteamApps/GetAppList/v2/')->json()['applist']['apps'];
+        return response()->json(array_slice($games, $page * 85000, 85000));
     }
 
     public function featuredApi(){
