@@ -66,7 +66,7 @@
 
                     <div class="mb-3">
                         <label for="image" class="form-label">Imagen</label>
-                        <input id="image-picker" name="image-picker" type="file" class="form-control p-1" tabindex="1" accept="image/webp">
+                        <input id="image-picker" name="image-picker" type="file" class="form-control p-1" tabindex="1">
                         <img id="preview-image" class="mt-2" src="data:image/webp;base64,{{ old('image', $product->product_image ?? '') }}" width="150" alt="Imagen">
                         <input id="image" name="image" type="hidden" class="form-control" value="{{ old('image', $product->product_image ?? '') }}" required>
                     </div>
