@@ -113,7 +113,7 @@ class ProductController extends Controller
             'brand' => 'required|max:255',
             'price' => 'required|numeric|min:0.01|regex:/^\d+(\.\d{1,2})?$/',
             'official_site' => 'required|max:255',
-            'image' => 'required|max:255',
+            'image' => 'required',
         ];
     }
 
@@ -136,7 +136,6 @@ class ProductController extends Controller
             'official_site.required' => 'El sitio oficial es obligatorio.',
             'official_site.max' => 'El sitio oficial no puede tener más de 255 caracteres.',
             'image.required' => 'La imagen es obligatoria.',
-            'image.max' => 'La imagen no puede tener más de 255 caracteres.',
         ];
     }
 

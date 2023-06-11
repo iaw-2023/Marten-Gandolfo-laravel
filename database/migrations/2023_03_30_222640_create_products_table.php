@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('brand');
             $table->float('price');
             $table->string('product_official_site');
-            $table->string('product_image');
+            $table->text('product_image');
             $table->timestamps();
 
             $table->foreign('category_ID')->references('id')->on('categories')->onDelete('set null');

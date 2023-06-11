@@ -58,9 +58,17 @@
                         <input id="official_site" name="official_site" type="text" class="form-control" tabindex="1" maxlength="255" value="{{ old('official_site', $product->product_official_site ?? '') }}" required>
                     </div>
 
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label for="image" class="form-label">Imagen</label>
                         <input id="image" name="image" type="text" class="form-control" tabindex="1" maxlength="255" value="{{ old('image', $product->product_image ?? '') }}" required>
+                        <img src="data:image/webp;base64,{{ old('image', $product->product_image ?? '') }}" width="150">
+                    </div> -->
+
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Imagen</label>
+                        <input id="image-picker" name="image-picker" type="file" class="form-control p-1" tabindex="1" accept="image/webp">
+                        <img id="preview-image" class="mt-2" src="data:image/webp;base64,{{ old('image', $product->product_image ?? '') }}" width="150" alt="Imagen">
+                        <input id="image" name="image" type="hidden" class="form-control" value="{{ old('image', $product->product_image ?? '') }}" required>
                     </div>
 
                     <a href="/products" class="btn bg-secondary" tabindex="5">Cancelar</a>
@@ -70,5 +78,8 @@
             </div>
         </div>
     </div>
+
+    @vite(['resources/js/image-picker.js'])
+    <!-- <script src="{{ asset('resources\js\image-picker.js') }}"></script> -->
 </x-app-layout>
 
