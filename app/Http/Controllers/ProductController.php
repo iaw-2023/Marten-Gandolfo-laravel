@@ -660,13 +660,16 @@ class ProductController extends Controller
     * )
     */
     public function searchByCategoryAndOrderApi($categoryId, $order, Request $request){
-        if(!ctype_digit($categoryId) && $categoryId != -1)
+        if(!ctype_digit($categoryId))
             return response()->json([
                 'message' => 'Invalid category ID'
             ], 400);
         
         $perPage = $request->query('perPage', 12);
-        $products = Product::query()
+        $products = Product::query();
+        
+        if($categoryId != -1)
+            $products = $products 
                         -> whereHas('category', fn ($query) => $query -> where('id', $categoryId))
                         -> orderBy('price', $order)
                         -> select('id', 'name', 'price', 'product_image')
