@@ -659,7 +659,7 @@ class ProductController extends Controller
     *     )
     * )
     */
-    public function searchByCategoryAndOrderApi($categoryId, $order, Request $request){
+    public function productsCategoryOrderedApi($categoryId, $order, Request $request){
         if(!ctype_digit($categoryId))
             return response()->json([
                 'message' => 'Invalid category ID'
