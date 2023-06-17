@@ -259,10 +259,13 @@ class OrderController extends Controller
             return response()->json([
                 'message' => 'Invalid ID'
             ], 400);
+            
+        $client = auth()->user();
 
         $order = Order::select('orders.id', 'client_ID', 'order_date', DB::raw('CAST(SUM(order_details.subtotal) AS DECIMAL(10, 2)) AS price'))
                             ->leftJoin('order_details', 'orders.id', '=', 'order_details.order_ID')
                             ->where('orders.id', $id)
+                            ->where('client_ID', $client->id)
                             ->groupBy('orders.id', 'client_ID', 'order_date')
                             ->with([
                                 'orderDetails' => function($query){
