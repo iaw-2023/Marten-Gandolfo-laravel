@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('token')->unique();
             $table->timestamps();
 
-            $table->foreign('client_ID')->references('id')->on('clients')->onDelete('cascade');
+            $table->foreign('client_ID')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

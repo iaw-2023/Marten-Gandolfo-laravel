@@ -95,6 +95,36 @@ class OrderController extends Controller
             ->with('order',$order);
     }
 
+    public function indexApi(Request $request){
+        $user = $request->user();
+
+        $orders = Order::select('orders.id', 'client_ID', 'order_date', DB::raw('CAST(SUM(order_details.subtotal) AS DECIMAL(10, 2)) AS price'))
+                                ->leftJoin('order_details', 'orders.id', '=', 'order_details.order_ID')
+                                ->where('client_ID', $user->id)
+                                ->groupBy('orders.id', 'client_ID', 'order_date')
+                                ->with([
+                                    'orderDetails' => function($query){
+                                        $query->select('id', 'order_ID', 'product_ID', 'units', 'subtotal');
+                                    }
+                                ])
+                                ->get();
+
+        return response()->json([
+            "orders" => $this->formatOrderListResponse($orders)
+        ]);
+    }
+
+    private function formatOrderListResponse($orders){
+        return $orders->map(function ($order) {
+            return [
+                'id' => $order->id,
+                'client_ID' => $order->client_ID,
+                'order_date' => $order->order_date,
+                'price' => $order->price
+            ];
+        });
+    }
+
     /**
     * @OA\Post(
     *     path="/orders",
@@ -179,7 +209,7 @@ class OrderController extends Controller
         $order->save();
         $this->createOrderDetails($order, $products);
 
-        Mail::to($order->client->email)->send(new CustomOrderLink($order));
+        Mail::to($order->user->email)->send(new CustomOrderLink($order));
 
         return $token;
     }
@@ -226,23 +256,22 @@ class OrderController extends Controller
     *     )
     * )
     */
-    public function showApi($token){
-        if(!preg_match('/^[a-zA-Z0-9]{32}$/', $token))
-            return response()->json(['message' => 'Invalid token format'], 400);
+    public function showApi($id){
+        if(!ctype_digit($id))
+            return response()->json([
+                'message' => 'Invalid ID'
+            ], 400);
 
-        $order = Order::select('orders.id', 'token', 'client_ID', 'order_date', DB::raw('CAST(SUM(order_details.subtotal) AS DECIMAL(10, 2)) AS price'))
+        $order = Order::select('orders.id', 'client_ID', 'order_date', DB::raw('CAST(SUM(order_details.subtotal) AS DECIMAL(10, 2)) AS price'))
                             ->leftJoin('order_details', 'orders.id', '=', 'order_details.order_ID')
-                            ->where('token', $token)
-                            ->groupBy('orders.id', 'token', 'client_ID', 'order_date')
+                            ->where('orders.id', $id)
+                            ->groupBy('orders.id', 'client_ID', 'order_date')
                             ->with([
                                 'orderDetails' => function($query){
                                     $query->select('id', 'order_ID', 'product_ID', 'units', 'subtotal');
                                 },
                                 'orderDetails.product' => function($query){
                                     $query->withTrashed()->select('id', 'name', 'product_image');
-                                },
-                                'client' => function($query){
-                                    $query->select('id', 'email');
                                 }
                             ])
                             ->first();
@@ -258,10 +287,6 @@ class OrderController extends Controller
     private function formatOrderResponse($order){
         return [
             'id' => $order->id,
-            'client' => [
-                'id' => $order->client->id,
-                'email' => $order->client->email,
-            ],
             'order_date' => $order->order_date,
             'price' => $order->price,
             'order_details' => $order->orderDetails->map(function ($orderDetail) {

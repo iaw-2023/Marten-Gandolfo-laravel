@@ -9,6 +9,7 @@ use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SteamProxyController;
+use App\Http\Controllers\ApiAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,22 +55,26 @@ Route::get('/logo_name', function () {
 //Rutas API (prefijo /_api)
 //Si las definimos en api.php no funcionan en vercel ya que interpreta de manera particular las rutas que comienzan con '/api'
 Route::prefix('_api')->group(function () {
+    Route::post('/login', [ApiAuthController::class, 'login']);
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/orders', [OrderController::class, 'indexApi']);
+        Route::get('/orders/{id}', [OrderController::class, 'showApi']);
+        Route::post('/orders', [OrderController::class, 'storeApi']);
+    });
+
     Route::get('/products', [ProductController::class, 'indexApi']);
     Route::get('/products/random/{quantity}', [ProductController::class, 'randomIndexApi']);
     Route::get('/products/{id}', [ProductController::class, 'showApi']);
     Route::get('/products/search/{name}', [ProductController::class, 'searchApi']);
     Route::get('/products/search/{name}/category/{categoryId}', [ProductController::class, 'searchByNameAndCategoryApi']);
     Route::get('/products/category/{categoryId}', [ProductController::class, 'searchByCategoryApi']);
-
     Route::get('/products/order/{order}', [ProductController::class, 'searchByOrderApi']);
     Route::get('/products/search/{name}/order/{order}', [ProductController::class, 'searchByNameAndOrderApi']);
     Route::get('/products/category/{categoryId}/order/{order}', [ProductController::class, 'productsCategoryOrderedApi']);
     Route::get('/products/search/{name}/category/{categoryId}/order/{order}', [ProductController::class, 'searchByNameCategoryAndOrderApi']);
 
     Route::get('/categories', [CategoryController::class, 'indexApi']);
-
-    Route::get('/orders/{token}', [OrderController::class, 'showApi']);
-    Route::post('/orders', [OrderController::class, 'storeApi']);
 
     Route::get('/steam/games/page/{page}', [SteamProxyController::class, 'indexApi']);
     Route::get('/steam/games/featured', [SteamProxyController::class, 'featuredApi']);
