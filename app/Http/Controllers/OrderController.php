@@ -105,10 +105,16 @@ class OrderController extends Controller
                                 ->with([
                                     'orderDetails' => function($query){
                                         $query->select('id', 'order_ID', 'product_ID', 'units', 'subtotal');
+                                    },
+                                    'orderDetails.product' => function($query){
+                                        $query->withTrashed()->select('id', 'name', 'product_image');
                                     }
                                 ])
                                 ->get();
 
+        /* return response()->json([
+            "orders" => ($orders)
+        ]); */
         return response()->json([
             "orders" => $this->formatOrderListResponse($orders)
         ]);
@@ -120,7 +126,8 @@ class OrderController extends Controller
                 'id' => $order->id,
                 'client_ID' => $order->client_ID,
                 'order_date' => $order->order_date,
-                'price' => $order->price
+                'price' => $order->price,
+                'image' => $order->orderDetails->first()->product->product_image,
             ];
         });
     }
@@ -157,6 +164,9 @@ class OrderController extends Controller
     * )
     */
     public function storeApi(Request $request){
+        //TODO obtener email de la autenticacion
+        $client = auth()->user();
+
         $validator = $this->getStoreApiValidator($request);
         if ($validator->fails()) {
             return response()->json([
@@ -165,35 +175,23 @@ class OrderController extends Controller
             ], 400);
         }
         
-        $clientId = $this->createClientIfDoesntExist($request->input('email'));
         $products = $request->input('products');
         foreach($products as &$product){
             $subtotal = Product::find($product['id'])->price * $product['units'];
             $product['subtotal'] = $subtotal;
         }
 
-        $token = $this->createOrder($clientId, $products);
+        $token = $this->createOrder($client->id, $products);
         
         return response()->json(['message' => 'Order created successfully', 'token' => $token]);
     }
 
     private function getStoreApiValidator($request){
         return Validator::make($request->all(), [
-            'email' => 'required|email',
             'products' => 'required|array|min:1',
             'products.*.id' => 'required|integer|min:1|distinct|exists:products,id,deleted_at,NULL',
             'products.*.units' => 'required|integer|min:1',
         ]);
-    }
-
-    private function createClientIfDoesntExist($clientEmail){
-        $client = Client::where('email', $clientEmail)->first();
-        if(!$client){
-            $client = new Client();
-            $client->email = $clientEmail;
-            $client->save();
-        }
-        return $client->id;
     }
 
     private function createOrder($clientId, $products){
