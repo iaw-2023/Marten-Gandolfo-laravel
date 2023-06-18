@@ -4,6 +4,8 @@ use Laravel\Sanctum\Sanctum;
 
 return [
 
+    'stateful' => false,
+
     /*
     |--------------------------------------------------------------------------
     | Stateful Domains

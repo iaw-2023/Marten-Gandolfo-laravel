@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Client;
 
 class ApiAuthController extends Controller
 {
@@ -16,8 +17,10 @@ class ApiAuthController extends Controller
 
         // Attempt to authenticate the user
         if (Auth::attempt($credentials)) {
+            $client = Client::where('email', $credentials['email'])->first();
+            $token = $client->createToken('client-token')->plainTextToken;
             return response()->json([
-                'message' => 'Login successful'
+                'token' => $token
             ], 200);
         } else {
             // Authentication failed
