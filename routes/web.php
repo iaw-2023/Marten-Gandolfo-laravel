@@ -58,6 +58,8 @@ Route::prefix('_api')->group(function () {
     Route::post('/login', [ApiAuthController::class, 'login']);
 
     Route::middleware('auth:sanctum')->group(function () {
+        Route::get('/logout', [ApiAuthController::class, 'logout']);
+
         Route::get('/orders', [OrderController::class, 'indexApi']);
         Route::get('/orders/{id}', [OrderController::class, 'showApi']);
         Route::post('/orders', [OrderController::class, 'storeApi']);
