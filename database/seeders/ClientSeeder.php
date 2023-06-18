@@ -15,10 +15,12 @@ class ClientSeeder extends Seeder
     {
         DB::table('clients')->insert([
             [
-                'email' => 'matias@gmail.com'
+                'email' => 'matias@gmail.com',
+                'password' => bcrypt('1234')
             ],
             [
-                'email' => 'juan@gmail.com'
+                'email' => 'juan@gmail.com',
+                'password' => bcrypt('1234')
             ]
         ]);
     }
