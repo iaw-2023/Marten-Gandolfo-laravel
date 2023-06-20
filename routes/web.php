@@ -56,6 +56,7 @@ Route::get('/logo_name', function () {
 //Si las definimos en api.php no funcionan en vercel ya que interpreta de manera particular las rutas que comienzan con '/api'
 Route::prefix('_api')->group(function () {
     Route::post('/login', [ApiAuthController::class, 'login']);
+    Route::post('/register', [ApiAuthController::class, 'register']);
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/logout', [ApiAuthController::class, 'logout']);
