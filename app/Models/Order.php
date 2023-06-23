@@ -15,7 +15,7 @@ class Order extends Model
         return $this->hasMany(OrderDetail::class, 'order_ID');
     }
 
-    public function user(): BelongsTo{
-        return $this->belongsTo(User::class, 'client_ID');
+    public function client(): BelongsTo{
+        return $this->belongsTo(Client::class, 'client_ID');
     }
 }
