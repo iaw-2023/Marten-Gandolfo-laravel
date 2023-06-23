@@ -198,7 +198,7 @@ class ProductController extends Controller
         $products = Product::select('id', 'name', 'price', 'product_image')
             ->paginate($perPage);
         //if($request->isSecure())
-        if(strpos($request->path, 'https:') !== false)
+        if(strpos($request->path(), 'https:') !== false)
             $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
@@ -318,7 +318,7 @@ class ProductController extends Controller
                             ->select('id', 'name', 'price', 'product_image')
                             ->paginate($perPage);
         //if($request->isSecure())
-        if(strpos($request->path, 'https:') !== false)
+        if(strpos($request->path(), 'https:') !== false)
             $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
@@ -384,7 +384,7 @@ class ProductController extends Controller
                             ->select('id', 'name', 'price', 'product_image')
                             ->paginate($perPage);
         //if($request->isSecure())
-        if(strpos($request->path, 'https:') !== false)
+        if(strpos($request->path(), 'https:') !== false)
             $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
@@ -456,7 +456,7 @@ class ProductController extends Controller
                     ->select('id', 'name', 'price', 'product_image')
                     ->paginate($perPage);
         //if($request->isSecure())
-        if(strpos($request->path, 'https:') !== false)
+        if(strpos($request->path(), 'https:') !== false)
             $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
@@ -544,7 +544,7 @@ class ProductController extends Controller
                         -> orderBy('price', $order)
                         -> paginate($perPage);
         //if($request->isSecure())
-        if(strpos($request->path, 'https:') !== false)
+        if(strpos($request->path(), 'https:') !== false)
             $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
@@ -611,7 +611,7 @@ class ProductController extends Controller
                         -> orderBy('price', $order)
                         -> paginate($perPage);
         //if($request->isSecure())
-        if(strpos($request->path, 'https:') !== false)
+        if(strpos($request->path(), 'https:') !== false)
             $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
@@ -683,7 +683,7 @@ class ProductController extends Controller
                         -> select('id', 'name', 'price', 'product_image')
                         -> paginate($perPage);
         //if($request->isSecure())
-        if(strpos($request->path, 'https:') !== false)
+        if(strpos($request->path(), 'https:') !== false)
             $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
@@ -739,7 +739,7 @@ class ProductController extends Controller
                         -> orderBy('price', $order)
                         -> paginate($perPage);
         //if($request->isSecure())
-        if(strpos($request->path, 'https:') !== false)
+        if(strpos($request->path(), 'https:') !== false)
             $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
