@@ -17,7 +17,7 @@ return new class extends Migration
             $table->dateTime('order_date');
             $table->timestamps();
 
-            $table->foreign('client_ID')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('client_ID')->references('id')->on('clients')->onDelete('cascade');
         });
     }
 
