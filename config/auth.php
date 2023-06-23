@@ -41,10 +41,10 @@ return [
             'provider' => 'users',
         ],
 
-        /* 'api' => [
+        'api' => [
             'driver' => 'session',
             'provider' => 'clients',
-        ] */
+        ]
     ],
 
     /*
@@ -70,10 +70,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        /* 'clients' => [
+        'clients' => [
             'driver' => 'eloquent',
             'model' => App\Models\Client::class,
-        ] */
+        ]
 
         // 'users' => [
         //     'driver' => 'database',
