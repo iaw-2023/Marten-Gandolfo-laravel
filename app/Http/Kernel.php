@@ -45,6 +45,11 @@ class Kernel extends HttpKernel
         ],
     ];
 
+    protected $except = [
+        // add the URL of the POST endpoint here
+        '/_api/*',
+    ];
+
     /**
      * The application's middleware aliases.
      *

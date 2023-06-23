@@ -1,0 +1,285 @@
+openapi: 3.0.3
+info:
+  title: Master Gaming API
+  version: 1.0.11
+servers:
+  - url: https://marten-gandolfo-laravel.vercel.app/_api/
+tags:
+  - name: products
+    description: Info about available products
+  - name: categories
+    description: Info about available categories
+  - name: orders
+    description: Info and creation of orders
+paths:
+  /products:
+    get:
+      tags:
+        - products
+      summary: get all available products
+      operationId: getProducts
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductSummary'
+  /products/{id}:
+    get:
+      tags:
+        - products
+      summary: get product by id
+      operationId: getProductById
+      parameters:
+        - name: id
+          in: path
+          description: ID of product to return
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: invalid ID supplied
+        '404':
+          description: product not found
+  /products/search/{name}:
+    get:
+      tags:
+        - products
+      summary: search products by name
+      operationId: getProductsByName
+      parameters:
+        - name: name
+          in: path
+          description: name of product to search
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductSummary'
+  /products/category/{categoryId}:
+    get:
+      tags:
+        - products
+      summary: search products by category
+      operationId: getProductsByCategory
+      parameters:
+        - name: categoryId
+          in: path
+          description: category of products to search
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductSummary'
+        '400':
+          description: invalid category ID supplied
+  /categories:
+    get:
+      tags:
+        - categories
+      summary: get all available categories
+      operationId: getCategories
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+  /orders:
+    post:
+      tags:
+        - orders
+      summary: create a new order
+      operationId: postOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewOrder'
+        required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Order created successfully'
+                  token:
+                    type: string
+                    example: 'BlieCRUyOWzxWfRY42990IEFdLa7x2OL'
+        '400':
+          description: invalid order details
+  /orders/{token}:
+    get:
+      tags:
+        - orders
+      summary: get order by token
+      operationId: getOrderByToken
+      parameters:
+        - name: token
+          in: path
+          description: token of order to return
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          description: invalid token supplied
+        '404':
+          description: order not found
+components:
+  schemas:
+    ProductSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: 'MX MECHANICAL'
+        price:
+          type: number
+          format: double
+          example: 1999.99
+        product_image:
+          type: string
+          example: 'https://resource.logitech.com/w_1600,c_limit,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/keyboards/mx-mechanical/gallery/mx-mechanical-keyboard-top-view-graphite-us.png?v=1'
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        category_ID:
+          type: integer
+          example: 2
+        name:
+          type: string
+          example: 'MX MECHANICAL'
+        description:
+          type: string
+          example: 'Teclado inalambrico iluminado de alto desempeño.'
+        brand:
+          type: string
+          example: 'Logitech'
+        price:
+          type: number
+          format: double
+          example: 1999.99
+        product_official_site:
+          type: string
+          example: 'https://www.logitech.com/es-ar/products/keyboards/mx-mechanical.html'
+        product_image:
+          type: string
+          example: 'https://resource.logitech.com/w_1600,c_limit,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/keyboards/mx-mechanical/gallery/mx-mechanical-keyboard-top-view-graphite-us.png?v=1'
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 3
+        name:
+          type: string
+          example: 'Teclado'
+    NewOrder:
+      type: object
+      properties:
+        email:
+          type: string
+          example: 'juan@gmail.com'
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductOrder'
+    ProductOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 4
+        units:
+          type: integer
+          example: 5
+    Order:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 6
+        client:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 7
+            email:
+              type: string
+              example: 'matias@gmail.com'
+        order_date:
+          type: string
+          example: '2023-01-03 12:00:00'
+        price:
+          type: number
+          format: double
+          example: 1999.99
+        order_details:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductOrderDetail'
+    ProductOrderDetail:
+      type: object
+      properties:
+        product:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 8
+            name:
+              type: string
+              example: 'MX MECHANICAL'
+        units:
+          type: integer
+          example: 3
+        subtotal:
+          type: number
+          format: double
+          example: 999.99

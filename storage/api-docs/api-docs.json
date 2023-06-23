@@ -1,0 +1,645 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Master Gaming API",
+        "version": "1.0.11"
+    },
+    "servers": [
+        {
+            "url": "https://marten-gandolfo-laravel.vercel.app/_api/"
+        }
+    ],
+    "paths": {
+        "/categories": {
+            "get": {
+                "tags": [
+                    "categories"
+                ],
+                "summary": "Get all available categories",
+                "operationId": "getCategories",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Category"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/orders": {
+            "post": {
+                "tags": [
+                    "orders"
+                ],
+                "summary": "Create a new order",
+                "operationId": "postOrder",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/NewOrder"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Order created successfully"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "BlieCRUyOWzxWfRY42990IEFdLa7x2OL"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid order details"
+                    }
+                }
+            }
+        },
+        "/orders/{token}": {
+            "get": {
+                "tags": [
+                    "orders"
+                ],
+                "summary": "Get order by token",
+                "operationId": "getOrderByToken",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "Token of order to return",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "4sxgVva7EntBjG6xUC22ADjqNnCdayGv"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid token supplied"
+                    },
+                    "404": {
+                        "description": "Order not found"
+                    }
+                }
+            }
+        },
+        "/products": {
+            "get": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "Get all available products",
+                "operationId": "getProducts",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PaginatedProducts"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products/{id}": {
+            "get": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "Get product by ID",
+                "operationId": "getProductById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of product to return",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                }
+            }
+        },
+        "/products/search/{name}": {
+            "get": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "Search products by name",
+                "operationId": "getProductsByName",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Name of product to search",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "rtx"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PaginatedProducts"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/products/category/{categoryId}": {
+            "get": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "Search products by category",
+                "operationId": "getProductsByCategory",
+                "parameters": [
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "description": "Category of products to search",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PaginatedProducts"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid category ID supplied"
+                    }
+                }
+            }
+        },
+        "/products/search/{name}/category/{categoryId}": {
+            "get": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "Search products by name and category",
+                "operationId": "getProductsByNameAndCategory",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Name of product to search",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "g"
+                        }
+                    },
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "description": "Category of products to search",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "schema": {
+                            "type": "integer",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PaginatedProducts"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ProductSummary": {
+                "title": "Product Summary",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "MX MECHANICAL"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "double",
+                        "example": 1999.99
+                    },
+                    "product_image": {
+                        "type": "string",
+                        "example": "https://resource.logitech.com/w_1600,c_limit,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/keyboards/mx-mechanical/gallery/mx-mechanical-keyboard-top-view-graphite-us.png?v=1"
+                    }
+                },
+                "type": "object"
+            },
+            "PaginatedProducts": {
+                "title": "Paginated Products",
+                "properties": {
+                    "data": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductSummary"
+                        }
+                    },
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "first_page_url": {
+                        "type": "string",
+                        "example": "http://127.0.0.1:8000/_api/products?page=1"
+                    },
+                    "from": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "last_page_url": {
+                        "type": "string",
+                        "example": "http://127.0.0.1:8000/_api/products?page=3"
+                    },
+                    "links": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "url": {
+                                    "type": "string",
+                                    "example": "http://127.0.0.1:8000/_api/products?page=1"
+                                },
+                                "label": {
+                                    "type": "string",
+                                    "example": "1"
+                                },
+                                "active": {
+                                    "type": "boolean",
+                                    "example": true
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "next_page_url": {
+                        "type": "string",
+                        "example": "http://127.0.0.1:8000/_api/products?page=2"
+                    },
+                    "path": {
+                        "type": "string",
+                        "example": "http://127.0.0.1:8000/_api/products"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "prev_page_url": {
+                        "type": "string",
+                        "example": null
+                    },
+                    "to": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "total": {
+                        "type": "integer",
+                        "example": 29
+                    }
+                },
+                "type": "object"
+            },
+            "Product": {
+                "title": "Product",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "category_ID": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "MX MECHANICAL"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Teclado inalambrico iluminado de alto desempeño."
+                    },
+                    "brand": {
+                        "type": "string",
+                        "example": "Logitech"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "double",
+                        "example": 1999.99
+                    },
+                    "product_official_site": {
+                        "type": "string",
+                        "example": "https://www.logitech.com/es-ar/products/keyboards/mx-mechanical.html"
+                    },
+                    "product_image": {
+                        "type": "string",
+                        "example": "https://resource.logitech.com/w_1600,c_limit,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/keyboards/mx-mechanical/gallery/mx-mechanical-keyboard-top-view-graphite-us.png?v=1"
+                    }
+                },
+                "type": "object"
+            },
+            "Category": {
+                "title": "Category",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Teclado"
+                    }
+                },
+                "type": "object"
+            },
+            "NewOrder": {
+                "title": "New Order",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "example": "juan@gmail.com"
+                    },
+                    "products": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductOrder"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ProductOrder": {
+                "title": "Product Order",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 4
+                    },
+                    "units": {
+                        "type": "integer",
+                        "example": 5
+                    }
+                },
+                "type": "object"
+            },
+            "Order": {
+                "title": "Order",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 6
+                    },
+                    "client": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 7
+                            },
+                            "email": {
+                                "type": "string",
+                                "example": "matias@gmail.com"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "order_date": {
+                        "type": "string",
+                        "example": "2023-01-03 12:00:00"
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "double",
+                        "example": 1999.99
+                    },
+                    "order_details": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ProductOrderDetail"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ProductOrderDetail": {
+                "title": "Product Order Detail",
+                "properties": {
+                    "product": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 8
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "MX MECHANICAL"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "units": {
+                        "type": "integer",
+                        "example": 3
+                    },
+                    "subtotal": {
+                        "type": "number",
+                        "format": "double",
+                        "example": 999.99
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "products",
+            "description": "Info about available products"
+        },
+        {
+            "name": "categories",
+            "description": "Info about available categories"
+        },
+        {
+            "name": "orders",
+            "description": "Info and creation of orders"
+        }
+    ]
+}
