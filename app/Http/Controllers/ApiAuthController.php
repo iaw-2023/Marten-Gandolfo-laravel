@@ -15,6 +15,13 @@ class ApiAuthController extends Controller
 {
     public function login(Request $request)
     {
+        $validator = $this->getLoginApiValidator($request);
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 400);
+        }
         // TODO
         // Validate the login request
         $credentials = $request->only('email', 'password');
@@ -45,7 +52,7 @@ class ApiAuthController extends Controller
     public function register(Request $request){
         $credentials = $request->only('email', 'password');
         
-        $validator = $this->getRegisterApiValidator($request);
+        $validator = $this->getLoginApiValidator($request);
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Validation failed',
@@ -71,7 +78,7 @@ class ApiAuthController extends Controller
         ], 200);
     }
 
-    private function getRegisterApiValidator($request){
+    private function getLoginApiValidator($request){
         return Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|min:4',
@@ -100,8 +107,6 @@ class ApiAuthController extends Controller
             
             Mail::to($client->email)->send(new ResetClientPassword($token));
         }
-
-        // TODO enviar token por email
         return response()->json([
             'message' => 'ok'
         ], 200);
