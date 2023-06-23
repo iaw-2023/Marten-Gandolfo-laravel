@@ -192,6 +192,7 @@ class ProductController extends Controller
     */
     public function indexApi(Request $request){
         //$products = Product::select('id', 'name', 'price', 'product_image')->get();
+        return response()->json(['path' => $request->fullUrl(), 'check' => strpos($request->fullUrl(), 'https:') !== false]);
 
         $perPage = $request->query('perPage', 12); // Number of items per page, default is 10
         $products = Product::select('id', 'name', 'price', 'product_image')
