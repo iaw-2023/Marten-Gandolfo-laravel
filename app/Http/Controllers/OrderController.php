@@ -182,7 +182,7 @@ class OrderController extends Controller
         }
 
         
-        return response()->json($this->createOrder($client->id, $products));
+        $this->createOrder($client->id, $products);
         
         return response()->json(['message' => 'Order created successfully']);
     }
