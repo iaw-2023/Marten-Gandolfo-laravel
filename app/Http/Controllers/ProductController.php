@@ -192,14 +192,12 @@ class ProductController extends Controller
     */
     public function indexApi(Request $request){
         //$products = Product::select('id', 'name', 'price', 'product_image')->get();
-        return response()->json(['path' => $request->fullUrl(), 'check' => strpos($request->fullUrl(), 'https:') !== false]);
+        //return response()->json($products);
 
         $perPage = $request->query('perPage', 12); // Number of items per page, default is 10
         $products = Product::select('id', 'name', 'price', 'product_image')
             ->paginate($perPage);
-        //if($request->isSecure())
-        if(strpos($request->fullUrl(), 'https:') !== false)
-            $products->setPath($this->replaceHttpWithHttps($products->path()));
+        $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
 
@@ -317,9 +315,7 @@ class ProductController extends Controller
         $products = Product::where('name', 'ilike', '%' . $name . '%')
                             ->select('id', 'name', 'price', 'product_image')
                             ->paginate($perPage);
-        //if($request->isSecure())
-        if(strpos($request->fullUrl(), 'https:') !== false)
-            $products->setPath($this->replaceHttpWithHttps($products->path()));
+        $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
 
@@ -383,9 +379,7 @@ class ProductController extends Controller
             })
                             ->select('id', 'name', 'price', 'product_image')
                             ->paginate($perPage);
-        //if($request->isSecure())
-        if(strpos($request->fullUrl(), 'https:') !== false)
-            $products->setPath($this->replaceHttpWithHttps($products->path()));
+        $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
 
@@ -455,9 +449,7 @@ class ProductController extends Controller
                     ->whereHas('category', fn ($query) => $query->where('id', $categoryId))
                     ->select('id', 'name', 'price', 'product_image')
                     ->paginate($perPage);
-        //if($request->isSecure())
-        if(strpos($request->fullUrl(), 'https:') !== false)
-            $products->setPath($this->replaceHttpWithHttps($products->path()));
+        $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
 
@@ -543,9 +535,7 @@ class ProductController extends Controller
                         -> select('id', 'name', 'price', 'product_image')
                         -> orderBy('price', $order)
                         -> paginate($perPage);
-        //if($request->isSecure())
-        if(strpos($request->fullUrl(), 'https:') !== false)
-            $products->setPath($this->replaceHttpWithHttps($products->path()));
+        $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
 
@@ -610,9 +600,7 @@ class ProductController extends Controller
                         -> select('id', 'name', 'price', 'product_image')
                         -> orderBy('price', $order)
                         -> paginate($perPage);
-        //if($request->isSecure())
-        if(strpos($request->fullUrl(), 'https:') !== false)
-            $products->setPath($this->replaceHttpWithHttps($products->path()));
+        $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
 
@@ -682,9 +670,7 @@ class ProductController extends Controller
         $products = $products
                         -> select('id', 'name', 'price', 'product_image')
                         -> paginate($perPage);
-        //if($request->isSecure())
-        if(strpos($request->fullUrl(), 'https:') !== false)
-            $products->setPath($this->replaceHttpWithHttps($products->path()));
+        $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
 
@@ -738,9 +724,7 @@ class ProductController extends Controller
                         -> select('id', 'name', 'price', 'product_image')
                         -> orderBy('price', $order)
                         -> paginate($perPage);
-        //if($request->isSecure())
-        if(strpos($request->fullUrl(), 'https:') !== false)
-            $products->setPath($this->replaceHttpWithHttps($products->path()));
+        $products->setPath($this->replaceHttpWithHttps($products->path()));
         return response()->json($products);
     }
 }
