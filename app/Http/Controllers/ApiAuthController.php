@@ -20,8 +20,9 @@ class ApiAuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         // Attempt to authenticate the user
-        if (Auth::attempt($credentials)) {
-            $client = Client::where('email', $credentials['email'])->first();
+        $client = Client::where('email', $credentials['email'])->first();
+
+        if ($client && password_verify($credentials['password'], $client->password)) {
             $token = $client->createToken('client-token')->plainTextToken;
             return response()->json([
                 'token' => $token

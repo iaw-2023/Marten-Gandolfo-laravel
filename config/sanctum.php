@@ -1,6 +1,7 @@
 <?php
 
 use Laravel\Sanctum\Sanctum;
+use App\Models\Clients;
 
 return [
 
@@ -35,7 +36,7 @@ return [
     |
     */
 
-    'guard' => ['clients'],
+    'guard' => ['api'],
 
     /*
     |--------------------------------------------------------------------------
