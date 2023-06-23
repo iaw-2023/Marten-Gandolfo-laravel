@@ -23,9 +23,10 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::select('orders.id', 'client_ID', 'order_date', DB::raw('CAST(SUM(order_details.subtotal) AS DECIMAL(10, 2)) AS price'))
+        $orders = Order::select('orders.id', 'client_ID', 'clients.email', 'order_date', DB::raw('CAST(SUM(order_details.subtotal) AS DECIMAL(10, 2)) AS price'))
             ->leftJoin('order_details', 'orders.id', '=', 'order_details.order_ID')
-            ->groupBy('orders.id', 'client_ID', 'order_date')
+            ->leftJoin('clients', 'orders.client_ID', '=', 'clients.id')
+            ->groupBy('orders.id', 'client_ID', 'clients.email', 'order_date')
             ->orderByDesc('order_date')
             ->get();
         return view('order.index')
@@ -85,9 +86,10 @@ class OrderController extends Controller
      */
     public function details(string $id)
     {
-        $order = Order::select('orders.id', 'client_ID', 'order_date', DB::raw('CAST(SUM(order_details.subtotal) AS DECIMAL(10, 2)) AS price'))
+        $order = Order::select('orders.id', 'client_ID', 'clients.email', 'order_date', DB::raw('CAST(SUM(order_details.subtotal) AS DECIMAL(10, 2)) AS price'))
                     ->leftJoin('order_details', 'orders.id', '=', 'order_details.order_ID')
-                    ->groupBy('orders.id', 'client_ID', 'order_date')
+                    ->leftJoin('clients', 'orders.client_ID', '=', 'clients.id')
+                    ->groupBy('orders.id', 'client_ID', 'clients.email', 'order_date')
                     ->orderByDesc('order_date')
                     ->find($id);
 
