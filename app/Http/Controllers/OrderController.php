@@ -181,9 +181,10 @@ class OrderController extends Controller
             $product['subtotal'] = $subtotal;
         }
 
-        $token = $this->createOrder($client->id, $products);
         
-        return response()->json(['message' => 'Order created successfully', 'token' => $token]);
+        return response()->json($this->createOrder($client->id, $products));
+        
+        return response()->json(['message' => 'Order created successfully']);
     }
 
     private function getStoreApiValidator($request){
@@ -195,21 +196,12 @@ class OrderController extends Controller
     }
 
     private function createOrder($clientId, $products){
-        $token = Str::random(32);
-        while(Order::where('token', $token)->exists()){
-            $token = Str::random(32);
-        }
-
         $order = new Order();
         $order->client_ID = $clientId;
         $order->order_date = Carbon::now();
-        $order->token = $token;
         $order->save();
+        
         $this->createOrderDetails($order, $products);
-
-        Mail::to($order->user->email)->send(new CustomOrderLink($order));
-
-        return $token;
     }
 
     private function createOrderDetails($order, $products){
