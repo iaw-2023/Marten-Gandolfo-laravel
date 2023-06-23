@@ -14,14 +14,19 @@
                     <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
                     @endsection
 
-                    <a href="categories/create" class="btn btn-primary mb-3">Nueva Categoria</a>
+                    @if(Auth::user()->hasRole('Super Admin'))
+                        <a href="categories/create" class="btn btn-primary mb-3">Nueva Categoria</a>
+                    @endif
 
                     <table id="categories" class="table table-striped table-bordered shadow-lg" style="width:100%">
                         <thead class="bg-primary text-white">
                             <tr>
                                 <th class="text-center" scope="col">ID</th>
                                 <th class="text-center" scope="col">Nombre</th>
-                                <th class="text-center" scope="col"></th>
+
+                                @if(Auth::user()->hasRole('Super Admin'))
+                                    <th class="text-center" scope="col"></th>
+                                @endif
                             </tr>
                         </thead>
                         
@@ -31,14 +36,16 @@
                                 <td>{{ $category->id }}</td>
                                 <td>{{ $category->name }}</td>
 
-                                <td>
-                                    <form id="delete-form-{{ $category->id }}" action="{{ route('categories.destroy', $category->id)}}" method="POST">
-                                        <a href="/categories/{{$category->id}}/edit" class="btn btn-info">Editar</a>
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn bg-danger" onclick="confirmDelete({{ $category->id }})">Borrar</button>
-                                    </form>
-                                </td>
+                                @if(Auth::user()->hasRole('Super Admin'))
+                                    <td>
+                                        <form id="delete-form-{{ $category->id }}" action="{{ route('categories.destroy', $category->id)}}" method="POST">
+                                            <a href="/categories/{{$category->id}}/edit" class="btn btn-info">Editar</a>
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn bg-danger" onclick="confirmDelete({{ $category->id }})">Borrar</button>
+                                        </form>
+                                    </td>
+                                @endif
 
                                 <script>
                                 function confirmDelete(categoryId) {

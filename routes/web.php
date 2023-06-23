@@ -34,13 +34,35 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+    
+    
+    Route::middleware('super_admin')->group(function () {
+        Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+        Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+        Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('products.edit');
+        Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
+        Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 
-Route::resource('products', ProductController::class)->middleware(['auth']);
-Route::resource('categories', CategoryController::class)->middleware(['auth']);
-Route::resource('orders', OrderController::class)->middleware(['auth']);
-Route::resource('clients', ClientController::class)->middleware(['auth']);
-Route::get('/orders/{id}/details', [OrderController::class, 'details'])->middleware(['auth']);
+        Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+        Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+        Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+        Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
+        Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    });
+
+
+    Route::middleware('admin')->group(function () {
+        Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+        Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+
+        Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+        Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
+
+        Route::resource('orders', OrderController::class);
+        Route::resource('clients', ClientController::class);
+        Route::get('/orders/{id}/details', [OrderController::class, 'details']);
+    });
+});
 
 Route::get('/logo', function () {
     $imagePath = public_path('images/logo.png');
