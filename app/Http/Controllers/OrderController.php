@@ -166,7 +166,6 @@ class OrderController extends Controller
     * )
     */
     public function storeApi(Request $request){
-        //TODO obtener email de la autenticacion
         $client = auth()->user();
 
         $validator = $this->getStoreApiValidator($request);
