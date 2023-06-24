@@ -27,6 +27,11 @@
                     <x-nav-link :href="route('orders.index')" :active="request()->routeIs(['orders.index'])">
                         {{ __('Pedidos') }}
                     </x-nav-link>
+                    @if(Auth::user()->hasRole('Super Admin'))
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs(['users.index'])">
+                            {{ __('Usuarios') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -94,6 +99,11 @@
             <x-responsive-nav-link :href="route('orders.index')" :active="request()->routeIs(['orders.index'])">
                 {{ __('Pedidos') }}
             </x-responsive-nav-link>
+            @if(Auth::user()->hasRole('Super Admin'))
+                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs(['users.index'])">
+                    {{ __('Usuarios') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
