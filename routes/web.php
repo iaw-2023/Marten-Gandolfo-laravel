@@ -88,6 +88,8 @@ Route::prefix('_api')->group(function () {
         Route::get('/orders', [OrderController::class, 'indexApi']);
         Route::get('/orders/{id}', [OrderController::class, 'showApi']);
         Route::post('/orders', [OrderController::class, 'storeApi']);
+
+        Route::post('/payWithMercadopago', [OrderController::class, 'payWithMercadopago']);
     });
 
     Route::get('/products', [ProductController::class, 'indexApi']);
