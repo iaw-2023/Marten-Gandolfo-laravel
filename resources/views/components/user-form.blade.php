@@ -1,6 +1,6 @@
 <style>
     @media (prefers-color-scheme: dark) {
-        #name {
+        #name, #email, #username, #password, #passwordconfirmation, #superadmin {
             color: white;
             background-color: black;
         }
