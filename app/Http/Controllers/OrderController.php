@@ -166,18 +166,22 @@ class OrderController extends Controller
     *     )
     * )
     */
-    public function storeApi(Request $request){
+    private function storeApi($order){
         $client = auth()->user();
 
-        $validator = $this->getStoreApiValidator($request);
+        /* $validator = $this->getStoreApiValidator($request);
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Validation failed',
                 'errors' => $validator->errors()
             ], 400);
-        }
+        } */
         
-        $products = $request->input('products');
+        //$products = $request->input('products');
+        $products = $order['products'];
+
+        Log::info('Productos recibidos luego de la compra:', ['data' => $products]);
+
         foreach($products as &$product){
             $subtotal = Product::find($product['id'])->price * $product['units'];
             $product['subtotal'] = $subtotal;
@@ -189,13 +193,13 @@ class OrderController extends Controller
         return response()->json(['message' => 'Order created successfully']);
     }
 
-    private function getStoreApiValidator($request){
+    /* private function getStoreApiValidator($request){
         return Validator::make($request->all(), [
             'products' => 'required|array|min:1',
             'products.*.id' => 'required|integer|min:1|distinct|exists:products,id,deleted_at,NULL',
             'products.*.units' => 'required|integer|min:1',
         ]);
-    }
+    } */
 
     private function createOrder($clientId, $products){
         $order = new Order();
@@ -305,8 +309,10 @@ class OrderController extends Controller
 
         \MercadoPago\SDK::setAccessToken('TEST-4277853351595214-061816-65831e226092838f8cfb3dcce2adeca2-321343377');
 
-        $contents = $request->input(); // Obtener todos los datos del cuerpo de la solicitud
-        //Log::info('Datos recibidos desde React:', ['data' => $contents]);
+        $contents = $request['cardFormData']; // Obtener todos los datos del cuerpo de la solicitud
+        $order = $request['order'];
+        //Log::info('Datos recibidos desde React (CardFormData):', ['data' => $contents]);
+        //Log::info('Datos recibidos desde React (Order):', ['data' => $order]);
 
         $payment = new \MercadoPago\Payment();
         $payment->transaction_amount = $contents['transaction_amount'];
@@ -337,6 +343,12 @@ class OrderController extends Controller
             'status_detail' => $payment->status_detail,
             'id' => $payment->id
         );
+
+        if ($response['status'] === "approved") {
+            Log::info('Productos enviados:', ['data' => $order]);
+            $this->storeApi($order);
+        }
+
         //Log::info('Datos de respuesta para React:', ['data' => $response]);
         return response()->json($response);
     }
