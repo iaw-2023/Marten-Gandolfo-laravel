@@ -48,6 +48,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
         Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
         Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+
+        Route::resource('users', UserController::class);
     });
 
 

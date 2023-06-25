@@ -81,7 +81,7 @@ class ApiAuthController extends Controller
     private function getLoginApiValidator($request){
         return Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required|min:4',
+            'password' => 'required|min:4|max:40',
         ]);
     }
 
