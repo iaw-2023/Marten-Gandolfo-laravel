@@ -22,8 +22,6 @@ class ApiAuthController extends Controller
                 'errors' => $validator->errors()
             ], 400);
         }
-        // TODO
-        // Validate the login request
         $credentials = $request->only('email', 'password');
 
         // Attempt to authenticate the user
