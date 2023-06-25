@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Response;
 use App\Mail\CustomOrderLink;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -165,18 +166,22 @@ class OrderController extends Controller
     *     )
     * )
     */
-    public function storeApi(Request $request){
+    private function storeApi($order){
         $client = auth()->user();
 
-        $validator = $this->getStoreApiValidator($request);
+        /* $validator = $this->getStoreApiValidator($request);
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Validation failed',
                 'errors' => $validator->errors()
             ], 400);
-        }
+        } */
         
-        $products = $request->input('products');
+        //$products = $request->input('products');
+        $products = $order['products'];
+
+        Log::info('Productos recibidos luego de la compra:', ['data' => $products]);
+
         foreach($products as &$product){
             $subtotal = Product::find($product['id'])->price * $product['units'];
             $product['subtotal'] = $subtotal;
@@ -188,13 +193,13 @@ class OrderController extends Controller
         return response()->json(['message' => 'Order created successfully']);
     }
 
-    private function getStoreApiValidator($request){
+    /* private function getStoreApiValidator($request){
         return Validator::make($request->all(), [
             'products' => 'required|array|min:1',
             'products.*.id' => 'required|integer|min:1|distinct|exists:products,id,deleted_at,NULL',
             'products.*.units' => 'required|integer|min:1',
         ]);
-    }
+    } */
 
     private function createOrder($clientId, $products){
         $order = new Order();
@@ -296,4 +301,56 @@ class OrderController extends Controller
             }),
         ];
     }
+
+    public function payWithMercadopago(Request $request)
+    {
+        //Log::info('-------------------------------');
+        $client = auth()->user();
+
+        \MercadoPago\SDK::setAccessToken('TEST-4277853351595214-061816-65831e226092838f8cfb3dcce2adeca2-321343377');
+
+        $contents = $request['cardFormData']; // Obtener todos los datos del cuerpo de la solicitud
+        $order = $request['order'];
+        //Log::info('Datos recibidos desde React (CardFormData):', ['data' => $contents]);
+        //Log::info('Datos recibidos desde React (Order):', ['data' => $order]);
+
+        $payment = new \MercadoPago\Payment();
+        $payment->transaction_amount = $contents['transaction_amount'];
+        $payment->token = $contents['token'];
+        $payment->installments = $contents['installments'];
+        $payment->payment_method_id = $contents['payment_method_id'];
+        $payment->issuer_id = $contents['issuer_id'];
+
+        /* Log::info('payment->transaction_amount:', ['data' => $payment->input('transactionAmount')]);
+        Log::info('payment->token:', ['data' => $payment->input('token')]);
+        Log::info('payment->installments:', ['data' => $payment->input('installments')]);
+        Log::info('payment->payment_method_id:', ['data' => $payment->input('payment_method_id')]);
+        Log::info('payment->issuer_id:', ['data' => $payment->input('issuer_id')]); */
+
+        $payer = new \MercadoPago\Payer();
+        $payer->email = $client->email;
+        $payer->identification = array(
+            "type" => $contents['payer']['identification']['type'],
+            "number" => $contents['payer']['identification']['number']
+        );
+        $payment->payer = $payer;
+        $payment->save();
+        
+        //Log::info('payment:', ['data' => $payment]);
+
+        $response = array(
+            'status' => $payment->status,
+            'status_detail' => $payment->status_detail,
+            'id' => $payment->id
+        );
+
+        if ($response['status'] === "approved") {
+            Log::info('Productos enviados:', ['data' => $order]);
+            $this->storeApi($order);
+        }
+
+        //Log::info('Datos de respuesta para React:', ['data' => $response]);
+        return response()->json($response);
+    }
+
 }
