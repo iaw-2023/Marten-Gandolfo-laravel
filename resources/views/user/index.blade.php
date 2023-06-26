@@ -16,45 +16,46 @@
 
                     <a href="users/create" class="btn btn-primary mb-3">Nuevo Usuario</a>
 
-                    <table id="users" class="table table-striped table-bordered shadow-lg" style="width:100%">
-                        <thead class="bg-primary text-white">
-                            <tr>
-                                <th class="text-center" scope="col">ID</th>
-                                <th class="text-center" scope="col">Email</th>
-                                <th class="text-center" scope="col">Super Admin</th>
+                    <div style="overflow-x: auto;">
+                        <table id="users" class="table table-striped table-bordered shadow-lg" style="width:100%">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th class="text-center" scope="col">ID</th>
+                                    <th class="text-center" scope="col">Email</th>
+                                    <th class="text-center" scope="col">Super Admin</th>
 
-                                <th class="text-center" scope="col"></th>
-                            </tr>
-                        </thead>
-                        
-                        <tbody>
-                            @foreach ($users as $user)
-                            <tr>
-                                <td>{{ $user['id'] }}</td>
-                                <td>{{ $user['email'] }}</td>
-                                <td>{{ $user['roles']->contains('Super Admin') ? 'Si' : 'No' }}</td>
+                                    <th class="text-center" scope="col"></th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                @foreach ($users as $user)
+                                <tr>
+                                    <td>{{ $user['id'] }}</td>
+                                    <td>{{ $user['email'] }}</td>
+                                    <td>{{ $user['roles']->contains('Super Admin') ? 'Si' : 'No' }}</td>
 
-                                <td>
-                                    <form id="delete-form-{{ $user['id'] }}" action="{{ route('users.destroy', $user['id'])}}" method="POST">
-                                        <a href="/users/{{$user['id']}}/edit" class="btn btn-info">Editar</a>
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn bg-danger" onclick="confirmDelete({{ $user['id'] }})">Borrar</button>
-                                    </form>
-                                </td>
+                                    <td>
+                                        <form id="delete-form-{{ $user['id'] }}" action="{{ route('users.destroy', $user['id'])}}" method="POST">
+                                            <a href="/users/{{$user['id']}}/edit" class="btn btn-info">Editar</a>
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn bg-danger" onclick="confirmDelete({{ $user['id'] }})">Borrar</button>
+                                        </form>
+                                    </td>
 
-                                <script>
-                                function confirmDelete(userId) {
-                                    if (confirm("¿Está seguro de que desea eliminar esta usuario?")) {
-                                        document.getElementById('delete-form-'+userId).submit();
+                                    <script>
+                                    function confirmDelete(userId) {
+                                        if (confirm("¿Está seguro de que desea eliminar esta usuario?")) {
+                                            document.getElementById('delete-form-'+userId).submit();
+                                        }
                                     }
-                                }
-                                </script>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-
+                                    </script>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
                     @section('js')
                     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>

@@ -15,32 +15,34 @@
 
                     @include('components.error-message')
 
-                    <table id="orders" class="table table-striped table-bordered shadow-lg" style="width:100%">
-                        <thead class="bg-primary text-white">
-                            <tr>
-                                <th class="text-center" scope="col">ID</th>
-                                <th class="text-center" scope="col">Cliente</th>
-                                <th class="text-center" scope="col">Fecha - Hora</th>
-                                <th class="text-center" scope="col">Monto</th>
-                                <th class="text-center" scope="col">Detalle</th>
-                            </tr>
-                        </thead>
-                        
-                        <tbody>
-                            @foreach ($orders as $order)
-                            <tr>
-                                <td>{{ $order->id }}</td>
-                                <td>{{ $order->email }}</td>
-                                <td>{{ $order->order_date }}</td>
-                                <td>${{ $order->price }}</td>
-                                <td>
-                                    <a href="/orders/{{ $order->id }}/details" class="btn btn-info">Detalles</a>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-
+                    <div style="overflow-x: auto;">
+                        <table id="orders" class="table table-striped table-bordered shadow-lg" style="width:100%">
+                            <thead class="bg-primary text-white">
+                                <tr>
+                                    <th class="text-center" scope="col">ID</th>
+                                    <th class="text-center" scope="col">Cliente</th>
+                                    <th class="text-center" scope="col">Fecha - Hora</th>
+                                    <th class="text-center" scope="col">Monto</th>
+                                    <th class="text-center" scope="col">Detalle</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                @foreach ($orders as $order)
+                                <tr>
+                                    <td>{{ $order->id }}</td>
+                                    <td>{{ $order->email }}</td>
+                                    <td>{{ $order->order_date }}</td>
+                                    <td>${{ $order->price }}</td>
+                                    <td>
+                                        <a href="/orders/{{ $order->id }}/details" class="btn btn-info">Detalles</a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    
                     @section('js')
                     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
                     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
