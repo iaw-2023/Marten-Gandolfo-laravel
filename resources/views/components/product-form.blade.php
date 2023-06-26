@@ -19,11 +19,13 @@
             @include('components.error-message')
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100 dark:bg-gray-700">
+
                     <form action="{{ $action }}" method="POST">
                     @csrf
                     @if(isset($method))
                         @method($method)
                     @endif
+
                     <div class="mb-3">
                         <label for="" class="form-label">Categoría</label>
                         <select id="category_id" name="category_id" type="number" class="form-control" tabindex="1" required>
@@ -46,6 +48,47 @@
                     <div class="mb-3">
                         <label for="brand" class="form-label">Marca</label>
                         <input id="brand" name="brand" type="text" class="form-control" tabindex="1" maxlength="255" value="{{ old('brand', $product->brand ?? '') }}" required>
+                    </div>
+
+                    <div class="py-12">
+                        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                            <div class="bg-gray-200 dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                                <div class="p-6 text-gray-900 dark:text-gray-100 dark:bg-gray-800">
+                                    <!-- Add a container to display currency values -->
+                                    <h5 class="mb-3">Aqui puedes consultar informacion de la moneda local:</h5> 
+
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="usd_in_label">U$D</span>
+                                        <input type="number" class="form-control" placeholder="Dolares" id="usd_in">
+                                    </div>
+                                
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">Te duelen&nbsp;
+                                            <div id="currency-container">
+                                                <!-- Placeholder text until currency values are fetched -->
+                                                <p>...</p>
+                                            </div>
+                                        </span>
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="profit_label">Margen de ganancia (%):</span>
+                                        <input type="number" class="form-control" placeholder="Ingrese el porcentaje de ganancia deseado" id="profit">
+                                    </div>
+
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">Precio final&nbsp;
+                                            <div id="profit-container">
+                                                <!-- Placeholder -->
+                                                <p>...</p>
+                                            </div>
+                                        </span>
+                                    </div>
+
+                                    <h5 class="mb-3">Powered by Open Exchange Rates API</h5> 
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="mb-3">
@@ -79,6 +122,50 @@
         </div>
     </div>
 
+    @section('js')
+        <script>
+            function updateCurrency() {
+                const usdInput = document.getElementById('usd_in');
+                const currencyContainer = document.getElementById('currency-container');
+
+                // Fetch currency values from the API
+                fetch('https://openexchangerates.org/api/latest.json?app_id=095b1852234c47d58db11fb96c35ec9a')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Extract currency values from the API response
+                        const currencyValues = data.rates;
+                        const usd = parseFloat(usdInput.value);
+
+                        // Update the currency container with the fetched values
+                        currencyContainer.innerHTML = `
+                            <p>${(usd*currencyValues.ARS).toFixed(2)} pesos + ${((usd*currencyValues.ARS)*0.75).toFixed(2)} de impuestos, total ${(usd*currencyValues.ARS+((usd*currencyValues.ARS)*0.75)).toFixed(2)}</p>
+                            <input hidden id="original-price" value="${(usd*currencyValues.ARS+((usd*currencyValues.ARS)*0.75)).toFixed(2)}"/>
+                            `;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching currency values:', error);
+                    });
+            }
+
+            function updatePrice() {
+                const profitContainer = document.getElementById('profit-container');
+                const profit = document.getElementById('profit');
+                const originalPrice = document.getElementById('original-price');
+
+                profitContainer.innerHTML = `
+                    <p>${((originalPrice.value)+(originalPrice.value)*(profit.value)/100).toFixed(2)} pesos </p>
+                `;
+            }
+
+            // Add event listener to the usd_in input field
+            const usdInput = document.getElementById('usd_in');
+            usdInput.addEventListener('input', updateCurrency);
+
+            const profitInput = document.getElementById('profit');
+            profitInput.addEventListener('input', updatePrice);
+
+        </script>
+    @endsection
     @vite(['resources/js/image-picker.js'])
     <!-- <script src="{{ asset('resources\js\image-picker.js') }}"></script> -->
 </x-app-layout>
