@@ -141,6 +141,15 @@
                             <p>${(usd*currencyValues.ARS).toFixed(2)} pesos + ${((usd*currencyValues.ARS)*0.75).toFixed(2)} de impuestos, total ${(usd*currencyValues.ARS+((usd*currencyValues.ARS)*0.75)).toFixed(2)}</p>
                             <input hidden id="original-price" value="${(usd*currencyValues.ARS+((usd*currencyValues.ARS)*0.75)).toFixed(2)}"/>
                             `;
+
+                        // Revert profit changes
+                        const profitContainer = document.getElementById('profit-container');
+                        const profit = document.getElementById('profit');
+
+                        profit.value = "";
+                        profitContainer.innerHTML = `
+                            <p>...</p>
+                        `;
                     })
                     .catch(error => {
                         console.error('Error fetching currency values:', error);
@@ -152,8 +161,14 @@
                 const profit = document.getElementById('profit');
                 const originalPrice = document.getElementById('original-price');
 
+                const price = parseFloat(originalPrice.value);
+                const profitPercentage = parseFloat(profit.value);
+
+                const calculatedPrice = (price + (price * (profitPercentage / 100))).toFixed(2);
+
+                // Update the final
                 profitContainer.innerHTML = `
-                    <p>${((originalPrice.value)+(originalPrice.value)*(profit.value)/100).toFixed(2)} pesos </p>
+                    <p>${calculatedPrice} pesos </p>
                 `;
             }
 
