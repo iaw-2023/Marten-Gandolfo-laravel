@@ -1,0 +1,1 @@
+@include('components.user-form', ['action' => '/users/'.$user['id'], 'method' => 'PUT', 'name' => $user['name'], 'username' => $user['username'], 'email' => $user['email'], 'superadmin' => $user['roles']->contains('Super Admin') ? 1 : 0,'title' => 'Editar Usuario'])

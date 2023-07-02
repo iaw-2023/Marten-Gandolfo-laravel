@@ -1,8 +1,11 @@
 <?php
 
 use Laravel\Sanctum\Sanctum;
+use App\Models\Clients;
 
 return [
+
+    'stateful' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -15,12 +18,12 @@ return [
     |
     */
 
-    'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', sprintf(
+    /* 'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', sprintf(
         '%s%s',
         'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1',
         Sanctum::currentApplicationUrlWithPort()
     ))),
-
+ */
     /*
     |--------------------------------------------------------------------------
     | Sanctum Guards
@@ -33,6 +36,7 @@ return [
     |
     */
 
+    //'guard' => ['api'],
     'guard' => ['web'],
 
     /*

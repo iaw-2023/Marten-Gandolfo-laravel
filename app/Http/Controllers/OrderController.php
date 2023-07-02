@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Response;
 use App\Mail\CustomOrderLink;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -23,9 +24,10 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::select('orders.id', 'client_ID', 'order_date', DB::raw('CAST(SUM(order_details.subtotal) AS DECIMAL(10, 2)) AS price'))
+        $orders = Order::select('orders.id', 'client_ID', 'clients.email', 'order_date', DB::raw('CAST(SUM(order_details.subtotal) AS DECIMAL(10, 2)) AS price'))
             ->leftJoin('order_details', 'orders.id', '=', 'order_details.order_ID')
-            ->groupBy('orders.id', 'client_ID', 'order_date')
+            ->leftJoin('clients', 'orders.client_ID', '=', 'clients.id')
+            ->groupBy('orders.id', 'client_ID', 'clients.email', 'order_date')
             ->orderByDesc('order_date')
             ->get();
         return view('order.index')
@@ -85,14 +87,49 @@ class OrderController extends Controller
      */
     public function details(string $id)
     {
-        $order = Order::select('orders.id', 'client_ID', 'order_date', DB::raw('CAST(SUM(order_details.subtotal) AS DECIMAL(10, 2)) AS price'))
+        $order = Order::select('orders.id', 'client_ID', 'clients.email', 'order_date', DB::raw('CAST(SUM(order_details.subtotal) AS DECIMAL(10, 2)) AS price'))
                     ->leftJoin('order_details', 'orders.id', '=', 'order_details.order_ID')
-                    ->groupBy('orders.id', 'client_ID', 'order_date')
+                    ->leftJoin('clients', 'orders.client_ID', '=', 'clients.id')
+                    ->groupBy('orders.id', 'client_ID', 'clients.email', 'order_date')
                     ->orderByDesc('order_date')
                     ->find($id);
 
         return view('order.details')
             ->with('order',$order);
+    }
+
+    public function indexApi(Request $request){
+        $user = $request->user();
+
+        $orders = Order::select('orders.id', 'client_ID', 'order_date', DB::raw('CAST(SUM(order_details.subtotal) AS DECIMAL(10, 2)) AS price'))
+                                ->leftJoin('order_details', 'orders.id', '=', 'order_details.order_ID')
+                                ->where('client_ID', $user->id)
+                                ->groupBy('orders.id', 'client_ID', 'order_date')
+                                ->with([
+                                    'orderDetails' => function($query){
+                                        $query->select('id', 'order_ID', 'product_ID', 'units', 'subtotal');
+                                    },
+                                    'orderDetails.product' => function($query){
+                                        $query->withTrashed()->select('id', 'name', 'product_image');
+                                    }
+                                ])
+                                ->get();
+
+        return response()->json([
+            "orders" => $this->formatOrderListResponse($orders)
+        ]);
+    }
+
+    private function formatOrderListResponse($orders){
+        return $orders->map(function ($order) {
+            return [
+                'id' => $order->id,
+                'client_ID' => $order->client_ID,
+                'order_date' => $order->order_date,
+                'price' => $order->price,
+                'image' => $order->orderDetails->first()->product->product_image,
+            ];
+        });
     }
 
     /**
@@ -126,62 +163,29 @@ class OrderController extends Controller
     *     )
     * )
     */
-    public function storeApi(Request $request){
-        $validator = $this->getStoreApiValidator($request);
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Validation failed',
-                'errors' => $validator->errors()
-            ], 400);
-        }
-        
-        $clientId = $this->createClientIfDoesntExist($request->input('email'));
-        $products = $request->input('products');
+    private function storeApi($order){
+        $client = auth()->user();
+
+        $products = $order['products'];
+
         foreach($products as &$product){
             $subtotal = Product::find($product['id'])->price * $product['units'];
             $product['subtotal'] = $subtotal;
         }
 
-        $token = $this->createOrder($clientId, $products);
         
-        return response()->json(['message' => 'Order created successfully', 'token' => $token]);
-    }
-
-    private function getStoreApiValidator($request){
-        return Validator::make($request->all(), [
-            'email' => 'required|email',
-            'products' => 'required|array|min:1',
-            'products.*.id' => 'required|integer|min:1|distinct|exists:products,id,deleted_at,NULL',
-            'products.*.units' => 'required|integer|min:1',
-        ]);
-    }
-
-    private function createClientIfDoesntExist($clientEmail){
-        $client = Client::where('email', $clientEmail)->first();
-        if(!$client){
-            $client = new Client();
-            $client->email = $clientEmail;
-            $client->save();
-        }
-        return $client->id;
+        $this->createOrder($client->id, $products);
+        
+        return response()->json(['message' => 'Order created successfully']);
     }
 
     private function createOrder($clientId, $products){
-        $token = Str::random(32);
-        while(Order::where('token', $token)->exists()){
-            $token = Str::random(32);
-        }
-
         $order = new Order();
         $order->client_ID = $clientId;
         $order->order_date = Carbon::now();
-        $order->token = $token;
         $order->save();
+        
         $this->createOrderDetails($order, $products);
-
-        Mail::to($order->client->email)->send(new CustomOrderLink($order));
-
-        return $token;
     }
 
     private function createOrderDetails($order, $products){
@@ -226,23 +230,25 @@ class OrderController extends Controller
     *     )
     * )
     */
-    public function showApi($token){
-        if(!preg_match('/^[a-zA-Z0-9]{32}$/', $token))
-            return response()->json(['message' => 'Invalid token format'], 400);
+    public function showApi($id){
+        if(!ctype_digit($id))
+            return response()->json([
+                'message' => 'Invalid ID'
+            ], 400);
+            
+        $client = auth()->user();
 
-        $order = Order::select('orders.id', 'token', 'client_ID', 'order_date', DB::raw('CAST(SUM(order_details.subtotal) AS DECIMAL(10, 2)) AS price'))
+        $order = Order::select('orders.id', 'client_ID', 'order_date', DB::raw('CAST(SUM(order_details.subtotal) AS DECIMAL(10, 2)) AS price'))
                             ->leftJoin('order_details', 'orders.id', '=', 'order_details.order_ID')
-                            ->where('token', $token)
-                            ->groupBy('orders.id', 'token', 'client_ID', 'order_date')
+                            ->where('orders.id', $id)
+                            ->where('client_ID', $client->id)
+                            ->groupBy('orders.id', 'client_ID', 'order_date')
                             ->with([
                                 'orderDetails' => function($query){
                                     $query->select('id', 'order_ID', 'product_ID', 'units', 'subtotal');
                                 },
                                 'orderDetails.product' => function($query){
                                     $query->withTrashed()->select('id', 'name', 'product_image');
-                                },
-                                'client' => function($query){
-                                    $query->select('id', 'email');
                                 }
                             ])
                             ->first();
@@ -258,10 +264,6 @@ class OrderController extends Controller
     private function formatOrderResponse($order){
         return [
             'id' => $order->id,
-            'client' => [
-                'id' => $order->client->id,
-                'email' => $order->client->email,
-            ],
             'order_date' => $order->order_date,
             'price' => $order->price,
             'order_details' => $order->orderDetails->map(function ($orderDetail) {
@@ -277,4 +279,43 @@ class OrderController extends Controller
             }),
         ];
     }
+
+    public function payWithMercadopago(Request $request)
+    {
+        $client = auth()->user();
+
+        \MercadoPago\SDK::setAccessToken('TEST-4277853351595214-061816-65831e226092838f8cfb3dcce2adeca2-321343377');
+
+        $contents = $request['cardFormData']; // Obtener todos los datos del cuerpo de la solicitud
+        $order = $request['order'];
+
+        $payment = new \MercadoPago\Payment();
+        $payment->transaction_amount = $contents['transaction_amount'];
+        $payment->token = $contents['token'];
+        $payment->installments = $contents['installments'];
+        $payment->payment_method_id = $contents['payment_method_id'];
+        $payment->issuer_id = $contents['issuer_id'];
+
+        $payer = new \MercadoPago\Payer();
+        $payer->email = $client->email;
+        $payer->identification = array(
+            "type" => $contents['payer']['identification']['type'],
+            "number" => $contents['payer']['identification']['number']
+        );
+        $payment->payer = $payer;
+        $payment->save();
+
+        $response = array(
+            'status' => $payment->status,
+            'status_detail' => $payment->status_detail,
+            'id' => $payment->id
+        );
+
+        if ($response['status'] === "approved") {
+            $this->storeApi($order);
+        }
+
+        return response()->json($response);
+    }
+
 }

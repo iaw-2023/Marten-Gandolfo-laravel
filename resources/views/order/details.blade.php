@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Detalles de la orden {{ $order->id }}, cliente {{ $order->client->email }}, fecha {{ $order->order_date }}
+            Detalles de la orden {{ $order->id }}, cliente {{ $order->email }}, fecha {{ $order->order_date }}
         </h2>
     </x-slot>
 

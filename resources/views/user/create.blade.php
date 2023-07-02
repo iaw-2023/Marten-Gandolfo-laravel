@@ -1,0 +1,1 @@
+@include('components.user-form', ['action' => '/users', 'title' => 'Editar Usuario'])

@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use App\Models\Role;
 
 class UserSeeder extends Seeder
 {
@@ -33,5 +35,13 @@ class UserSeeder extends Seeder
                 'password' => bcrypt('admin123')
             ]
         ]);
+
+        $adminRole = Role::where('name', 'Admin')->first();
+        $superAdminRole = Role::where('name', 'Super Admin')->first();
+
+        User::where('username', 'admin')->first()->roles()->attach($superAdminRole);
+        User::where('username', 'admin')->first()->roles()->attach($adminRole);
+        User::where('username', 'juan')->first()->roles()->attach($adminRole);
+        User::where('username', 'mati')->first()->roles()->attach($adminRole);
     }
 }

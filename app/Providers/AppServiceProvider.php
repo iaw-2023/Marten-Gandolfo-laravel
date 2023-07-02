@@ -19,7 +19,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // TODO force laravel https
         if($this->app->environment('production')){
             \URL::forceScheme('https');
         }
